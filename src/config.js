@@ -12,7 +12,7 @@ module.exports = {
     id: "1015807573733154818",
     prefix: "!",
     secret: process.env.secret,
-    redirect: "http://localhost/auth/callback",
+    redirect: "https://universe-list.xyz/auth/callback",
     token: process.env.token,
   },
   servers: {
