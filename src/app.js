@@ -146,9 +146,9 @@ app.get(
     failureRedirect: "/",
   }),
   function (req, res) {
-    // const client = global.client;
+   const client = global.client;
 
-  /*  try {
+   try {
       fetch(
         `https://discord.com/api/v10/guilds/${config.guilds.main}/members/${req.user.id}`,
         {
@@ -163,7 +163,7 @@ app.get(
         }
       );
     } catch {}
-    Need to add a popup of consent before */
+
 
     res.redirect(req.session.returnTo || "/"); 
   } 
