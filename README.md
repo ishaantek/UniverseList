@@ -1,0 +1,62 @@
+<div align='center'>
+  <img src="https://universe-list.xyz/img/icon.png" height='100px' width='100px' />
+  <h1>Universe List</h1>
+  <h3>The Ultimate Discord List for Bots and Servers!</h3>
+</div>
+<br></br>
+
+
+> # **⚠️ Universe List Release!**<br>
+> Our fantastic team has just recently released Universe List, which means that there **WILL BE** many bugs. [Join our Discord Server](https://discord.gg/PXdJjTF6yS) or [Email Us](mailto:ishaan@ishaantek.com) to report any issues / bugs!
+
+
+## Installation
+
+This is for users who want to contribute to Universe List, or even run a self hosted instance of Universe List.
+
+1. Download the code. In the web version of GitHub, you can do that by clicking the green "Code" button, and then "Download ZIP".
+2. Unzip it, and open it in code.
+3. Run the command `npm i` in the terminal.
+4. Fill out the `example.env` file with your information, and then rename the file to `.env`.
+5. Fill out the information in the `config.js` file.
+6. Start the project with `npm start`.
+
+## Terms of Use
+  * You have the permission to shoot and share videos, but you have to mention us and our server in the video.</a><br>
+  * You cannot use our branding anywhere on your site & claim it as your own.</a><br>
+  * You have the permission to share in writing, but you have to mention us, our server, in the article.</a><br>
+  * You can't speak in a "we did it" way.</a><br>
+  * You cannot sell this</a><br>
+  * Don't touch this part on footer;</a><br>
+```
+Copyright © 2022 Universe List, All Rights Reserved.
+```
+
+## To-Do
+
+Universe List is in a continuous state of development. New features/updates may come at any time. Some pending ideas are:
+
+  * Bot Widgets
+  * Bot Re-submit Option
+  * Website Themes
+  * Optimize the code
+
+## Config
+
+  * The domain variable should includes the protocol and **doesn't end** with a `/`. Eg, `http://localhost:8080`.
+  * All the roles should be below the role of the bot that controls the list.
+  * Most of the variables are Discord IDs.
+  * The MongoDB URL can be either a local server or a remote one. Atlas provides a free tier with 500mb.
+  * The minimum and maximum lengths for bot / server description and summary are in characters.
+
+## License
+
+Released under the [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
+
+---
+
+## Contributors ✨
+<a href="https://github.com/ishaantek/UniverseList/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ishaantek/UniverseList"/>
+</a>
+# UniverseList
