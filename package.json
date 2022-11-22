@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "<div align='center'>   <img src=\"https://universe-list.xyz/img/icon.png\" height='100px' width='100px' />   <h1>Universe List</h1>   <h3>The Ultimate Discord List for Bots and Servers!</h3> </div> <br></br>",
   "main": "src/index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "npm run start:dev",
     "test": "echo \"Error: no test specified\" && exit 1",
