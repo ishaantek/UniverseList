@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:author" content="Ishaan Garg">
+  <meta name="viewport" content="width=1000, user-scalable=0" />
+  <meta property="og:title" content="<%= bot.name %>#<%= bot.discriminator %>">
+  <meta name="keywords" content="Universe,botlist,discord,<%= bot.name %>,discordbots,discordservers">
+  <meta property="og:url" content="https://universe-list.xyz">
+  <meta property="og:description" content="<%= bot.shortDesc %>">
+  <meta property="og:image" content="https://cdn.discordapp.com/avatars/<%= bot.id %>/<%= bot.avatar %>.png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <title><%- bot.name %> - Universe List</title>
+  <%- include("../parts/head.ejs") %>
+</head>
+
+<body>
+  <%- include("../parts/navbar.ejs", { bot, user }) %>
+
+  <div class="botpagecontainer">
+    <div style="background-color: transparent" class="jumbotron mt-5">
+      <div class="row" style="width: 100%;">
+          <img class="idk" src="https://cdn.discordapp.com/avatars/<%= bot.id %>/<%= bot.avatar %>.png">
+        <div class="col-sm">
+          <h3><%= bot.name %><small class="text-muted">#<%= bot.discriminator %></small>
+            <% if(bot.flags === 65536) { %>
+            <span title="Verified Bot"><i class="fa-solid fa-medal"></i></span>
+            <% } %>
+          </h3>
+
+          <%- bot.shortDesc %><br>
+          <!---
+                        <span style="border-radius: 5px;" class="badge badge-primary" style="font-size: 20px;"><i class="fa-solid fa-server"></i> Servers: <%= bot.servers %></span>
+                        <span style="border-radius: 5px;" class="badge badge-danger" style="font-size: 20px;"><i class="fa-solid fa-check-to-slot"></i> Votes: <%= bot.votes %></span>
+                        -->
+          <hr>
+          </hr>
+          <% if (bot.invite) { %>
+          <a href="/bots/<%= bot.id %>/invite" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-plus"></i> Invite</a>
+          <% } else { %>
+          <a href="https://discordapp.com/oauth2/authorize?client_id=<%= bot.id %>&scope=bot&permissions=0" type="button" style="border-radius: 5px;" class="btn btn-primary pr-3 pl-3 mr-1">i class="fa-solid fa-plus"></i> Invite</a>
+          <% } %>
+          <form id="votebutton" method="post" action="/bots/<%= bot.id %>/vote" style="display: none;"></form>
+          <a href="/bots/<%= bot.id %>/vote" onclick="document.getElementById('votebutton').submit();" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-check-to-slot"></i> Vote</a>
+          <% if (bot.website) { %>
+          <a href="<%= bot.website %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
+          <% } %>
+          <% if (bot.donate) { %>
+            <a href="<%= bot.donate %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-circle-dollar-to-slot"></i> Donate</a>
+            <% } %>
+          <% if (bot.support) { %>
+          <a href="https://discord.gg/<%= bot.support %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Support</a>
+          <% } %>
+          <% if (user) { %>
+          <% if (bot.owner.includes(user.id)) { %>
+          <a href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+          <% } %>
+          <% if (!bot.owner.includes(user.id)) { %>
+            <a href="/bots/<%= bot.id %>/review" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Review</a>
+            <% } %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="infoContainer">
+    <h2><i class="fa-solid fa-circle-info"></i> Information</h2>
+    <hr>
+    </hr>
+    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-terminal"></i> Prefix: <code style="padding: 3px 8px; font-weight: bold;"><%= bot.prefix %></code></p>
+    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-crown"></i> Owner:&nbsp;&nbsp;<strong><a style="color: white;" href="/users/<%- bot.owner %>"><%= bot.ownerTag %></a></strong></p>
+    <!-- <% if (bot.presence && bot.presence.status === "online") { %>
+    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-signal %>"></i> Status: <strong>🟢Online</strong></p>
+  <% } else if (bot && bot.presence && bot.presence.status === "idle") { %>
+    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-signal"></i> Status: <strong>🟡Idle</strong></p>
+  <% } else if (bot && bot.presence && bot.presence.status === "dnd") { %>
+      <p style="color: white; font-size: 16px;"><i class="a-solid fa-signal %>"></i> Status: <strong>🔴DND</strong></p>
+  <% } else { %>
+      <p style="color: white; font-size: 16px;"><i class="fa-solid fa-signal"></i> Status: <strong>⚫Offline</strong></p>
+  <% } %>
+  -->
+    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-hashtag"></i> Tags: <strong><%= bot.tags %></strong></p>
+    <h2><i class="fa-solid fa-chart-simple"></i> Statistics</h2>
+    <hr>
+    </hr>
+    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-check-to-slot"></i> Votes: <strong><%= bot.votes %></strong></p>
+    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-server"></i> Servers: <strong><%= bot.servers %></strong></p>
+    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-diamond"></i> Shards: <strong><%= bot.shards %></strong></p>
+  </div>
+  </div>
+  <br><br>
+  <div class="botpagecontainer" style="margin-left:0px">
+    <div class="desccard" style="margin-left:0px">
+      <div class="card-body">
+        <div id="bot-description"><%= bot.desc %></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="botpagecontainer">
+<br><br><br><br><br><br><br><br><hr><br>
+  <h2><i class="fa-solid fa-award"></i> Ratings & Reviews</h2>
+  <p>These are all of the reviews avaible for this bot.</p>
+  <br>
+
+    <% for(let i = 0; i < reviews.length; i++){ %>
+
+      <div class="card">
+        <img src="https://cdn.discordapp.com/avatars/<%= reviews[i].reviewer %>/<%= reviews[i].reviewerAvatar %>.png" alt="<%= reviews[i].reviewerName %>'s Avatar" draggable="false" class="botimg_main">
+        <p class="botname_main"><%= reviews[i].reviewerName %> <small class="text-muted"><%= reviews[i].date %></small><br>
+          <span style="font-size:15px; font-weight:normal;">
+          <% if(reviews[i].rating === 1) { %>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+              <% } %>
+              <% if(reviews[i].rating === 2) { %>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+                  <% } %>
+                  <% if(reviews[i].rating === 3) { %>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                      <% } %>
+                      <% if(reviews[i].rating === 4) { %>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                          <% } %>
+                          <% if(reviews[i].rating === 5) { %>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                              <% } %><br>
+                              <%= reviews[i].body %>
+                          
+            </span>
+          </p>
+      </div>
+
+      <% } if (!reviews.length) {  %>
+        <h5>No reviews. Be the first to leave one!</h5>
+  <% } %>
+  <br><br><br><br><br><br><br><br>
+</div>
+
+  <%- include("../parts/footer.ejs") %>
+
+  <style>
+    @media only screen and (max-width: 600px) {
+      .infoContainer {
+        width: 450px;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto
+      }
+    }
+
+    @media only screen and (min-width: 1080px) {
+      .infoContainer {
+        width: 450px;
+        margin-right: 1325px;
+        margin-left: 1325px;
+      }
+    }
+
+    @media only screen and (max-width: 600px) {
+      .desccard {
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+    }
+
+    @media only screen and (min-width: 1080px) {
+      .desccard {
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(50%);
+        -webkit-backdrop-filter: blur(50%);
+        width: 1000px;
+        border-radius: 10px;
+        margin-top: -425px;
+        margin-right: 225px;
+        margin-left: 225px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    .idk {
+      width: 175px;
+      height: 175px;
+      border-radius: 50%;
+    }
+
+    .owner {
+      color: #D9E4EC;
+      text-decoration: none;
+    }
+
+    .owner:hover {
+      color: #D9E4EC;
+      text-decoration: none;
+    }
+
+    .card {
+    height: auto;
+    width: 100%;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(17, 25, 40, 0.75);
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-left: auto;
+    transition: all 0.2s;
+    margin-right: 10px;
+    position: relative;
+    display: inline-block;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .botname_main {
+    color: white;
+    font-size: 20px;
+    margin-top: -80px;
+    margin-left: 105px;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+
+  .botimg_main {
+    width: 85px;
+    height: 85px;
+    border-radius: 100%;
+    margin-top: 10px;
+    margin-left: 10px;
+
+  }
+  .botpagecontainer {
+  width: 100%;
+  padding-right: 150px;
+  padding-left: 150px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+  </style>
+  <script>
+    $(document).ready(function() {
+      const descriptionBox = $("#bot-description");
+      const descriptionBoxText = descriptionBox.text() || descriptionBox.val(); sanitizedRender = sanitizeHtml(descriptionBoxText, {
+      allowedTags: ["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
+        "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
+        "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
+        "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
+        "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
+        "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
+        "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img", "iframe", "style"],
+     allowedSchemes: [ 'data', 'http', 'https'],
+     allowedAttributes: {
+     a: [ 'href', 'name', 'target' ],
+     img: [ 'src', 'srcset', 'alt', 'title', 'width', 'height', 'loading' ],
+     iframe: ['src', 'width', 'height', 'id']
+},
+      });
+      descriptionBox.html(sanitizedRender);
+    });
+
+    var toastMixin = Swal.mixin({
+      toast: true,
+      icon: 'success',
+      animation: false,
+      position: 'top-right',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    });
+
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('success') && urlParams.get('success')) {
+      toastMixin.fire({
+        timer: 3000,
+        icon: 'success',
+        background: '#274472',
+        html: `<p style='color:white; margin-top: 12px'>&nbsp;&nbsp;${urlParams.get('body')}</p>`
+      });
+    }
+    if (urlParams.has('error') && urlParams.get('error')) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: urlParams.get('body'),
+      })
+    }
+  </script>

@@ -1,0 +1,148 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+    <link rel="stylesheet" href="/path/to/styles/default.min.css">
+<script src="/path/to/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+    <title>API Documentation - Universe List</title>
+    <%- include ("./parts/head.ejs") %>
+  </head>
+  <%- include ("./parts/navbar.ejs") %>
+  <br><br><br><br><br><br><br>
+    <div class="container">
+          <h2><b>API Documentation</b></h2>
+          <p>This is the documentation to Universe List's API.</p><br><br><br><br><br>
+          <h3>GET Bot Information</h3>
+          <p>Returns all information on a bot.</p><br>
+          <pre><code class="language-plaintext">GET /api/bots/:id</code></pre><br><br>
+          <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col"><b>Property</b></th>
+              <th scope="col"><b>Type</b></th>
+              <th scope="col"><b>Description</b></th>
+            </tr>
+            <tbody class="bots-list-body" style="color: #D9E4EC;">
+                <td style="color: #D9E4EC;">id</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The ID of the targeted bot.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">username</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The username of the targeted bot.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">discriminator</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The discriminator of the targeted bot.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">avatar</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The avatar URL of the targeted bot.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">prefix</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The prefix of the targeted bot.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">owner</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The ID of the targeted bot's owner.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">ownerTag</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The tag of the targeted bot's owner.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">tags</td>
+                <td style="color: #D9E4EC;">Array</td>
+                <td style="color: #D9E4EC;">An array of the targeted bot's tags.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">views</td>
+                <td style="color: #D9E4EC;">Interger</td>
+                <td style="color: #D9E4EC;">The amount of views the targeted bot's page has gotten.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">submittedOn</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The date the targeted bot was submitted to Universe List.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">approvedOn</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The date the targeted bot was approved on Universe List.</td> 
+                <tr></tr>
+                <td style="color: #D9E4EC;">shortDescription</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The short description of the targeted bot on Universe List.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">description</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The description of the targeted bot on Universe List.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">shards</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The number of shards the targeted bot has.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">shards</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The number of servers the targeted bot has.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">votes</td>
+                <td style="color: #D9E4EC;">Interger</td>
+                <td style="color: #D9E4EC;">The number of vots the targeted bot has on Universe List.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">invite</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The invite of the targeted bot.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">website</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The website of the targeted bot.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">github</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The github of the targeted bot.</td>
+                <tr></tr>
+                <td style="color: #D9E4EC;">support</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The support server of the targeted bot.</td>
+                </tbody>
+          </thead>
+        </table><br><br><br>
+        <h3>POST Bot Stats</h3>
+        <p>Posts your bot's server and shard count.</p><br>
+        <pre><code class="language-plaintext">POST /api/bots/:id</code></pre><br><br>
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col"><b>Header</b></th>
+                <th scope="col"><b>Type</b></th>
+                <th scope="col"><b>Description</b></th>
+              </tr>
+              <td style="color: #D9E4EC;">authorization</td>
+                <td style="color: #D9E4EC;">String</td>
+                <td style="color: #D9E4EC;">The API Key for the targeted bot.</td>
+              <tr></tr>
+              <td style="color: #D9E4EC;">server_count</td>
+              <td style="color: #D9E4EC;">String</td>
+              <td style="color: #D9E4EC;">The server count for the targeted bot.</td>
+              <tr></tr>
+              <td style="color: #D9E4EC;">shard_count</td>
+              <td style="color: #D9E4EC;">String</td>
+              <td style="color: #D9E4EC;">The shard count for the targeted bot.</td>
+          </thead>
+        </table><br><br>
+        <h3>Javascript Code Example</h3>
+        <p>The following example uses a NPM package called "node-fetch".</p>
+        <pre><code>
+ fetch('https://universe-list.xyz/api/bots/:id', {
+      method: 'POST',
+       headers: {
+       'authorization': 'apikey',
+       'server_count': 'servercount',
+       'shard_count': 'shardcount',
+       'Content-Type': 'application/json'
+     },
+ })
+        </code></pre>
+      </div>
+<br><br>
+  <%- include("./parts/footer.ejs") %>

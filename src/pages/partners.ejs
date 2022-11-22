@@ -1,0 +1,235 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+    <title>Partners - Universe List</title>
+    <%- include ("./parts/head.ejs") %>
+  </head>
+  <%- include ("./parts/navbar.ejs") %>
+  <br><br><br><br>
+    <div class="container">
+          <h2><b>Universe List Partners</b></h2>
+          <p>These are all of Universe List's partners that you should check out.</p><br>
+          <div class="card" style="border-radius:10px;">
+              <img src="https://stellarbotlist.com/img/logo.png" alt="Unknown Icon" draggable="false" class="botimg_main">
+              <p class="botname_main" style="height:65px;width:250px;padding:10px;"> 
+                No Partners... <br>
+                <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-crown"></i> Owner: <a href="/users/998763334264442912" style="text-decoration: none;font-size:15px; color: white"> N/A</a>
+              </p>
+              <div class="botdesc_main" style="cardcss">
+                <i class="fa-solid fa-file-lines"></i> This could be your awesome progect! DM Ishaantek#0001 to become a partner!
+              </div>
+              <div class="bottags_main" style="cardcss">
+                <i class="fa-solid fa-hashtag"></i> Partners
+              </div>
+              <div style="margin-left:20px;margin-top:-40px">
+                <a href="https://universe-list.xyz">
+                  <button class="viewbtn">Website</button>
+              </div>
+            </a>
+            <a href="https://universe-list.xyz">
+              <button class="votebtn">Discord</button></a>
+          </div></a>
+        </div>
+      </div>
+    </div>
+ <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <%- include("./parts/footer.ejs") %>
+  <style>
+    body {
+      overflow: overlay;
+  }
+    @media screen and (max-width: 757px) {
+      .bot-card-col {
+        margin: 0 30px;
+      }
+    }
+  
+    .card {
+      height: 400px;
+      width: 400px;
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      background-color: rgba(17, 25, 40, 0.75);
+      border-radius: 10px;
+      margin-top: 15px;
+      margin-left: auto;
+      transition: all 0.2s;
+      margin-right: 10px;
+      position: relative;
+      display: inline-block;
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+  
+    @media only screen and (max-width: 600px) {
+      .botContainer {
+        width: 100%;
+      }
+    }
+  
+    @media only screen and (min-width: 1080px) {
+      .botContainer {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 150px;
+        margin-right: auto;
+        margin-left: auto
+      }
+    }
+  
+    .viewbtn {
+      background-color: #480ddd;
+      height: 40px;
+      width: 150px;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      position: relative;
+      cursor: pointer;
+      bottom: 0;
+      margin-left: 15px;
+      margin-top: 65px;
+    }
+  
+    .votebtn {
+      background-color: #480ddd;
+      height: 40px;
+      width: 150px;
+      border: none;
+      cursor: pointer;
+      float: right;
+      margin-right: 35px;
+      color: white;
+      border-radius: 5px;
+      position: relative;
+      bottom: 0;
+      margin-top: -40px;
+    }
+  
+    .card_2 {
+      background-color: #001724;
+      width: 350px;
+      text-decoration: none;
+      color: white;
+      border-radius: 10px;
+      transition: all 0.2s;
+      display: inline-block;
+      height: 300px;
+      margin-left: 305px;
+      margin-top: 10px;
+    }
+  
+    .card:hover {
+      top: -7px;
+    }
+  
+    .botname_main {
+      color: white;
+      font-size: 25px;
+      margin-top: -105px;
+      margin-left: 125px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+  
+    .adbutton {
+      background-color: #DF235B;
+      width: 250px;
+      height: 40px;
+      border: none;
+      overflow: visible;
+      color: white;
+      border-radius: 5px;
+      margin-top: -50px;
+      cursor: pointer;
+  
+    }
+  
+    .botimg_main {
+      width: 115px;
+      height: 115px;
+      border-radius: 100%;
+      margin-top: 5px;
+      margin-left: 5px;
+  
+    }
+  
+    .botdesc_main {
+      color: white;
+      font-size: 15px;
+      border: 10px solid transparent;
+      margin-top: 50px;
+      overflow: hidden;
+      text-align: left;
+  
+    }
+  
+    .bottags_main {
+      color: white;
+      font-size: 15px;
+      border: 10px solid transparent;
+      margin-top: 15;
+      overflow: hidden;
+      text-align: left;
+  
+    }
+  
+    /* On mouse-over, add a deeper shadow */
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+  
+    .container {
+      padding: 2px 16px;
+    }
+  
+    .top_bots {
+      color: ghostwhite;
+      font-size: 25px;
+      margin-left: 50px;
+      margin-top: 150px;
+      position: static
+    }
+  
+    .shortdesc {
+      background-color: #001724;
+      width: 350px;
+      height: 500px;
+      float: right;
+      text-overflow: hidden;
+      margin-right: 50px;
+      margin-top: 100px;
+      border-radius: 5px;
+      position: absolute;
+    }
+  
+    .secondbg {
+      width: 100%;
+      height: 100%;
+      background-color: #001724;
+    }
+  
+    .botimg {
+      border-radius: 100%;
+      width: 150px;
+      height: 150px;
+      float: left;
+      border: 7px solid #001724;
+      margin-top: 50px;
+      margin-left: -300px;
+    }
+  
+    .botname {
+      font-size: 30px;
+      color: white;
+      margin-left: -50px;
+      margin-top: 80px;
+    }
+  
+    a:hover {
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>

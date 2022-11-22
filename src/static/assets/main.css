@@ -1,0 +1,236 @@
+body {
+  margin: 0;
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+  background-color: #ffffff;
+  background: #0a1128;
+  background: linear-gradient(
+    59deg,
+    rgba(12, 33, 90, 0.964) 0%,
+    rgb(11, 41, 92) 35%,
+    #274472 100%
+  );
+}
+
+p {
+  color: white;
+}
+
+.addbot_header {
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  margin-top: 100px;
+}
+.addbot_field {
+  width: 400px;
+  border: none;
+  border-radius: 10px;
+  height: 50px;
+  background-color: #001a2c;
+  color: white;
+}
+::placeholder {
+  color: lightgray;
+}
+.addbot_button {
+  background-color: #001a2c;
+  height: 40px;
+  width: 200px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.errorhome {
+  background-color: #480ddd;
+  height: 40px;
+  width: 150px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  bottom: 0;
+  margin-top: 25px;
+  margin-left: 10px;
+}
+.errordiscord {
+  background-color: #480ddd;
+  height: 40px;
+  width: 150px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  bottom: 0;
+  margin-top: 25px;
+  margin-left: 1px;
+}
+
+.title {
+  color: white;
+  font-size: 30px;
+  margin-top: 5px;
+  margin-left: 50px;
+  position: static;
+}
+
+.titlelogo {
+  margin-top: 140px;
+  margin-left: 50px;
+  position: static;
+}
+
+.card {
+  height: 400px;
+  width: 400px;
+  background-color: #001a2c;
+  border-radius: 10px;
+  margin-top: 50px;
+  margin-left: auto;
+  transition: all 0.2s;
+  margin-right: 10px;
+  position: relative;
+  display: inline-block;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.viewbtn {
+  background-color: #480ddd;
+  height: 40px;
+  width: 150px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  bottom: 0;
+  margin-top: 25px;
+  margin-left: -230px;
+  margin-top: 100px;
+}
+.votebtn {
+  background-color: #480ddd;
+  height: 40px;
+  width: 150px;
+  border: none;
+  cursor: pointer;
+  float: right;
+  margin-right: 20px;
+  color: white;
+  border-radius: 5px;
+  position: relative;
+  bottom: 0;
+  margin-top: -40px;
+}
+
+.card_2 {
+  background-color: #001724;
+  width: 350px;
+  text-decoration: none;
+  color: white;
+  border-radius: 10px;
+  transition: all 0.2s;
+  display: inline-block;
+  height: 300px;
+  margin-left: 305px;
+  margin-top: 10px;
+}
+.card:hover {
+  top: -7px;
+}
+.botname_main {
+  color: white;
+  font-size: 25px;
+  margin-top: -75px;
+  margin-left: 0px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.adbutton {
+  background-color: #df235b;
+  width: 250px;
+  height: 40px;
+  border: none;
+  overflow: visible;
+  color: white;
+  border-radius: 5px;
+  margin-top: -50px;
+  cursor: pointer;
+}
+.botimg_main {
+  width: 95px;
+  height: 95px;
+  border-radius: 100%;
+  margin-top: 5px;
+  margin-left: -245px;
+}
+.botdesc_main {
+  color: white;
+  font-size: 15px;
+  border: 10px solid transparent;
+  margin-top: 45;
+  overflow: hidden;
+  text-align: left;
+}
+
+.bottags_main {
+  color: white;
+  font-size: 15px;
+  border: 10px solid transparent;
+  margin-top: 15;
+  overflow: hidden;
+  text-align: left;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+
+.top_bots {
+  color: ghostwhite;
+  font-size: 25px;
+  margin-left: 50px;
+  margin-top: 150px;
+  position: static;
+}
+
+.shortdesc {
+  background-color: #001724;
+  width: 350px;
+  height: 500px;
+  float: right;
+  text-overflow: hidden;
+  margin-right: 50px;
+  margin-top: 100px;
+  border-radius: 5px;
+  position: absolute;
+}
+.secondbg {
+  width: 100%;
+  height: 100%;
+  background-color: #001724;
+}
+.botimg {
+  border-radius: 100%;
+  width: 150px;
+  height: 150px;
+  float: left;
+  border: 7px solid #001724;
+  margin-top: 50px;
+  margin-left: -300px;
+}
+.botname {
+  font-size: 30px;
+  color: white;
+  margin-left: -50px;
+  margin-top: 80px;
+}

@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue - Universe List</title>
+  <%- include("../parts/head.ejs") %>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+  <%- include("../parts/navbar.ejs", { bot, user }) %>
+  <br><br><br><br><br>
+  <div class="container">
+    <center>
+      <h2><b><i class="fa fa-bars mr-1"></i>Queue</b></h2>
+      <p>Bots that are currently waiting to be tested will be here.</p>
+    </center>
+    <br><br>
+    <div class="bots-list">
+      <br>
+      <h5>Awaiting Approval</h5>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Prefix</th>
+            <th scope="col">Tag</th>
+            <th scope="col">ID</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bots-list-body" style="color: #D9E4EC;">
+          <% for(let i = 0; i < bots.length; i++){ %>
+          <tr></tr>
+          <td style="color: #D9E4EC;"><%= i+1 %>.</td>
+          <td style="color: #D9E4EC;"><%= bots[i].prefix %></td>
+          <td style="color: #D9E4EC;">
+            <img src="https://cdn.discordapp.com/avatars/<%= bots[i].id %>/<%= bots[i].avatar %>.png?size=32" class="rounded-circle" />
+            <a href="/bots/<%= bots[i].id %>" type="button"><%= bots[i].tag %><yy< /a>
+          </td>
+          <td style="color: #D9E4EC;"><%= bots[i].id %></td>
+          <td style="color: #D9E4EC;">
+
+            <form target="__blank" action="/bots/<%= bots[i].id %>/testing" method="post">
+              <button type="submit" style="border-radius: 5px;" class="btn btn-light">Start Testing</button>
+            </form>
+
+          </td>
+
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+    <div class="progress-list">
+      <br>
+      <h5>In Progress</h5>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Prefix</th>
+            <th scope="col">Tag</th>
+            <th scope="col">ID</th>
+            <th scope="col">Actions</th>
+            <th scope="col">Reviewer</th>
+          </tr>
+        </thead>
+        <tbody class="bots-list-body" style="color: #D9E4EC;">
+          <% for(let i = 0; i < inprogress.length; i++){ %>
+          <tr></tr>
+          <td style="color: #D9E4EC;"><%= i+1 %>.</td>
+          <td style="color: #D9E4EC;"><%= inprogress[i].prefix %></td>
+          <td style="color: #D9E4EC;">
+            <img src="https://cdn.discordapp.com/avatars/<%= inprogress[i].id %>/<%= inprogress[i].avatar %>.png?size=32" class="rounded-circle" />
+            <%= inprogress[i].tag %>
+          </td>
+          <td style="color: #D9E4EC;"><%= inprogress[i].id %></td>
+          <td style="color: #D9E4EC;">
+            <a target="__blank" style="border-radius: 5px;" href="https://discordapp.com/oauth2/authorize?client_id=<%= inprogress[i].id %>&scope=bot&permissions=0&guild_id=<%= global.config.guilds.testing %>" class="btn btn-primary">Invite</a>
+            <a href="/bots/<%= inprogress[i].id%>" type="button" style="border-radius: 5px;" class="btn btn-warning">View</a>
+            <a target="__blank" href="/bots/<%= inprogress[i].id %>/approve" style="border-radius: 5px;" class="btn btn-success">Approve</a>
+
+            <a target="__blank" href="/bots/<%= inprogress[i].id %>/deny" class="btn btn-danger" style="border-radius: 5px;">Deny</a>
+          </td>
+          <td>
+            <%- inprogress[i].reviewer %>
+          </td>
+          <% } %>
+      </table>
+    </div>
+  </div>
+</body>
+
+<script>
+  var toastMixin = Swal.mixin({
+    toast: true,
+    icon: 'success',
+    animation: false,
+    position: 'top-right',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  });
+
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('success') && urlParams.get('success')) {
+    toastMixin.fire({
+      timer: 3000,
+      icon: 'success',
+      background: '#274472',
+      html: `<p style='color:white; margin-top: 12px'>${urlParams.get('body')}</p>`
+    });
+  }
+  if (urlParams.has('error') && urlParams.get('error')) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: urlParams.get('body'),
+    })
+  }
+</script>

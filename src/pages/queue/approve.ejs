@@ -1,0 +1,32 @@
+<!-- do stuff 
+create a fourm and post to /bots/:id/deny
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Approve Bot - Universe List</title>
+  <%- include("../parts/head.ejs") %>
+</head>
+<%- include("../parts/navbar.ejs") %>
+<br><br><br><br><br>
+<div class="container">
+  <center>
+    <h2 class="title"><b><i class="fa-solid fa-square-check"></i> Approve Bot</b></h2>
+    <p>Are you sure you would like to approve this bot?</p>
+    <br>
+    <form action="/bots/<%- id %>/status" method="POST">
+      <button type="submit" class="bluebtn"><i class="fa-solid fa-square-check"></i>&nbsp&nbspApprove</button>
+    </form>
+    <a href="/queue">
+      <button class="bluebtn"><i class="fa-solid fa-arrow-left"></i>&nbsp&nbspBack</button>
+    </a>
+  </center>
+
+</div>
+</div>
+</div>
+
+</html>

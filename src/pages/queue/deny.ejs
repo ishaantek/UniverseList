@@ -1,0 +1,33 @@
+<!-- do stuff 
+create a fourm and post to /bots/:id/deny
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deny Bot - Universe List</title>
+  <%- include("../parts/head.ejs") %>
+</head>
+<%- include("../parts/navbar.ejs") %>
+<br><br><br><br><br>
+<div class="container">
+  <center>
+    <h2 class="title"><b><i class="fa-solid fa-trash"></i> Deny Bot</b></h2>
+    <p>Fill out the reason below in order to deny the bot.</p>
+  </center>
+  <form action="/bots/<%- id %>/deny" method="POST">
+    <div class="form-group required">
+      <label for="reason">Reason</label>
+      <input type="text" class="form-control" id="reason" name="reason" placeholder="Stupid Ahh bot" autocomplete="off">
+    </div>
+    <button type="submit" class="bluebtn"><i class="fa-solid fa-trash"></i>&nbsp&nbspDeny</button>
+  </form>
+
+</div>
+</div>
+</q>
+</div>
+
+</html>

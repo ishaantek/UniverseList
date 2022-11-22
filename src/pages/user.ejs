@@ -1,0 +1,325 @@
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%- fetched_user.username %> - Universe List</title>
+  <meta property="og:author" content="universe-list.xyz">
+  <meta property="og:title" content="<%= fetched_user.username %>#<%= fetched_user.discriminator %>">
+  <meta property="og:url" content="https://universe-list.xyz">
+  <meta property="og:description" content="<%= fetched_user.bio %>">
+  <meta property="og:image" content="https://cdn.discordapp.com/avatars/<%= fetched_user.id %>/<%= fetched_user.avatar %>.png">
+  <%- include ("./parts/head.ejs") %>
+</head>
+<%- include ("./parts/navbar.ejs") %>
+<div class="container">
+  <div style="background-color: transparent" class="jumbotron mt-5">
+    <div class="row" style="width: 100%;">
+      <div class="col-sm-2">
+
+        <img style="border-radius: 50%;" class="card-img-top" src="https://cdn.discordapp.com/avatars/<%= fetched_user.id %>/<%= fetched_user.avatar %>.png?size=1280">
+
+      </div>
+      <div class="col-sm">
+        <h3><%= fetched_user.username %><small class="text-muted">#<%= fetched_user.discriminator %></small></h3>
+        <% if (config.owners.includes(fetched_user.id)) { %>
+          <i class="fa fa-crown" style="bottom: -5px; font-size: 20px;" title="Universe List Owner"></i>
+         <% } %>
+        <% if (config.developers.includes(fetched_user.id)) { %>
+           <i class="fa fa-code" style="bottom: -5px; font-size: 20px;" title="Universe List Developer"></i>
+          <% } %>
+          <% if (config.staff.includes(fetched_user.id)) { %>
+           <i class="fa fa-screwdriver-wrench" style="bottom: -5px; font-size: 20px;" title="Universe List Staff"></i>
+            <% } %>
+            <% if (config.betatesters.includes(fetched_user.id)) { %>
+              <i class="fa fa-vial" style="bottom: -5px; font-size: 20px;" title="Universe List Beta Tester"></i>
+               <% } %>
+            <br>
+        <%- fetched_user.bio %>
+        <hr>
+        </hr>
+        <% if (user) { %>
+        <% if (fetched_user.id === user.id) { %>
+        <a href="/users/<%= fetched_user.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
+        <% } %>
+        <% } %>
+        <a href="https://discord.com/users/<%= fetched_user.id %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Discord</a>
+        <% if (fetched_user.website) { %>
+        <a href="<%= fetched_user.website %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
+        <% } %>
+        <% if (fetched_user.twitter) { %>
+        <a href="https://twitter.com/<%= fetched_user.twitter %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-twitter"></i> Twitter</a>
+        <% } %>
+        <% if (fetched_user.github) { %>
+        <a href="https://github.com/<%= fetched_user.github %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-github"></i> Github</a>
+        <% } %>
+
+      </div>
+    </div>
+  </div>
+</div><br><br><br>
+<div class="sbcontainer">
+  <h3><i class="fa-solid fa-robot"></i> <b><%= fetched_user.username %>'s Bots</b></h3>
+  <p>These are the most voted bots this month.</p>
+  <% for(let i = 0; i < bots.length; i++){ %>
+    <div class="card" style="border-radius:10px;">
+      <img src="https://cdn.discordapp.com/avatars/<%= bots[i].id %>/<%= bots[i].avatar %>.png" alt="<%= bots[i].name %>'s Avatar" draggable="false" class="botimg_main">
+      <p class="botname_main"><%= bots[i].name %><br>
+        <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= bots[i].servers %> • <i class="fa-solid fa-check-to-slot"></i> <%= bots[i].votes %></span>
+      </p>
+      <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+        <i class="fa-solid fa-file-lines"></i> <%= bots[i].shortDesc %>
+        </div>
+      <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+        <i class="fa-solid fa-hashtag"></i> <%= bots[i].tags %>
+      </div>
+      <div style="margin-left:20px;margin-top:-40px">
+        <a href="/bots/<%= bots[i].id %>/">
+          <button class="viewbtn">View</button>
+      </div></a>
+      <a href="/bots/<%= bots[i].id %>/vote">
+        <button class="votebtn">Vote</button></a>
+    </div></a>
+  <% } %>
+  <!--
+        <% if (bots.length < 1) { %>
+            <br><br>
+            <p style="background-color: black; background-size: 150px;">Looks like <%- fetched_user.tag %> doesn't have any bots....</p>
+            <% } %>
+            -->
+  <br><br><br><br>
+  <h3><i class="fa-solid fa-server"></i> <b><%= fetched_user.username %>'s Servers</b></h3>
+  <p>These are the most voted servers this month.</p>
+  <% for(let i = 0; i < servers.length; i++){ %>
+  <%  if (i === 6) break; %>
+  <div class="card" style="border-radius:10px;">
+    <img src="<%= servers[i].icon %>" alt="<%= servers[i].name %>'s Icon" draggable="false" class="botimg_main">
+    <p class="botname_main" style="height:75px;width:250px;"> 
+    <%= servers[i].name %><br>
+      <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-user-group"></i> <%= servers[i].memberCount %> • <i class="fa-solid fa-bomb"></i> <%= servers[i].bumps %> • <i class="fa-solid fa-check-to-slot"></i> <%= servers[i].votes %></span>
+    </p>
+    <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+      <i class="fa-solid fa-file-lines"></i> <%= servers[i].shortDesc %>
+      </div>
+    <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+      <i class="fa-solid fa-hashtag"></i> <%= servers[i].tags %>
+    </div>
+  
+    <div style="margin-left:20px;margin-top:-60px">
+      <a href="/servers/<%= servers[i].id %>/">
+        <button class="viewbtn">View</button>
+    </div></a>
+    <a href="/servers/<%= servers[i].id %>/vote">
+      <button class="votebtn">Vote</button>
+    </a>
+  </div>
+  <% } %>
+  <!--
+  <% if (servers.length < 1) { %>
+    <br><br>
+    <p>Looks like <%- fetched_user.tag %> doesn't have any servers....</p>
+    <% } %>
+    -->
+</div>
+<br><br><br><br><br><br>
+<%- include("./parts/footer.ejs") %>
+<style>
+  body {
+    overflow: overlay;
+}
+  @media screen and (max-width: 757px) {
+    .bot-card-col {
+      margin: 0 30px;
+    }
+  }
+
+  .card {
+    height: 400px;
+    width: 400px;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(17, 25, 40, 0.75);
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-left: auto;
+    transition: all 0.2s;
+    margin-right: 10px;
+    position: relative;
+    display: inline-block;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  @media only screen and (max-width: 600px) {
+    .sbcontainer {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto
+    }
+  }
+
+  @media only screen and (min-width: 1080px) {
+    .sbcontainer {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 150px;
+      margin-right: auto;
+      margin-left: auto
+    }
+  }
+
+  .viewbtn {
+    background-color: #480ddd;
+    height: 40px;
+    width: 150px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    bottom: 0;
+    margin-left: 15px;
+    margin-top: 65px;
+  }
+
+  .votebtn {
+    background-color: #480ddd;
+    height: 40px;
+    width: 150px;
+    border: none;
+    cursor: pointer;
+    float: right;
+    margin-right: 35px;
+    color: white;
+    border-radius: 5px;
+    position: relative;
+    bottom: 0;
+    margin-top: -40px;
+  }
+
+  .card_2 {
+    background-color: #001724;
+    width: 350px;
+    text-decoration: none;
+    color: white;
+    border-radius: 10px;
+    transition: all 0.2s;
+    display: inline-block;
+    height: 300px;
+    margin-left: 305px;
+    margin-top: 10px;
+  }
+
+  .card:hover {
+    top: -7px;
+  }
+
+  .botname_main {
+    color: white;
+    font-size: 25px;
+    margin-top: -95px;
+    margin-left: 135px;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+
+  .adbutton {
+    background-color: #DF235B;
+    width: 250px;
+    height: 40px;
+    border: none;
+    overflow: visible;
+    color: white;
+    border-radius: 5px;
+    margin-top: -50px;
+    cursor: pointer;
+
+  }
+
+  .botimg_main {
+    width: 115px;
+    height: 115px;
+    border-radius: 100%;
+    margin-top: 5px;
+    margin-left: 5px;
+
+  }
+
+  .botdesc_main {
+    color: white;
+    font-size: 15px;
+    border: 10px solid transparent;
+    margin-top: 50px;
+    overflow: hidden;
+    text-align: left;
+
+  }
+
+  .bottags_main {
+    color: white;
+    font-size: 15px;
+    border: 10px solid transparent;
+    margin-top: 15;
+    overflow: hidden;
+    text-align: left;
+
+  }
+
+  /* On mouse-over, add a deeper shadow */
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .container {
+    padding: 2px 16px;
+  }
+
+  .top_bots {
+    color: ghostwhite;
+    font-size: 25px;
+    margin-left: 50px;
+    margin-top: 150px;
+    position: static
+  }
+
+  .shortdesc {
+    background-color: #001724;
+    width: 350px;
+    height: 500px;
+    float: right;
+    text-overflow: hidden;
+    margin-right: 50px;
+    margin-top: 100px;
+    border-radius: 5px;
+    position: absolute;
+  }
+
+  .secondbg {
+    width: 100%;
+    height: 100%;
+    background-color: #001724;
+  }
+
+  .botimg {
+    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+    float: left;
+    border: 7px solid #001724;
+    margin-top: 50px;
+    margin-left: -300px;
+  }
+
+  .botname {
+    font-size: 30px;
+    color: white;
+    margin-left: -50px;
+    margin-top: 80px;
+  }
+
+  a:hover {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>

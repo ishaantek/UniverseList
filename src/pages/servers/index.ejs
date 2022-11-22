@@ -1,0 +1,335 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:author" content="Ishaan Garg">
+  <meta property="og:title" content="Universe Servers - Find the best Discord server for your.">
+  <meta property="og:url" content="https://universe-list.xyz/servers">
+  <meta property="og:description" content="A place where you can find Discord bots, Universe List.">
+  <meta property="og:image" content="/img/icon.png">
+  <title>Home - Universe Servers</title>
+  <script src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script>
+  <%- include("../parts/head.ejs") %>
+</head>
+<%- include("../parts/navbar.ejs") %>
+<br><br><br><br>
+<center>
+  <img class="titlelogo" src="/img/icon.png" alt="Universe List Logo" width="150" height="150">
+  <h2 class="title"><b>Universe Servers</b></h2>
+  <p><span class="typing_desc" style="font-size:18px;"></span></p>
+  <script>
+    new TypeIt(".typing_desc", {
+        speed: 90,
+        waitUntilVisible: true,
+        startDelay: 1000,
+      })
+      .type("A place where you can find servers, Universe List.")
+      .move(-20)
+      .type('Discord ')
+      .move(7)
+      .delete(7)
+      .type('bots')
+      .move(13)
+      .pause(1000)
+      .move(-12)
+      .delete(6)
+      .type(' servers, ')
+      .move(13)
+      .pause(1500)
+      .move(-1)
+      .delete(5)
+      .type('Servers.')
+      .move(4)
+      .go()
+  </script>
+  <!--
+<div class="form-inline my-2 my-lg-0">
+    <input id="search-box" style="margin-left: 425px;border-radius: 8px;" class="form-control" type="text" placeholder="Search" autocomplete="off">
+    <button id="search-btn" class="btn btn-light my-2 my-sm-0" style="border-radius: 8px;" type="button">Search</button>
+</div>submittedOn
+-->
+</center>
+<br><br><br>
+
+<div class="serverContainer">
+  <h3><i class="fa-solid fa-clock"></i> <b>Recently Bumped Servers</b></h3>
+  <p>These are the most recently bumped servers.</p>
+  <% let allservers = servers %>
+  <% let bumped = allservers.sort((a,b) => b.bump - a.bump) %>
+  <% for(let i = 0; i < bumped.length; i++){ %>
+  <%  if (i === 8) break; %>
+  <div class="card" style="border-radius:10px;">
+    <img src="<%= bumped[i].icon %>" alt="<%= bumped[i].name %>'s Icon" draggable="false" class="botimg_main">
+    <p class="botname_main" style="height:75px;width:250px;padding:10px;"> 
+    <%= bumped[i].name %><br>
+      <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-user-group"></i> <%= bumped[i].memberCount %> • <i class="fa-solid fa-bomb"></i> <%= bumped[i].bumps %> • <i class="fa-solid fa-check-to-slot"></i> <%= bumped[i].votes %></span>
+    </p>
+    <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+      <i class="fa-solid fa-file-lines"></i> <%= bumped[i].shortDesc %>
+      </div>
+    <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+      <i class="fa-solid fa-hashtag"></i> <%= bumped[i].tags %>
+    </div>
+  
+    <div style="margin-left:20px;margin-top:-50px">
+      <a href="/servers/<%= bumped[i].id %>/">
+        <button class="viewbtn">View</button>
+    </div></a>
+    <a href="/servers/<%= bumped[i].id %>/vote">
+      <button class="votebtn">Vote</button></a>
+  </div></a>
+  <% } %><br><br><br><br><br>
+    <h3><b><i class="fa-solid fa-chart-line"></i> Top Servers</b></h3>
+  <p>These are the servers with the most members.</p>
+  <% let members = allservers.sort((a,b) => b.memberCount - a.memberCount) %>
+  <% for(let i = 0; i < members.length; i++){ %>
+  <%  if (i === 6) break; %>
+  <div class="card" style="border-radius:10px;">
+    <img src="<%= members[i].icon %>" alt="<%= members[i].name %>'s Icon" draggable="false" class="botimg_main">
+    <p class="botname_main" style="height:75px;width:250px;padding:10px;"> 
+    <%= members[i].name %><br>
+      <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-user-group"></i> <%= members[i].memberCount %> • <i class="fa-solid fa-bomb"></i> <%= members[i].bumps %> • <i class="fa-solid fa-check-to-slot"></i> <%= members[i].votes %></span>
+    </p>
+    <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+      <i class="fa-solid fa-file-lines"></i> <%= members[i].shortDesc %>
+      </div>
+    <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+      <i class="fa-solid fa-hashtag"></i> <%= members[i].tags %>
+    </div>
+  
+    <div style="margin-left:20px;margin-top:-50px">
+      <a href="/servers/<%= members[i].id %>/">
+        <button class="viewbtn">View</button>
+    </div></a>
+    <a href="/servers/<%= members[i].id %>/vote">
+      <button class="votebtn">Vote</button></a>
+  </div></a>
+  <% } %><br><br><br><br>
+  <h3><i class="fa-solid fa-fire-flame-curved"></i> <b>Top Voted Servers</b></h3>
+  <p>These are the most voted servers this month.</p>
+  <% let votedservers = servers %>
+  <% let voted = allservers.sort((a,b) => b.votes - a.votes) %>
+  <% for(let i = 0; i < voted.length; i++){ %>
+  <%  if (i === 6) break; %>
+  <div class="card" style="border-radius:10px;">
+    <img src="<%= voted[i].icon %>" alt="<%= voted[i].name %>'s Icon" draggable="false" class="botimg_main">
+    <p class="botname_main" style="height:75px;width:250px;padding:10px;"> 
+    <%= voted[i].name %><br>
+      <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-user-group"></i> <%= voted[i].memberCount %> • <i class="fa-solid fa-bomb"></i> <%= voted[i].bumps %> • <i class="fa-solid fa-check-to-slot"></i> <%= voted[i].votes %></span>
+    </p>
+    <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+      <i class="fa-solid fa-file-lines"></i> <%= voted[i].shortDesc %>
+      </div>
+    <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+      <i class="fa-solid fa-hashtag"></i> <%= voted[i].tags %>
+    </div>
+  
+    <div style="margin-left:20px;margin-top:-50px">
+      <a href="/servers/<%= voted[i].id %>/">
+        <button class="viewbtn">View</button>
+    </div></a>
+    <a href="/servers/<%= voted[i].id %>/vote">
+      <button class="votebtn">Vote</button></a>
+  </div></a>
+  <% } %>
+</div>
+<br><br><br><br>
+<%- include("../parts/footer.ejs") %>
+<style>
+  @media screen and (max-width: 757px) {
+    .bot-card-col {
+      margin: 0 30px;
+    }
+  }
+
+  .card {
+    height: 400px;
+    max-height: 400px;
+    width: 400px;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(17, 25, 40, 0.75);
+    border-radius: 10px;
+    margin-top: 25px;
+    margin-left: center;
+    transition: all 0.2s;
+    margin-right: 10px;
+    position: relative;
+    display: inline-block;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+
+  }
+
+  @media only screen and (max-width: 600px) {
+    .serverContainer {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+      align-items: stretch
+    }
+  }
+
+  @media only screen and (min-width: 1080px) {
+    .serverContainer {
+      width: 100%;
+      padding-right: 125px;
+      padding-left: 125px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+
+  .viewbtn {
+    background-color: #480ddd;
+    height: 40px;
+    width: 150px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    bottom: 0;
+    margin-left: 15px;
+    margin-top: 65px;
+  }
+
+  .votebtn {
+    background-color: #480ddd;
+    height: 40px;
+    width: 150px;
+    border: none;
+    cursor: pointer;
+    float: right;
+    margin-right: 35px;
+    color: white;
+    border-radius: 5px;
+    position: relative;
+    bottom: 0;
+    margin-top: -40px;
+  }
+
+  .card_2 {
+    background-color: #001724;
+    width: 350px;
+    text-decoration: none;
+    color: white;
+    border-radius: 10px;
+    transition: all 0.2s;
+    display: inline-block;
+    height: 300px;
+    margin-left: 305px;
+    position: static;
+    margin-top: 10px;
+  }
+
+  .card:hover {
+    top: -7px;
+  }
+
+  .botname_main {
+    color: white;
+    font-size: 25px;
+    margin-top: -105px;
+    margin-left: 125px;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+
+  .adbutton {
+    background-color: #DF235B;
+    width: 250px;
+    height: 40px;
+    border: none;
+    overflow: visible;
+    color: white;
+    border-radius: 5px;
+    margin-top: -50px;
+    cursor: pointer;
+
+  }
+
+  .botimg_main {
+    width: 115px;
+    height: 115px;
+    border-radius: 100%;
+    margin-top: 5px;
+    margin-left: 5px;
+
+  }
+
+  .botdesc_main {
+    color: white;
+    font-size: 15px;
+    border: 10px solid transparent;
+    margin-top: 50px;
+    overflow: hidden;
+    text-align: left;
+
+  }
+
+  .bottags_main {
+    color: white;
+    font-size: 15px;
+    border: 10px solid transparent;
+    margin-top: 15;
+    overflow: hidden;
+    text-align: left;
+
+  }
+
+  /* On mouse-over, add a deeper shadow */
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .container {
+    padding: 2px 16px;
+  }
+
+  .top_bots {
+    color: ghostwhite;
+    font-size: 25px;
+    margin-left: 50px;
+    margin-top: 150px;
+    position: static
+  }
+
+  .shortdesc {
+    background-color: #001724;
+    width: 350px;
+    height: 500px;
+    float: right;
+    text-overflow: hidden;
+    margin-right: 50px;
+    margin-top: 100px;
+    border-radius: 5px;
+    position: absolute;
+  }
+
+  .secondbg {
+    width: 100%;
+    height: 100%;
+    background-color: #001724;
+  }
+
+  .botimg {
+    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+    float: left;
+    border: 7px solid #001724;
+    margin-top: 50px;
+    margin-left: -300px;
+  }
+
+  .botname {
+    font-size: 30px;
+    color: white;
+    margin-left: -50px;
+    margin-top: 80px;
+  }
+</style>

@@ -1,0 +1,75 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tags - Universe List</title>
+    <%- include ("./parts/head.ejs") %>
+  </head>
+  <%- include ("./parts/navbar.ejs") %>
+  <br><br><br><br>
+  <div class="page-container">
+    <div class="content-wrap">
+      <center>
+        <img class="titlelogo" src="/img/icon.png" alt="Universe List Logo" width="150" height="150">
+        <h2 class="title"><b>Universe List</b></h2>
+        <p><span class="typing_desc" style="font-size:18px;"></span></p>
+        <script>
+          new TypeIt(".typing_desc", {
+              speed: 90,
+              waitUntilVisible: true,
+              startDelay: 1000,
+            })
+            .type("A place where you can find bots, Universe List.")
+            .move(-17)
+            .type('Discord ')
+            .move(4)
+            .delete(4)
+            .type('servers')
+            .move(13)
+            .pause(1000)
+            .move(-13)
+            .delete(7)
+            .type('bots')
+            .move(13)
+            .go()
+        </script>
+        </center>
+        <br><br><br>
+        <div class="tagsContainer">
+              <h3><i class="fa-solid fa-robot"></i> <b>Bot Tags</b></h3>
+              <p>These are all the tags for bots on Universe List.</p>
+              <% for(let i = 0; i < bottags.length; i++){ %>
+             <a href="/bots/tags/<%= bottags[i] %>">
+                <button class="errordiscord"><i class="fa-brands fa-hashtag"></i> <%= bottags[i] %></button>
+            </a>
+                <% } %>
+                <br><br><br><br><br>
+                <h3><i class="fa-solid fa-server"></i> <b>Server Tags</b></h3>
+              <p>These are all the tags for servers on Universe Servers.</p>
+              <% for(let i = 0; i < servertags.length; i++){ %>
+             <a href="/servers/tags/<%= servertags[i] %>">
+                <button class="errordiscord"><i class="fa-brands fa-hashtag"></i> <%= servertags[i] %></button>
+            </a>
+                <% } %>
+        </div></div></div>
+  <%- include("./parts/footer.ejs") %>
+<style>
+    @media only screen and (max-width: 600px) {
+    .tagsContainer {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto
+    }
+  }
+
+  @media only screen and (min-width: 1080px) {
+    .tagsContainer {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 150px;
+      margin-right: auto;
+      margin-left: auto
+    }
+  }
+</style>

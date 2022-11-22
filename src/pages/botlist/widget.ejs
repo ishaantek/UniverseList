@@ -1,0 +1,74 @@
+<title><%= bot.name %> | Discord Bots</title>
+
+<head>
+
+  <link rel="icon" href="<%= bot.avatar %>" type="image/x-icon" />
+  <meta property="og:title" content="<%= bot.name %>">
+  <meta property="og:description" content="<%= bot.shortDesc %>">
+  <meta property="og:image" content="<%= bot.avatar %>">
+</head>
+
+
+
+
+<style>
+  .separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  .separator::after {
+    content: '';
+    flex: 2;
+    border-bottom: 1px solid #fff;
+  }
+
+  .separator:not(:empty)::before {
+    margin-right: .55em;
+  }
+
+  .separator:not(:empty)::after {
+    margin-left: .55em;
+  }
+</style>
+
+<!-- Page content -->
+<div style="position:relative;left:3px;top:1px;">
+  <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+    <div class="card card-profile">
+
+      <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+        <div class="d-flex justify-content-between">
+          <a href="/bots/<%= bot.id%>/vote" target="_blank" class="btn btn-vcodes mr-4"><i class="fad fa-vote-yea"></i> Votes: <%= bot.votes || "0" %> </a>
+          <%= bot.name%>
+          <a href="/bots/<%= bot.id%>/invite" target="_blank" class="btn btn-vcodes float-right"><i class="fad fa-link"></i> Invite</a>
+
+        </div><br><br>
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <span class="avatar">
+                <img alt="Image placeholder" onerror="imgError(this)" class="rounded-circle mr-4" src="<%= 
+                    bot.avatar %>">
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <h3 translate="no">
+            <%= bot.name %>
+            <% if(bot.id === "746673633551974456") {%>
+            <a data-tooltip="Server Bot" data-tooltip-location="top"><i class="fad fa-server bodyIcon"></i></a>
+            <% } %>
+
+          </h3>
+          <div>
+            <div>
+              <div class="d-flex justify-content-between">
+                <a href="https://universe-list.xyz" target="_blank" style="background: rgb(33, 167, 111);" class="btn btn-vcodes mr-4"><i class="fad fa-vote-yea">&nbsp;&nbsp;</i>B.H Botlist</a>
+              </div>
+            </div>
+          </div>
+        </div>

@@ -1,0 +1,80 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vote for <%- bot.name %> - Universe List</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/2.3.2/moment-duration-format.min.js"></script>
+  <%- include("../parts/head.ejs") %>
+</head>
+<%- include("../parts/navbar.ejs", { bot, user }) %>
+
+<body>
+
+  <div class="container">
+    <div style="background-color: transparent;" class="jumbotron mt-5">
+      <div class="row" style="width: 100%;">
+        <div class="col-sm-2">
+          <% if (bot.avatar) { %>
+          <img class="card-img-top" style="border-radius: 50%;" src="https://cdn.discordapp.com/avatars/<%= bot.id %>/<%= bot.avatar %>.png?size=1280" alt="<%= bot.name %>">
+          <% } else { %>
+          <img class="card-img-top" src="https://cdn.discordapp.com/embed/avatars/<%= (bot.id % 5) %>.png" alt="<%= bot.name %>">
+          <% } %>
+        </div>
+        <div class="col-sm">
+          <div class="row">
+            <div class="col-sm">
+              <h3><%= bot.name %><small class="text-muted">#<%= bot.discriminator %></small></h3>
+              <p class="text-muted">You can upvote every 12-hours</p>
+            </div>
+            <div class="col-sm-3"><br>
+              <span class="btn btn-info" style="font-size: 16px;border-radius: 5px;"><i class="fa-solid fa-check-to-slot"></i> Votes: <%= bot.votes %></span><br>
+            </div>
+          </div>
+
+          <hr class="my-4">
+          <form action="/bots/<%- bot.id %>/vote" method="POST">
+            <button type="submit" style="border-radius: 7px;background-color: #480ddd;" class="btn btn-primary btn-lg btn-block" id="upvote">Click to vote</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  var toastMixin = Swal.mixin({
+    toast: true,
+    icon: 'success',
+    animation: false,
+    position: 'top-right',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  });
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('success') && urlParams.get('success')) {
+    toastMixin.fire({
+      timer: 3000,
+      icon: 'success',
+      background: '#274472',
+      html: `<p style='color:white; margin-top: 12px'>&nbsp;&nbsp;${urlParams.get('body')}</p>`
+    });
+  }
+  if (urlParams.has('error') && urlParams.get('error')) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Vote Timeout',
+      text: urlParams.get('body'),
+    })
+  }
+</script>
+</script>

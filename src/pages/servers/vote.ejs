@@ -1,0 +1,45 @@
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vote for <%- server.name %> - Universe List</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/2.3.2/moment-duration-format.min.js"></script>
+  <%- include("../parts/head.ejs") %>
+</head>
+<%- include("../parts/navbar.ejs", { server, user }) %>
+
+<body>
+
+  <div class="container">
+    <div style="background-color: transparent;" class="jumbotron mt-5">
+      <div class="row" style="width: 100%;">
+        <div class="col-sm-2">
+          <img class="card-img-top" style="border-radius: 50%;" src="<%= server.icon %>" alt="<%= server.name %>">
+        </div>
+        <div class="col-sm">
+          <div class="row">
+            <div class="col-sm">
+              <h3><%= server.name %></h3>
+              <p class="text-muted">You can vote once per hour.</p>
+            </div>
+            <div class="col-sm-3"><br>
+              <span class="btn btn-info" style="font-size: 16px;border-radius: 5px;"><i class="fa-solid fa-check-to-slot"></i> Votes: <%= server.votes %></span><br>
+            </div>
+          </div>
+
+          <hr class="my-4">
+          <form action="/servers/<%- server.id %>/vote" method="POST">
+            <button type="submit" style="border-radius: 7px;background-color: #480ddd;" class="btn btn-primary btn-lg btn-block" id="upvote">Click to vote</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<br><br><br><br><br><br>
+<%- include("../parts/footer.ejs") %>
+
+</html>

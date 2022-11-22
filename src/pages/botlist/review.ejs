@@ -1,0 +1,55 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reviewing <%- bot.name %> - Universe List</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/2.3.2/moment-duration-format.min.js"></script>
+  <%- include("../parts/head.ejs") %>
+</head>
+<%- include("../parts/navbar.ejs", { bot, user }) %>
+
+<body>
+
+  <div class="container">
+       
+        <h2 style="color:white;margin-top: 175px;"><b>Review <%= bot.name %></b></h2>
+  <p style="color:white;font-size: 20">Fill out the form below in order add your review.</p>
+          <hr class="my-4"><br><br>
+          <form action="/bots/<%- bot.id %>/review" method="POST">
+            <div class="form-group required">
+                <label for="botID">Your ID</label>
+                <input type="number" class="form-control" value="<%= user.id %>" name="id" placeholder="1026362109287739423" aria-describedby="botIDhelp" autocomplete="off" readonly disabled>
+                <small id="botIDhelp" class="form-text text-muted">This field is read only</small>
+              </div>
+              <div class="form-group required" id="ratings-box">
+                <label class="mb-0">Rating</label>
+                <select name="rating" id="rating" class="form-control" size="4" required>
+                  <option value="1">1 Star</option>
+                  <option value="2">2 Stars</option>
+                  <option value="3">3 Stars</option>
+                  <option value="4">4 Stars</option>
+                  <option value="5">5 Stars</option>
+                </select>
+              </div>
+              <div class="form-group required">
+                <label for="reviewBody">Review Body</label>
+                <textarea class="form-control" id="reviewBody" name="body" rows="3" placeholder="This bot helped me by..." autocomplete="off" required></textarea>
+              </div><br>
+      <button type="submit" class="bluebtn"><i class="fa-solid fa-paper-plane"></i>&nbsp&nbspSubmit</button>
+          </form>
+  </div>
+</body>
+
+</html>
+<style>
+    .form-group.required label:after {
+      content: " *";
+      color: red;
+    }
+  </style>
+
+
