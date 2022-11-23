@@ -69,6 +69,8 @@ module.exports = {
       "Music",
       "Anime",
       "Memes",
+      "Gaming",
+      "RPG",
     ],
   },
 }; 
