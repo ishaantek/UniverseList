@@ -318,7 +318,10 @@ app.post("/bots/new", checkAuth, async (req, res) => {
       text: "Add Logs - Universe List",
       iconURL: `${global.client.user.displayAvatarURL()}`,
     });
-  logs.send({ content: `<@${req.user.id}>`, embeds: [addEmbed] });
+  logs.send({
+    content: `<@${req.user.id}> | <@&941896554736934934>`,
+    embeds: [addEmbed],
+  });
 
   return res.redirect(
     `/bots/${data.id}?success=true&body=Your bot was added successfully.`
