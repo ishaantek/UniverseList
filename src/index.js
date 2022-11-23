@@ -29,6 +29,7 @@ const client = new Client({
   partials: [Partials.Channel, Partials.Message, Partials.GuildMember],
 });
 client.commands = new Collection();
+client.aliases = new Collection();
 
 client.login(config.bot.token);
 global.client = client;

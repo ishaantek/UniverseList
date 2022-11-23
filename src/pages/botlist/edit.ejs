@@ -39,8 +39,10 @@
       <div class="botLongDescPreviewBox">
         <label>Long Description Preview</label>
         <div class="card mb-3">
+          <div class="desccard">
           <div class="card-body">
             <div id="botLongDescPreview"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -131,21 +133,21 @@
 
   longDesc.on('change keyup paste', function() {
     const markdownRender = marked(longDesc.val());
-    const allowedTags = sanitizeHtml.defaults.allowedTags.concat(["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
-      "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
-      "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
-      "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
-      "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
-      "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
-      "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img"
-      
-    ]);
-    const sanitizedRender = sanitizeHtml(markdownRender, {
-      allowedTags,   
-      allowedAttributes: {'img': ['src']},
+    const descriptionBoxText = descriptionBox.text() || descriptionBox.val(); sanitizedRender = sanitizeHtml(descriptionBoxText, {
+      allowedTags: ["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
+        "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
+        "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
+        "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
+        "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
+        "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
+        "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img", "iframe", "style"],
      allowedSchemes: [ 'data', 'http', 'https'],
-     allowedIframeHostnames: ['www.youtube.com', 'player.vimeo.com']
-    });
+     allowedAttributes: {
+     a: [ 'href', 'name', 'target' ],
+     img: [ 'src', 'srcset', 'alt', 'title', 'width', 'height', 'loading' ],
+     iframe: ['src', 'width', 'height', 'id']
+},
+      });
     longDescPreview.html(sanitizedRender);
   });
 
@@ -165,4 +167,12 @@
     content: " *";
     color: red;
   }
+  .desccard {
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
 </style>

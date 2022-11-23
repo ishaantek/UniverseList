@@ -2,6 +2,7 @@ const canvacord = require("canvacord");
 const { AttachmentBuilder } = require("discord.js");
 module.exports = {
   name: "level",
+  aliases: ["rank", "lvl"],
   description: "Rank command for users to check their level.",
   async run(_, message) {
     let model = require("../../src/models/user.js");

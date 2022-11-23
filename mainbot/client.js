@@ -9,6 +9,8 @@ const cfiles = fs
 for (const cfile of cfiles) {
   const command = require(join(__dirname, "commands", `${cfile}`));
   client.commands.set(command.name, command);
+  if (command.aliases)
+    command.aliases.forEach((alias) => client.aliases.set(alias, command.name));
 }
 
 const efiles = fs

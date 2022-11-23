@@ -1546,7 +1546,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
 //-Other Pages-//
 
 app.get("/discord", (_req, res) =>
-  res.redirect("https://discord.gg/HrWe2BwVbd")
+  res.redirect("https://discord.gg/PXdJjTF6yS")
 );
 
 app.get("/partners", async (req, res) => {
