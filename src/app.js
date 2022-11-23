@@ -942,7 +942,7 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   server.desc = data.long_description;
   server.tags = data.tags;
   server.website = data.website || null;
-  botm.donate = data.donate || null;
+  server.donate = data.donate || null;
   server.published = true;
   await server.save();
 
