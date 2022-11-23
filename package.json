@@ -15,7 +15,7 @@
   "dependencies": {
     "@elara-services/eval-helper": "^1.1.1",
     "canvacord": "^5.4.8",
-    "chalk": "^5.1.2",
+    "chalk": "^4.1.2",
     "connect-sqlite3": "^0.9.13",
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.1",
