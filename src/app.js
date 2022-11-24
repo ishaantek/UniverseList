@@ -1480,7 +1480,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
   if (bot.denied === true) {
     return res
       .status(400)
-      .json({ message: "This bot is already denied. on Universe List." });
+      .json({ message: "This bot is already denied on Universe List." });
   }
 
   const OwnerRaw = await client.users.fetch(bot.owner);
