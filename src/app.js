@@ -816,10 +816,7 @@ app.post("/api/bots/:id/", async (req, res) => {
 });
 
 app.get("/api/bots/:id/voted", async (req, res) => {
-  const key = req.headers.authorization;
-  if (!key) return res.status(401).json({ json: "Please provides an API Key." });
-
-  const bot = await global.botModel.findOne({ apikey: key, id: req.params.id });
+  const bot = await global.botModel.findOne({ id: req.params.id });
   if (!bot)
     return res
       .status(404)
@@ -861,10 +858,7 @@ app.get("/api/bots/:id/voted", async (req, res) => {
 });
 
 app.get("/api/bots/:id/votes", async (req, res) => {
-  const key = req.headers.authorization;
-  if (!key) return res.status(401).json({ json: "Please provides an API Key." });
-
-  const bot = await global.botModel.findOne({ apikey: key, id: req.params.id });
+  const bot = await global.botModel.findOne({ id: req.params.id });
   if (!bot)
     return res
       .status(404)
