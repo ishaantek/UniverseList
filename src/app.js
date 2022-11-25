@@ -855,12 +855,8 @@ app.get("/api/bots/:id/voted", async (req, res) => {
   if (!x) return res.json({ voted: false });
   const left = x.time - (Date.now() - x.date),
     formatted = ms(left, { long: true });
-  if (left > 0 || !formatted.includes("-")) return res.json({ voted: false });
-  return res.json({
-    voted: true,
-    current: x.date,
-    next: x.date + x.time,
-  });
+  if (left <= 0 || formatted.includes("-")) return res.json({ voted: false });
+  return res.json({ voted: true, current: x.date, next: x.date + x.time });
 });
 
 //-ServerList-//
