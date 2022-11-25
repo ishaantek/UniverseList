@@ -48,7 +48,7 @@
       </li>
       <% } else { %>
       <li class="nav-item">
-        <a href="/auth/login" style="border-radius: 8px;margin-top:3px;" class="btn btn-primary"><i class="fa-solid fa-sign-in-alt"></i>&nbsp;&nbsp;Login via Discord</a>
+        <a style="border-radius: 8px;margin-top:3px;" onclick="popUp()" class="btn btn-primary"><i class="fa-solid fa-sign-in-alt"></i>&nbsp;&nbsp;Login via Discord</a>
 
       </li>
       <% } %>
@@ -60,5 +60,22 @@
   function toggleTheme(theme) {
     localStorage.setItem("theme", theme);
     location.reload();
+  }
+  function popUp() {
+    Swal.fire({
+  title: "Logging in via Discord..",
+  html: `Would you like to join our Discord server upon login?`,
+  icon: 'question',
+  showDenyButton: true,
+  showCancelButton: false,
+  confirmButtonText: 'Yes',
+  denyButtonText: `No`,
+}).then((result) => {
+  if (result.isConfirmed) {
+    window.location.replace("/auth/login/joinSupport")
+  } else if (result.isDenied) {
+    window.location.replace("/auth/login")
+  }
+})
   }
 </script>
