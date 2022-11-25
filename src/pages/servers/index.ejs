@@ -59,7 +59,7 @@
     <img src="<%= bumped[i].icon %>" alt="<%= bumped[i].name %>'s Icon" draggable="false" class="botimg_main">
     <p class="botname_main" style="height:75px;width:250px;padding:10px;"> 
     <%= bumped[i].name %><br>
-      <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-user-group"></i> <%= bumped[i].memberCount %> • <i class="fa-solid fa-bomb"></i> <%= bumped[i].bumps %> • <i class="fa-solid fa-check-to-slot"></i> <%= bumped[i].votes %></span>
+      <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-user-group"></i> <%= bumped[i].memberCount.toLocaleString().replace(",", ",") %> • <i class="fa-solid fa-bomb"></i> <%= bumped[i].bumps %> • <i class="fa-solid fa-check-to-slot"></i> <%= bumped[i].votes %></span>
     </p>
     <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
       <i class="fa-solid fa-file-lines"></i> <%= bumped[i].shortDesc %>
@@ -85,7 +85,7 @@
     <img src="<%= members[i].icon %>" alt="<%= members[i].name %>'s Icon" draggable="false" class="botimg_main">
     <p class="botname_main" style="height:75px;width:250px;padding:10px;"> 
     <%= members[i].name %><br>
-      <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-user-group"></i> <%= members[i].memberCount %> • <i class="fa-solid fa-bomb"></i> <%= members[i].bumps %> • <i class="fa-solid fa-check-to-slot"></i> <%= members[i].votes %></span>
+      <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-user-group"></i> <%= members[i].memberCount.toLocaleString().replace(",", ",") %> • <i class="fa-solid fa-bomb"></i> <%= members[i].bumps %> • <i class="fa-solid fa-check-to-slot"></i> <%= members[i].votes %></span>
     </p>
     <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
       <i class="fa-solid fa-file-lines"></i> <%= members[i].shortDesc %>
@@ -112,7 +112,7 @@
     <img src="<%= voted[i].icon %>" alt="<%= voted[i].name %>'s Icon" draggable="false" class="botimg_main">
     <p class="botname_main" style="height:75px;width:250px;padding:10px;"> 
     <%= voted[i].name %><br>
-      <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-user-group"></i> <%= voted[i].memberCount %> • <i class="fa-solid fa-bomb"></i> <%= voted[i].bumps %> • <i class="fa-solid fa-check-to-slot"></i> <%= voted[i].votes %></span>
+      <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-user-group"></i> <%= members[i].memberCount.toLocaleString().replace(",", ",") %> • <i class="fa-solid fa-bomb"></i> <%= members[i].bumps %> • <i class="fa-solid fa-check-to-slot"></i> <%= members[i].votes %></span>
     </p>
     <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
       <i class="fa-solid fa-file-lines"></i> <%= voted[i].shortDesc %>
