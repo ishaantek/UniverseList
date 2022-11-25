@@ -853,7 +853,11 @@ app.get("/api/bots/:id/voted", async (req, res) => {
   if (!x) return res.json({ voted: false });
   const vote = canUserVote(x);
   if (vote.status) return res.json({ voted: false });
-  return res.json({ voted: true, current: x.date, next: x.date + x.time });
+  return res.json({
+    voted: true,
+    current: parseInt(x.date),
+    next: parseInt(x.date) + parseInt(x.time),
+  });
 });
 
 app.get("/api/bots/:id/votes", async (req, res) => {
@@ -880,8 +884,8 @@ app.get("/api/bots/:id/votes", async (req, res) => {
   return res.json({
     votes: x.map((c) => ({
       user: c.user,
-      current: c.date,
-      next: c.date + c.time,
+      current: parseInt(c.date),
+      next: parseInt(c.date) + parseInt(c.time),
     })),
   });
 });
