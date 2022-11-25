@@ -482,13 +482,11 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
     bot: req.params.id,
   });
   if (x) {
-    const left = x.time - (Date.now() - x.date),
-      formatted = ms(left, { long: true });
-    // Unsure if we should do "|| !formatted.includes("-")" as well 🤷
-    if (left > 0)
-      return res.redirect(
-        `/bots/${req.params.id}/vote?error=true&body=Please wait ${formatted} before you can vote again.`
-      );
+        const vote = canUserVote(x);
+        if (!vote.status)
+          return res.redirect(
+            `/bots/${req.params.id}/vote?error=true&body=Please wait ${vote.formatted} before you can vote again.`
+          );
     await x.remove().catch(() => null);
   }
 
@@ -821,7 +819,7 @@ app.get("/api/bots/:id/voted", async (req, res) => {
   const key = req.headers.authorization;
   if (!key) return res.status(401).json({ json: "Please provides an API Key." });
 
-  const bot = await global.botModel.findOne({ apikey: key });
+  const bot = await global.botModel.findOne({ apikey: key, id: req.params.id });
   if (!bot)
     return res
       .status(404)
@@ -851,12 +849,41 @@ app.get("/api/bots/:id/voted", async (req, res) => {
         message: `The 'user' id you provided is a Discord bot, bots can't vote.`,
       });
 
-  let x = await global.voteModel.findOne({ botid: bot.id, user: user.id });
+  let x = await global.voteModel.findOne({ bot: bot.id, user: user.id });
   if (!x) return res.json({ voted: false });
-  const left = x.time - (Date.now() - x.date),
-    formatted = ms(left, { long: true });
-  if (left <= 0 || formatted.includes("-")) return res.json({ voted: false });
+  const vote = canUserVote(x);
+  if (vote.status) return res.json({ voted: false });
   return res.json({ voted: true, current: x.date, next: x.date + x.time });
+});
+
+app.get("/api/bots/:id/votes", async (req, res) => {
+  const key = req.headers.authorization;
+  if (!key) return res.status(401).json({ json: "Please provides an API Key." });
+
+  const bot = await global.botModel.findOne({ apikey: key, id: req.params.id });
+  if (!bot)
+    return res
+      .status(404)
+      .json({
+        message:
+          "This bot is not on our list, or you entered an invaild API Key.",
+      });
+  if (!bot.approved)
+    return res.status(400).json({ message: "This bot is not approved yet." });
+
+  let x = await global.voteModel.find({ bot: bot.id });
+  if (!x || !x.length)
+    return res.json({
+      status: false,
+      message: `There are 0 users waiting to vote for your bot.`,
+    });
+  return res.json({
+    votes: x.map((c) => ({
+      user: c.user,
+      current: c.date,
+      next: c.date + c.time,
+    })),
+  });
 });
 
 //-ServerList-//
@@ -1679,6 +1706,13 @@ function checkStaff(req, res, next) {
       user: req.user || null,
     });
   return next();
+}
+
+function canUserVote(x) {
+  const left = x.time - (Date.now() - x.date),
+    formatted = ms(left, { long: true });
+  if (left <= 0 || formatted.includes("-")) return { status: true };
+  return { status: false, left, formatted };
 }
 
 /* function checkKey(req, res, next) {
