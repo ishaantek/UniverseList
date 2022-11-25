@@ -10,11 +10,11 @@ let app = mongoose.Schema({
     required: false,
   },
   time: {
-    type: String,
+    type: Number,
     required: false,
   },
   date: {
-    type: String,
+    type: Number,
     required: false,
   },
 });
