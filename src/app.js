@@ -101,7 +101,7 @@ passport.use(
     {
       clientID: config.bot.id,
       clientSecret: config.bot.secret,
-      callbackURL: config.bot.redirect,
+      callbackURL: config.bot.redirect || `${config.bot.redirect}/joinSupport`,
       scope: scopes,
       prompt: prompt,
     },
@@ -129,11 +129,26 @@ app.use(passport.initialize());
 
 app.use(passport.session());
 
+let normalScopes = ["identify"];
+
 app.get(
   "/auth/login",
   passport.authenticate("discord", {
+    scope: normalScopes,
+    prompt: prompt,
+    callbackURL: config.bot.redirect,
+  }),
+  (req, res) => {
+    if (req.query.from) req.session.returnTo = req.query.from;
+  }
+);
+
+app.get(
+  "/auth/login/joinSupport",
+  passport.authenticate("discord", {
     scope: scopes,
     prompt: prompt,
+    callbackURL: `${config.bot.redirect}/joinSupport`,
   }),
   (req, res) => {
     if (req.query.from) req.session.returnTo = req.query.from;
@@ -146,9 +161,20 @@ app.get(
     failureRedirect: "/",
   }),
   function (req, res) {
-   const client = global.client;
+    console.log("this user did not join support");
+    res.redirect(req.session.returnTo || "/");
+  }
+);
 
-   try {
+app.get(
+  "/auth/callback/joinSupport",
+  passport.authenticate("discord", {
+    failureRedirect: "/",
+  }),
+  function (req, res) {
+    const client = global.client;
+
+    try {
       fetch(
         `https://discord.com/api/v10/guilds/${config.guilds.main}/members/${req.user.id}`,
         {
@@ -164,9 +190,8 @@ app.get(
       );
     } catch {}
 
-
-    res.redirect(req.session.returnTo || "/"); 
-  } 
+    res.redirect(req.session.returnTo || "/");
+  }
 );
 
 app.get("/info", async (req, res) => {
