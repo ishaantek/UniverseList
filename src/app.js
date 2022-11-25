@@ -10,8 +10,8 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const mongoose = require("mongoose");
 const config = global.config;
-global.logger = logger;
 const path = require("path");
+global.logger = logger;
 const express = require("express"),
   session = require("express-session"),
   passport = require("passport"),
@@ -815,6 +815,52 @@ app.post("/api/bots/:id/", async (req, res) => {
   bot.shards = shards.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   await bot.save().catch(() => null);
   return res.json({ message: "Successfully updated." });
+});
+
+app.get("/api/bots/:id/voted", async (req, res) => {
+  const key = req.headers.authorization;
+  if (!key) return res.status(401).json({ json: "Please provides an API Key." });
+
+  const bot = await global.botModel.findOne({ apikey: key });
+  if (!bot)
+    return res
+      .status(404)
+      .json({
+        message:
+          "This bot is not on our list, or you entered an invaild API Key.",
+      });
+  if (!bot.approved)
+    return res.status(400).json({ message: "This bot is not approved yet." });
+
+  const id = req.query.user;
+  if (!id)
+    return res
+      .status(400)
+      .json({ message: `You didn't provide 'user' in the query` });
+  let user = await global.client.users.fetch(id).catch(() => null);
+  if (!user)
+    return res
+      .status(400)
+      .json({
+        message: `The 'user' you provided couldn't be found on Discord.`,
+      });
+  if (user.bot)
+    return res
+      .status(400)
+      .json({
+        message: `The 'user' id you provided is a Discord bot, bots can't vote.`,
+      });
+
+  let x = await global.voteModel.findOne({ botid: bot.id, user: user.id });
+  if (!x) return res.json({ voted: false });
+  const left = x.time - (Date.now() - x.date),
+    formatted = ms(left, { long: true });
+  if (left > 0 || !formatted.includes("-")) return res.json({ voted: false });
+  return res.json({
+    voted: true,
+    current: x.date,
+    next: x.date + x.time,
+  });
 });
 
 //-ServerList-//
