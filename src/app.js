@@ -170,6 +170,9 @@ app.get(
   "/auth/callback/joinSupport",
   passport.authenticate("discord", {
     failureRedirect: "/",
+    scope: scopes,
+    prompt: prompt,
+    callbackURL: `${config.bot.redirect}/joinSupport`,
   }),
   function (req, res) {
     const client = global.client;
