@@ -818,12 +818,7 @@ app.post("/api/bots/:id/", async (req, res) => {
 app.get("/api/bots/:id/voted", async (req, res) => {
   const bot = await global.botModel.findOne({ id: req.params.id });
   if (!bot)
-    return res
-      .status(404)
-      .json({
-        message:
-          "This bot is not on our list, or you entered an invaild API Key.",
-      });
+    return res.status(404).json({ message: "This bot is not on our list." });
   if (!bot.approved)
     return res.status(400).json({ message: "This bot is not approved yet." });
 
@@ -860,12 +855,7 @@ app.get("/api/bots/:id/voted", async (req, res) => {
 app.get("/api/bots/:id/votes", async (req, res) => {
   const bot = await global.botModel.findOne({ id: req.params.id });
   if (!bot)
-    return res
-      .status(404)
-      .json({
-        message:
-          "This bot is not on our list, or you entered an invaild API Key.",
-      });
+    return res.status(404).json({ message: "This bot is not on our list." });
   if (!bot.approved)
     return res.status(400).json({ message: "This bot is not approved yet." });
 
