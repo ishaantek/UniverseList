@@ -1435,21 +1435,10 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
   if (bot.denied === true) {
     return res
       .status(400)
-      .json({ message: "This bot is already denied. on Universe List." });
+      .json({ message: "This bot is already denied on Universe List." });
   }
 
-  const OwnerRaw = await global.client.users.fetch(bot.owner) || null;
-
-  bot.tag = BotRaw.tag;
-  bot.denied = true;
-  bot.tested = true;
-  bot.inprogress = false;
-  bot.ownerName = OwnerRaw.tag;
-  bot.reason = req.body.reason;
-  bot.deniedOn = Date.now();
-  const date = new Date();
-
-  await bot.save();
+  await bot.delete();
 
   const denyEmbed = new EmbedBuilder()
     .setTitle("Bot Denied")
