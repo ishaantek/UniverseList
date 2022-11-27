@@ -34,13 +34,13 @@ module.exports = {
     const testingServer = client.guilds.cache.get(global.config.guilds.testing);
 
     const invitecode = await testingServer.invites
-      .create("1043571235898019890", { maxUses: 1 })
+      .create("1045098855257092126", { maxUses: 1 })
       .catch((e) => e);
 
     const embed = new EmbedBuilder()
       .setTitle("Congrats on becoming a bot reviewer at Universe List!")
       .setDescription(
-        `You have been accpeted to be a bot reviewer at Universe List.\n Please join our testing server here: ${invitecode.url}\nNeed any tips & tricks? Contact any admin of Universe List.`
+        `\n Please join our testing server here: ${invitecode.url}\nNeed any tips & tricks? Contact any admin of Universe List.`
       )
       .setFooter({
         text: "Universe List - Staff Management",

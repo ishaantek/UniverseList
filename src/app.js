@@ -161,7 +161,6 @@ app.get(
     failureRedirect: "/",
   }),
   function (req, res) {
-    console.log("this user did not join support");
     res.redirect(req.session.returnTo || "/");
   }
 );
