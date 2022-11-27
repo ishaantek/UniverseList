@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:author" content="Ishaan Garg">
-  <meta name="viewport" content="width=1000, user-scalable=0" />
   <meta property="og:title" content="<%= bot.name %>#<%= bot.discriminator %>">
   <meta name="keywords" content="Universe,botlist,discord,<%= bot.name %>,discordbots,discordservers">
   <meta property="og:url" content="https://universe-list.xyz">
@@ -56,23 +55,24 @@
           <a href="https://discord.gg/<%= bot.support %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Support</a>
           <% } %>
           <% if (user) { %>
-          <% if (bot.owner.includes(user.id)) { %>
+            <% if (!bot.owner.includes(user.id)) { %>
+              <a href="/bots/<%= bot.id %>/review" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Review</a>
+              <% } %>
+          <% if (bot.owner.includes(user.id) || member.roles.cache.some((role) => role.id === config.roles.mod) || member.roles.cache.some((role) => role.id === config.roles.admin)) { %>
           <a href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
           <% } %>
-          <% if (!bot.owner.includes(user.id)) { %>
-            <a href="/bots/<%= bot.id %>/review" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Review</a>
-            <% } %>
           <% } %>
         </div>
       </div>
     </div>
   </div>
   <div class="infoContainer">
-    <h2><i class="fa-solid fa-circle-info"></i> Information</h2>
+    <br>
+    <h2 style="margin-left: 15px;"><i class="fa-solid fa-circle-info"></i> Information</h2>
     <hr>
     </hr>
-    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-terminal"></i> Prefix: <code style="padding: 3px 8px; font-weight: bold;"><%= bot.prefix %></code></p>
-    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-crown"></i> Owner:&nbsp;&nbsp;<strong><a style="color: white;" href="/users/<%- bot.owner %>"><%= bot.ownerTag %></a></strong></p>
+    <p style="color: white; font-size: 16px;margin-left: 15px;"><i class="fa-solid fa-terminal"></i> Prefix: <code style="padding: 3px 8px; font-weight: bold;"><%= bot.prefix %></code></p>
+    <p style="color: white; font-size: 16px;margin-left: 15px;"><i class="fa-solid fa-crown"></i> Owner:&nbsp;&nbsp;<strong><a style="color: white;" href="/users/<%- bot.owner %>"><%= bot.ownerTag %></a></strong></p>
     <!-- <% if (bot.presence && bot.presence.status === "online") { %>
     <p style="color: white; font-size: 16px;"><i class="fa-solid fa-signal %>"></i> Status: <strong>🟢Online</strong></p>
   <% } else if (bot && bot.presence && bot.presence.status === "idle") { %>
@@ -83,19 +83,19 @@
       <p style="color: white; font-size: 16px;"><i class="fa-solid fa-signal"></i> Status: <strong>⚫Offline</strong></p>
   <% } %>
   -->
-    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-hashtag"></i> Tags: <strong><%= bot.tags %></strong></p>
-    <h2><i class="fa-solid fa-chart-simple"></i> Statistics</h2>
+    <p style="color: white; font-size: 16px;margin-left: 15px;"><i class="fa-solid fa-hashtag"></i> Tags: <strong><%= bot.tags %></strong></p>
+    <h2 style="margin-left: 15px;"><i class="fa-solid fa-chart-simple"></i> Statistics</h2>
     <hr>
     </hr>
-    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-check-to-slot"></i> Votes: <strong><%= bot.votes %></strong></p>
-    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-server"></i> Servers: <strong><%= bot.servers %></strong></p>
-    <p style="color: white; font-size: 16px;"><i class="fa-solid fa-diamond"></i> Shards: <strong><%= bot.shards %></strong></p>
+    <p style="color: white; font-size: 16px;margin-left: 15px;"><i class="fa-solid fa-check-to-slot"></i> Votes: <strong><%= bot.votes %></strong></p>
+    <p style="color: white; font-size: 16px;margin-left: 15px;"><i class="fa-solid fa-server"></i> Servers: <strong><%= bot.servers %></strong></p>
+    <p style="color: white; font-size: 16px;margin-left: 15px;"><i class="fa-solid fa-diamond"></i> Shards: <strong><%= bot.shards %></strong></p>
   </div>
   </div>
-  <br><br>
   <div class="botpagecontainer" style="margin-left:0px">
     <div class="desccard" style="margin-left:0px">
       <div class="card-body">
+
         <div id="bot-description"><%= bot.desc %></div>
       </div>
     </div>
@@ -166,7 +166,7 @@
   <style>
     @media only screen and (max-width: 600px) {
       .infoContainer {
-        width: 450px;
+        width: 100%;
         padding-right: 15px;
         padding-left: 15px;
         margin-right: auto;
@@ -176,7 +176,13 @@
 
     @media only screen and (min-width: 1080px) {
       .infoContainer {
-        width: 450px;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 10px;
+        width: 350px;
         margin-right: 1325px;
         margin-left: 1325px;
       }
@@ -189,6 +195,10 @@
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-radius: 10px;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
         border: 1px solid rgba(255, 255, 255, 0.18);
       }
     }
@@ -257,13 +267,27 @@
     margin-left: 10px;
 
   }
+
+  @media only screen and (min-width: 1080px) {
   .botpagecontainer {
   width: 100%;
   padding-right: 150px;
   padding-left: 150px;
   margin-right: auto;
   margin-left: auto;
+  }
 }
+
+@media only screen and (max-width: 600px) {
+  .botpagecontainer {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+ }
+}
+
 
   </style>
   <script>

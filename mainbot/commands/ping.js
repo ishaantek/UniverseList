@@ -1,5 +1,6 @@
 module.exports = {
   name: "ping",
+  aliases: ["latency"],
   description: "Check the bots ping. (Delay)",
   async run(client, message, args) {
     return await message.reply({

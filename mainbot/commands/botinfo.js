@@ -5,8 +5,8 @@ module.exports = {
   name: "botinfo",
   aliases: ["info", "bot", "bi"],
   description: "Find info on a specific bot on Universe List.",
-  async run(client, message) {
-    let bot = message.mentions.users.first();
+  async run(client, message, args) {
+    let bot = message.mentions.users.first() || client.users.cache.get(args[0]);
     if (!bot) return message.reply("Please mention a bot on Universe List.");
     let data = await model.findOne({ id: bot.id });
     if (!data) return message.reply("That's not a bot on Universe List.");

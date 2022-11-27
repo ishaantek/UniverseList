@@ -372,30 +372,56 @@ app.get("/bots/:id/invite", async (req, res) => {
 
 app.get("/bots/:id/edit", checkAuth, async (req, res) => {
   const client = global.client;
+  const config = global.config;
   const id = req.params.id;
 
   const bot = await global.botModel.findOne({ id: id });
   if (!bot) return res.redirect("/404");
-  if (req.user.id !== bot.owner) return res.redirect("/404");
 
-  const BotRaw = (await client.users.fetch(id)) || null;
-  bot.name = BotRaw.username;
-  bot.avatar = BotRaw.avatar;
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
 
-  res.render("botlist/edit.ejs", {
-    bot: bot,
-    tags: global.config.tags,
-    user: req.user || null,
-  });
+  if (
+    bot.owner.includes(req.user.id) ||
+    member.roles.cache.some((role) => role.id === config.roles.mod) ||
+    member.roles.cache.some((role) => role.id === config.roles.admin)
+  ) {
+    const BotRaw = (await client.users.fetch(id)) || null;
+    bot.name = BotRaw.username;
+    bot.avatar = BotRaw.avatar;
+
+    const guild = global.client.guilds.cache.get(global.config.guilds.main);
+    const member = guild.members.cache.get(req.user.id);
+
+    res.render("botlist/edit.ejs", {
+      bot: bot,
+      tags: global.config.tags,
+      user: req.user || null,
+      member: member,
+    });
+  } else {
+    return res.redirect("/404");
+  }
 });
 
 app.post("/bots/:id/edit", checkAuth, async (req, res) => {
   const client = global.client;
+  const config = global.config;
   const logs = client.channels.cache.get(config.channels.weblogs);
   const botm = await global.botModel.findOne({ id: req.params.id });
   let data = req.body;
   if (!data) return res.redirect("/");
-  if (req.user.id !== botm.owner) return res.redirect("/404");
+
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
+
+  if (
+    !bot.owner.includes(user.id) ||
+    !member.roles.cache.some((role) => role.id === config.roles.mod) ||
+    !member.roles.cache.some((role) => role.id === config.roles.admin)
+  ) {
+    return res.redirect("/404");
+  }
 
   const bot = await client.users.fetch(req.params.id).catch(() => null);
   if (!bot)
@@ -653,11 +679,15 @@ app.get("/bots/:id", async (req, res) => {
     reviews[i].reviewerAvatar = ReviewerRaw.avatar;
   }
 
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
+
   res.render("botlist/viewbot.ejs", {
     bot2: req.bot,
     bot: bot,
     user: req.user || null,
     reviews: reviews.shuffle(),
+    member: member,
   });
 });
 
@@ -1689,11 +1719,16 @@ function checkAuth(req, res, next) {
 
 function checkStaff(req, res, next) {
   const config = global.config;
-  if (!config.staff.includes(req.user.id))
+  const guild = global.client.guilds.cache.get("941896554736934933")
+  const member = guild.members.cache.get(req.user.id)
+
+  if (member.roles.cache.some((role) => role.id === config.roles.mod) || member.roles.cache.some((role) => role.id === config.roles.admin)) {
+   return next();
+  } else {
     return res.render("errors/403.ejs", {
       user: req.user || null,
     });
-  return next();
+  }
 }
 
 function canUserVote(x) {
