@@ -38,9 +38,9 @@ module.exports = {
       .catch((e) => e);
 
     const embed = new EmbedBuilder()
-      .setTitle("Congrats on becoming a bot reviewer at Universe List!")
+      .setTitle("Congrats on becoming a bot reviewer!")
       .setDescription(
-        `\n Please join our testing server here: ${invitecode.url}\nNeed any tips & tricks? Contact any admin of Universe List.`
+        `\n Please join our testing server here: ${invitecode.url}\Have any more questions? Contact an admin.`
       )
       .setFooter({
         text: "Universe List - Staff Management",

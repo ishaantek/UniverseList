@@ -51,7 +51,7 @@ module.exports = {
         const embed = new EmbedBuilder()
           .setTitle("Welcome to Universe List!")
           .setDescription(
-            "Welcome to Universe List, one of the most powerful bot and server listing site!.\nIf you have any questions or concerns, please contact support.\nHave a wonderful day!"
+            "Welcome to Universe List, one of the most powerful bot and server listing site!\nIf you have any questions or concerns, please contact an admin.\nHave a wonderful day!"
           )
           .setFooter({
             text: `Please contact support to stop these messages. - Universe List`,
