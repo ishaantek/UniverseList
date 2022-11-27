@@ -415,62 +415,63 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
   const member = guild.members.cache.get(req.user.id);
 
   if (
-    !bot.owner.includes(user.id) ||
-    !member.roles.cache.some((role) => role.id === config.roles.mod) ||
-    !member.roles.cache.some((role) => role.id === config.roles.admin)
+    botm.owner.includes(req.user.id) ||
+    member.roles.cache.some((role) => role.id === config.roles.mod) ||
+    member.roles.cache.some((role) => role.id === config.roles.admin)
   ) {
+    const bot = await client.users.fetch(req.params.id).catch(() => null);
+    if (!bot)
+      return res
+        .status(400)
+        .json({ message: "This is not a real application on Discord." });
+    botm.id = req.params.id;
+    botm.prefix = data.prefix;
+    botm.owner = req.user.id;
+    botm.desc = data.desc;
+    botm.shortDesc = data.shortDesc;
+    botm.tags = data.tags;
+    botm.invite = data.invite;
+    botm.support = data.support || null;
+    botm.github = data.github || null;
+    botm.website = data.website || null;
+    botm.donate = data.donate || null;
+    botm.webhook = data.webhook || null;
+    await botm.save();
+
+    const date = new Date();
+    const editEmbed = new EmbedBuilder()
+      .setTitle("Bot Edited")
+      .setDescription(
+        ":pencil: " + bot.tag + " has been edited on Universe List."
+      )
+      .setColor("Yellow")
+      .addFields({
+        name: "Bot",
+        value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+        inline: true,
+      })
+      .addFields({
+        name: "Owner",
+        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        inline: true,
+      })
+      .addFields({
+        name: "Date",
+        value: `${date.toLocaleString()}`,
+        inline: true,
+      })
+      .setFooter({
+        text: "Edit Logs - Universe List",
+        iconURL: `${global.client.user.displayAvatarURL()}`,
+      });
+    logs.send({ content: `<@${req.user.id}>`, embeds: [editEmbed] });
+
+    return res.redirect(
+      `/bots/${req.params.id}?success=true&body=You have successfully edited your bot.`
+    );
+  } else {
     return res.redirect("/404");
   }
-
-  const bot = await client.users.fetch(req.params.id).catch(() => null);
-  if (!bot)
-    return res
-      .status(400)
-      .json({ message: "This is not a real application on Discord." });
-  botm.id = req.params.id;
-  botm.prefix = data.prefix;
-  botm.owner = req.user.id;
-  botm.desc = data.desc;
-  botm.shortDesc = data.shortDesc;
-  botm.tags = data.tags;
-  botm.invite = data.invite;
-  botm.support = data.support || null;
-  botm.github = data.github || null;
-  botm.website = data.website || null;
-  botm.webhook = data.webhook || null;
-  await botm.save();
-
-  const date = new Date();
-  const editEmbed = new EmbedBuilder()
-    .setTitle("Bot Edited")
-    .setDescription(
-      ":pencil: " + bot.tag + " has been edited on Universe List."
-    )
-    .setColor("Yellow")
-    .addFields({
-      name: "Bot",
-      value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
-      inline: true,
-    })
-    .addFields({
-      name: "Owner",
-      value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
-      inline: true,
-    })
-    .addFields({
-      name: "Date",
-      value: `${date.toLocaleString()}`,
-      inline: true,
-    })
-    .setFooter({
-      text: "Edit Logs - Universe List",
-      iconURL: `${global.client.user.displayAvatarURL()}`,
-    });
-  logs.send({ content: `<@${req.user.id}>`, embeds: [editEmbed] });
-
-  return res.redirect(
-    `/bots/${req.params.id}?success=true&body=You have successfully edited your bot.`
-  );
 });
 
 app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
@@ -679,8 +680,13 @@ app.get("/bots/:id", async (req, res) => {
   }
 
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
-  const member = guild.members.cache.get(req.user.id);
+  let member = "";
 
+  if (req.user) {
+    member = guild.members.cache.get(req.user.id);
+  } else {
+    member = null;
+  }
   res.render("botlist/viewbot.ejs", {
     bot2: req.bot,
     bot: bot,
