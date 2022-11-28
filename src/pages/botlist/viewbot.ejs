@@ -58,7 +58,7 @@
             <% if (!bot.owner.includes(user.id)) { %>
               <a href="/bots/<%= bot.id %>/review" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Review</a>
               <% } %>
-          <% if (bot.owner.includes(user.id) || member.roles.cache.some((role) => role.id === config.roles.mod) || member.roles.cache.some((role) => role.id === config.roles.admin)) { %>
+          <% if (bot.owner.includes(user.id) || member.roles.cache.some((role) => role.id === config.roles.webmod)) { %>
           <a href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
           <% } %>
           <% } %>
