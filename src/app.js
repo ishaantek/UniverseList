@@ -382,8 +382,7 @@ app.get("/bots/:id/edit", checkAuth, async (req, res) => {
 
   if (
     bot.owner.includes(req.user.id) ||
-    member.roles.cache.some((role) => role.id === config.roles.mod) ||
-    member.roles.cache.some((role) => role.id === config.roles.admin)
+    member.roles.cache.some((role) => role.id === config.roles.webmod)
   ) {
     const BotRaw = (await client.users.fetch(id)) || null;
     bot.name = BotRaw.username;
@@ -416,8 +415,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
 
   if (
     botm.owner.includes(req.user.id) ||
-    member.roles.cache.some((role) => role.id === config.roles.mod) ||
-    member.roles.cache.some((role) => role.id === config.roles.admin)
+    member.roles.cache.some((role) => role.id === config.roles.webmod)
   ) {
     const bot = await client.users.fetch(req.params.id).catch(() => null);
     if (!bot)
