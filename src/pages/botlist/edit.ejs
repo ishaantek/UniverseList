@@ -16,7 +16,7 @@
   <p style="color:white;font-size: 20">Fill out the form below in order to edit your bot.</p>
   <hr class="my-4"><br>
   <% if (!bot.owner.includes(user.id)) { %>
-  <% if (member.roles.cache.some((role) => role.id === config.roles.mod) || member.roles.cache.some((role) => role.id === config.roles.admin)) { %>
+  <% if (member.roles.cache.some((role) => role.id === config.roles.webmod)) { %>
     <h4>Wondering why you have access to this?</h4>
     <p>It's because you are a moderator at Universe List! This is to prevent bad things in bots or to remotely edit someone's bot.<br>Everything is being logged, and if you are caught messing with someone's bot without reason you will be fired.</p>
   <% } %>
