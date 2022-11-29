@@ -424,7 +424,6 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
         .json({ message: "This is not a real application on Discord." });
     botm.id = req.params.id;
     botm.prefix = data.prefix;
-    botm.owner = req.user.id;
     botm.desc = data.desc;
     botm.shortDesc = data.shortDesc;
     botm.tags = data.tags;
@@ -449,7 +448,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
         inline: true,
       })
       .addFields({
-        name: "Owner",
+        name: "Editer",
         value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
