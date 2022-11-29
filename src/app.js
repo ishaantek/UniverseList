@@ -448,7 +448,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
         inline: true,
       })
       .addFields({
-        name: "Editer",
+        name: "Editor",
         value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
