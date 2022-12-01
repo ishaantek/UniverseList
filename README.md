@@ -49,6 +49,12 @@ Universe List is in a continuous state of development. New features/updates may 
   * The MongoDB URL can be either a local server or a remote one. Atlas provides a free tier with 500mb.
   * The minimum and maximum lengths for bot / server description and summary are in characters.
 
+## Credits
+
+Most of the site created by (Vital Developement)[https://github.com/VitalDevelopment/].
+Few bug fixes by Ishaantek#0001.
+
+
 ## License
 
 Released under the [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
