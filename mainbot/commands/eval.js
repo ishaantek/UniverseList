@@ -19,7 +19,7 @@ module.exports = {
             async: false,
         });
         const code = await clean(eval(evaled), [
-            client.token, client.stoken, client.mongo, client.secret
+            client.token
         ]);
         try {
             if (typeof code !== "string") {
