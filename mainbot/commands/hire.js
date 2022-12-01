@@ -40,7 +40,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle("Congrats on becoming a bot reviewer!")
       .setDescription(
-        `\n Please join our testing server here: ${invitecode.url}\Have any more questions? Contact an admin.`
+        `\n Please join our testing server here: ${invitecode.url}\nHave any more questions? Contact an admin.`
       )
       .setFooter({
         text: "Universe List - Staff Management",
