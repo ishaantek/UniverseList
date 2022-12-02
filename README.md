@@ -51,9 +51,8 @@ Universe List is in a continuous state of development. New features/updates may 
 
 ## Credits
 
-Most of the site created by (Vital Developement)[https://github.com/VitalDevelopment/].
-Few bug fixes by Ishaantek#0001.
-
+- Ishaantek
+- Vital Devs
 
 ## License
 
