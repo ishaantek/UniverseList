@@ -1679,8 +1679,12 @@ app.get("/terms", async (req, res) => {
   res.render("legal/terms.ejs", { user: req.user });
 });
 
-app.get("/policy", async (req, res) => {
-  res.render("legal/policy.ejs", { user: req.user });
+app.get("/privacy", async (req, res) => {
+  res.render("legal/privacy.ejs", { user: req.user });
+});
+
+app.get("/bot-requirements", async (req, res) => {
+  res.render("legal/bot-requirements.ejs", { user: req.user });
 });
 
 //-Error Pages-//

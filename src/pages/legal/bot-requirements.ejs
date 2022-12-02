@@ -1,0 +1,59 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+  <title>Bot Requirements - Universe List</title>
+  <%- include ("../parts/head.ejs") %>
+</head>
+<%- include ("../parts/navbar.ejs") %>
+  <br><br><br><br>
+  <div class="page-container">
+    <div class="container">
+      <div class="md" id="md">
+        <h2>Universe List - Bot Requirements</h2>
+        <br>
+        <h4>On your bot page, you are not allowed to:</h4>
+        <p>
+        <ol>
+          <li>Include spam/junk, or completely irrelevant/nonsensical characters or phrases in your bot description or intentionally use up characters to reach the 250 character limit.</li>
+          <li>Mention NSFW or include any NSFW content on the bot page (avatar or images).</li>
+          <li>Show any media/content that may induce seizures (images, gifs, css).</li>
+          <li>Using your page maliciously against users by either providing or linking to malicious content.</li>
+          <li>Advertise any competitors (bot/server lists).</li>
+          <li>Block any essential features, this includes buttons and advertisements.</li>
+          <li>Use any of the provided buttons to link to unrelated content.</li>
+          <li>List the incorrect prefix on your bot page.</li>
+        </ol>
+        </p><br>
+        <h4>Bot rules and requirements:</h4>
+        <p>
+        <ol>
+          <li>Abide by Universe List's Terms of Service, Discord's Terms of Service, API rate limits and Developer terms.
+          </li>
+          <li>Must be online during review, public and invitable.</li>
+          <li>The main feature and majority of the commands must work.</li>
+          <li>No NSFW content in any bot commands.</li>
+          <li>May not include any seizure-inducing content (gifs, emojis).</li>
+          <li>Commands must only require permissions that the command being run needs. (e.g the kick command can only require the kick
+          permission as it's required to be used). Bots <b>cannot</b> require the administrator permission for it to work.</li>
+          <li>Must not be an unmodified instance or fork of another bot and must have a considerable amount of modification.</li>
+          <li>Must not be in competition with Universe List.</li>
+          <li>The term “loli” or any other term that refers to the sexualization of underage children cannot be used anywhere
+          throughout your bot.</li>
+          <li>Must not have the sole intent of impersonating other bots.</li>
+          <li>Must not vote lock majority of your bot's commands. We encourage up to 3-5 votelocked commands to allow user
+          flexibility.</li>
+          <li>Your bot must keep all owner commands locked to developers (e.g evals, status/presence commands and any other commands
+          that may present vulnerabilities with your bot).</li>
+          <li>Multiple bots that are created using the same or very similar code/features should not be submitted individually.
+          Instead, group them together in your main bot's help command or website page.</li>
+          <li>Bots cannot ask for user login information (i.e. username/password/token) for any site or service. This does not include
+          API authentication tokens, only user login tokens.</li>
+        </ol>
+        </p><br>
+      </div>
+    </div>
+  </div>
+  <br><br>
+  <%- include("../parts/footer.ejs") %>
