@@ -24,6 +24,8 @@ Array.prototype.shuffle = function () { // Define this once
 }
 //-Database Login-//
 
+mongoose.set('strictQuery', true);
+
 try {
   mongoose.connect(config.mongo).then(logger.system("Mongoose connected."));
 } catch (error) {
