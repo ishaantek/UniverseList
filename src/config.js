@@ -7,6 +7,7 @@ module.exports = {
   owners: ["998763334264442912"],
   developers: ["998763334264442912"],
   betatesters: ["998763334264442912"],
+  designers: ["642085851429339157"],
   mongo: process.env.mongo,
   bot: {
     id: "1015807573733154818",
