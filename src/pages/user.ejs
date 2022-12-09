@@ -30,7 +30,7 @@
         <% if (config.developers.includes(fetched_user.id)) { %>
            <i class="fa fa-code" style="bottom: -5px; font-size: 20px;" title="Universe List Developer"></i>
           <% } %>
-          <% if (config.reviewer.includes(fetched_user.id)) { %>
+          <% if (config.staff.includes(fetched_user.id)) { %>
            <i class="fa fa-screwdriver-wrench" style="bottom: -5px; font-size: 20px;" title="Universe List Staff"></i>
             <% } %>
             <% if (config.betatesters.includes(fetched_user.id)) { %>
