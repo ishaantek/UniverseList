@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+  <script src="/multiselect.js"></script>
   <title>Editing <%- server.name %> - Universe List</title>
   <%- include("../parts/head.ejs") %>
 </head>
@@ -43,7 +44,7 @@
         <label class="mb-0">Server Tags</label>
         <small class="form-text text-muted mt-0 mb-2">Max. 4 tags</small>
         <small class="form-text text-muted mt-0 mb-2">You can select more than one tag by holding Ctrl / ⌘ key.</small>
-        <select name="tags" id="tags" class="form-control" id="tags" placeholder="Max. 4 tags" multiple required>
+        <select name="tags" id="tags" class="form-control multiselect" id="tags" placeholder="Max. 4 tags" multiple required>
           <% tags.servers.map(tag => {%>
           <% if(tags.servers.includes(tag)) {%>
           <option value="<%= tag %>" selected><%= tag %></option>
@@ -107,4 +108,5 @@
     });
     longDescPreview.html(sanitizedRender);
   });
+  window.initiateMulti()
 </script>

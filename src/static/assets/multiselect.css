@@ -1,0 +1,77 @@
+
+.multiselect-wrapper {
+    position: relative;
+    user-select: none o !important;
+  }
+  
+  .multiselect-input {
+    display: flex;
+    align-items: center;
+    user-select: none !important;
+  }
+  
+  .multiselect-input-active {
+    background: white !important;
+  }
+  
+  .multiselect-option {
+    display: flex;
+    align-items: center;
+    padding: 1px 4px;
+    font-size: 15px;
+    margin: 0 2px;
+    background-color: #480ddd;
+    border-radius: 5px;
+    z-index: 3;
+    color: white;
+  
+  }
+  
+  .multiselect-close {
+    background-color: #480ddd !important;
+    padding: 1px;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    outline: none !important;
+    margin-left: 3px;
+  }
+  
+  .multiselect-close:hover {
+    background-color: white !important;
+    color: black;
+  }
+  
+  .multiselect-list {
+    background-color: white;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    width: 100%;
+    user-select: none !important;
+    overflow: auto;
+    z-index: 3;
+    max-height: 200px;
+  }
+  
+  .multiselect-list > div {
+    padding: 6px 20px;
+    color: black;
+    margin: 2px 0;
+    text-align: left;
+    user-select: none !important;
+    background-color: white;
+  }
+  
+  .multiselect-list > div:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .multiselect-list-active {
+    background-color: rgb(72, 13, 221) !important;
+    color: white !important;
+  }
