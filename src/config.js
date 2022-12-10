@@ -66,6 +66,8 @@ module.exports = {
       "Fun",
       "Economy",
       "Leveling",
+      "Verification",
+      "Web Dashboard",
       "Utilities",
       "Logging",
       "Music",
