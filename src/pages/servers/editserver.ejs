@@ -42,6 +42,7 @@
       <div class="form-group" id="tags-box">
         <label class="mb-0">Server Tags</label>
         <small class="form-text text-muted mt-0 mb-2">Max. 4 tags</small>
+        <small class="form-text text-muted mt-0 mb-2">You can select more than one tag by holding Win / ⌘ key.</small>
         <select name="tags" id="tags" class="form-control" id="tags" placeholder="Max. 4 tags" multiple required>
           <% tags.servers.map(tag => {%>
           <% if(tags.servers.includes(tag)) {%>
