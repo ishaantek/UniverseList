@@ -87,7 +87,7 @@
       <div class="form-group" id="tags-box">
         <label class="mb-0">Bot Tags</label>
         <small class="form-text text-muted mt-0 mb-2">Max. 4 tags</small>
-        <small class="form-text text-muted mt-0 mb-2">You can select more than one tag by holding Win / ⌘ key.</small>
+        <small class="form-text text-muted mt-0 mb-2">You can select more than one tag by holding Ctrl / ⌘ key.</small>
         <select name="tags" id="tags" value="<%= bot.tags %>" class="form-control" placeholder="Max. 4 tags" multiple size="4" required>
           <% tags.bots.map(tag => {%>
           <% if(bot.tags.includes(tag)) {%>
