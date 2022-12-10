@@ -17,9 +17,14 @@ This is for users who want to contribute to Universe List, or even run a self ho
 1. Download the code. In the web version of GitHub, you can do that by clicking the green "Code" button, and then "Download ZIP".
 2. Unzip it, and open it in code.
 3. Run the command `npm i` in the terminal.
-4. Fill out the `example.env` file with your information, and then rename the file to `.env`.
+4. Fill out the `.env.template` file with your information, and then rename the file to `.env`.
 5. Fill out the information in the `config.js` file.
-6. Start the project with `npm start`.
+6. Go to the [Discord Developer Portal](https://discord.com/developers/applications) and go to the main bot. 
+7. Go to the `0Auth2` section and set the following URLs under `Redirects`.<br>
+･ https://example.com/auth/callback<br>
+･ https://example.com/auth/callback/joinSupport<br>
+Make sure to change `example.com` with your domain.
+8. Start the project with `npm start`.
 
 ## Terms of Use
   * You have the permission to shoot and share videos, but you have to mention us and our server in the video.</a><br>
@@ -48,11 +53,6 @@ Universe List is in a continuous state of development. New features/updates may 
   * Most of the variables are Discord IDs.
   * The MongoDB URL can be either a local server or a remote one. Atlas provides a free tier with 500mb.
   * The minimum and maximum lengths for bot / server description and summary are in characters.
-
-## Credits
-
-- Ishaantek
-- Vital Devs
 
 ## License
 
