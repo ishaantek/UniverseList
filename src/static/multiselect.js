@@ -45,6 +45,8 @@ window.initiateMulti = function (){
                     <i class="fas fa-times"></i>
                 </button>
                 </div>`
+                const listItem = $(`${multiselectAttr} > .multiselect-list > [data-value=${item}]`)
+                listItem.addClass("multiselect-list-active")
             })
             multiselectInput.html(newhtml)
             $(obj).val(selectedItems)
