@@ -22,6 +22,8 @@ const helmet = require("helmet");
 Array.prototype.shuffle = function () { // Define this once 
   return this.map((k, i, o, p = Math.floor(Math.random() * this.length)) => [o[i], o[p]] = [o[p], o[i]]) && this
 }
+require('https').globalAgent.options.rejectUnauthorized = false;
+
 //-Database Login-//
 
 mongoose.set('strictQuery', true);
