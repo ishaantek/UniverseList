@@ -70,10 +70,14 @@
       <div class="form-group" id="tags-box">
         <label class="mb-0">Bot Tags</label>
         <small class="form-text text-muted mt-0 mb-2">Max. 4 tags</small>
-        <select name="tags" id="tags" class="form-control" id="tags" placeholder="Max. 4 tags" multiple required>
-          <% tags.bots.map(tag => {%>
-          <option value="<%= tag %>"><%= tag %></option>
-          <% }); %>
+        <select data-link="bot-multiselect" name="tags" id="tags" class="form-control multiselect" id="tags"
+          placeholder="Max. 4 tags" multiple required>
+          <% tags.bots.map(tag=> {%>
+            <option value="<%= tag %>">
+              <%= tag %>
+            </option>
+            <% }); %>
+
         </select>
       </div>
       <div class="alert alert-dismissible alert-danger" id="form-error-popup" style="display: none;"></div>

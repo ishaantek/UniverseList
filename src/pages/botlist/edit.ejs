@@ -88,7 +88,7 @@
       <div class="form-group" id="tags-box">
         <label class="mb-0">Bot Tags</label>
         <small class="form-text text-muted mt-0 mb-2">Max. 4 tags</small>
-        <select name="tags" id="tags" value="<%= bot.tags %>" class="form-control" placeholder="Max. 4 tags" multiple size="4" required>
+        <select name="tags" id="tags" value="<%= bot.tags %>" class="form-control multiselect" placeholder="Max. 4 tags" multiple size="4" required>
           <% tags.bots.map(tag => {%>
           <% if(bot.tags.includes(tag)) {%>
           <option value="<%= tag %>" selected><%= tag %></option>
