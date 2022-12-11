@@ -55,7 +55,7 @@ module.exports = {
           )
           .setFooter({
             text: `Please contact support to stop these messages. - Universe List`,
-            iconURL: `https://universe-list.xyz/img/icon.png`,
+            iconURL: `https://universe-list.xyz/img/christmas.png`,
           });
 
         let row = new ActionRowBuilder();
