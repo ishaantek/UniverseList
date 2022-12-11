@@ -6,6 +6,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="/multiselect.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
   <title>Editing <%- bot.name %> - Universe List</title>
   <%- include("../parts/head.ejs") %>
@@ -87,6 +88,7 @@
       <div class="form-group" id="tags-box">
         <label class="mb-0">Bot Tags</label>
         <small class="form-text text-muted mt-0 mb-2">Max. 4 tags</small>
+        <small class="form-text text-muted mt-0 mb-2">You can select more than one tag by holding Ctrl / ⌘ key.</small>
         <select name="tags" id="tags" value="<%= bot.tags %>" class="form-control" placeholder="Max. 4 tags" multiple size="4" required>
           <% tags.bots.map(tag => {%>
           <% if(bot.tags.includes(tag)) {%>
@@ -167,6 +169,7 @@
       this.checked = false;
     }
   });
+  window.initiateMulti()
 </script>
 
 <style>

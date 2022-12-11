@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+  <script src="/multiselect.js"></script>
   <title>Add Bot - Universe List</title>
   <%- include("../parts/head.ejs") %>
 </head>
@@ -69,6 +70,7 @@
       <div class="form-group" id="tags-box">
         <label class="mb-0">Bot Tags</label>
         <small class="form-text text-muted mt-0 mb-2">Max. 4 tags</small>
+        <small class="form-text text-muted mt-0 mb-2">You can select more than one tag by holding Ctrl / ⌘ key.</small>
         <select name="tags" id="tags" class="form-control" id="tags" placeholder="Max. 4 tags" multiple required>
           <% tags.bots.map(tag => {%>
           <option value="<%= tag %>"><%= tag %></option>
@@ -123,6 +125,7 @@
       this.checked = false;
     }
   });
+  window.initiateMulti()
 </script>
 
 <style>
