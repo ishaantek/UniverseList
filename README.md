@@ -34,7 +34,7 @@ Make sure to change `example.com` with your domain.
   * You cannot sell this</a><br>
   * Don't touch this part on footer;</a><br>
 ```
-Copyright © 2022 Universe List, All Rights Reserved.
+Copyright © 2022 Universe List, All Rights Reserved. Modified by Ishaantek, Made by Vital Development
 ```
 
 ## To-Do
