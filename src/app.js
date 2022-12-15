@@ -1675,6 +1675,10 @@ app.get("/partners", async (req, res) => {
   res.render("partners.ejs", { user: req.user || null });
 });
 
+app.get("/team", async (req, res) => {
+  res.render("team.ejs", { user: req.user || null });
+});
+
 app.get("/docs", async (req, res) => {
   res.render("apidocs.ejs", { user: req.user });
 })

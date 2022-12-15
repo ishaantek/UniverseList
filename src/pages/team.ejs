@@ -3,34 +3,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
-    <title>Partners - Universe List</title>
+    <title>Team - Universe List</title>
     <%- include ("./parts/head.ejs") %>
   </head>
   <%- include ("./parts/navbar.ejs") %>
   <br><br><br><br>
     <div class="container">
-          <h2><b>Universe List Partners</b></h2>
-          <p>These are all of Universe List's partners that you should check out.</p><br>
-          <div class="card" style="border-radius:10px;">
-              <img src="https://universe-list.xyz/img/christmas.png" alt="Unknown Icon" draggable="false" class="botimg_main">
-              <p class="botname_main" style="height:65px;width:250px;padding:10px;"> 
-                No Partners... <br>
-                <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-crown"></i> Owner: <a href="/users/998763334264442912" style="text-decoration: none;font-size:15px; color: white"> N/A</a>
+          <h2><b>Our Team Members</b></h2>
+          <p>These are all of the people that bring you Universe List.</p><br>
+          <div class="card" style="border-radius:10px;"><a target="blank" href="/users/998763334264442912">
+              <img src="https://cdn.discordapp.com/avatars/998763334264442912/c44d1fc646ba5cefe93250ffa48e9c7d.png" alt="Ishaantek" draggable="false" class="botimg_main">
+              <p class="botname_main" style="height:65px;width:250px;padding:10px;">Ishaantek<small class="text-muted">#0001</small><br>
+                <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-crown"></i> Universe List Owner<br><i class="fa-brands fa-github"></i> <a target="blank" target="blank" href="https://github.com/ishaantek" style="text-decoration: underline;font-size:15px; color: white"> Ishaantek</a>
               </p>
-              <div class="botdesc_main" style="cardcss">
-                <i class="fa-solid fa-file-lines"></i> This could be your awesome project! DM Ishaantek#0001 to become a partner!
-              </div>
-              <div class="bottags_main" style="cardcss">
-                <i class="fa-solid fa-hashtag"></i> Partners
-              </div>
-              <div style="margin-left:20px;margin-top:-40px">
-                <a href="https://universe-list.xyz">
-                  <button class="viewbtn">Website</button>
-              </div>
-            </a>
-            <a href="https://universe-list.xyz">
-              <button class="votebtn">Discord</button></a>
-          </div></a>
+              </a>
+        </div>
+
+        <div class="card" style="border-radius:10px;"><a target="blank" href="/users/536538183555481601">
+          <img src="https://cdn.discordapp.com/avatars/536538183555481601/ed96844c6523014fa58d5e5b4a88c363.png"
+            alt="Yaki" draggable="false" class="botimg_main">
+          <p class="botname_main" style="height:65px;width:250px;padding:10px;">yaki<small
+              class="text-muted">#8693</small><br>
+            <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-screwdriver-wrench"></i> Admin + Bot Reviewer<br><i
+                class="fa-brands fa-github"></i> <a target="blank" href="https://github.com/yakirarage"
+                style="text-decoration: underline;font-size:15px; color: white"> yakirarage</a>
+          </p>
+          </a>
+        </div>
+
+        <div class="card" style="border-radius:10px;"><a target="blank" href="/users/642085851429339157">
+          <img src="https://cdn.discordapp.com/avatars/642085851429339157/3bf2d12d538efefdf0859c611fca3d7c.png?size=1280"
+            alt="Ghostly" draggable="false" class="botimg_main">
+          <p class="botname_main" style="height:65px;width:250px;padding:10px;">Ghostly<small
+              class="text-muted">#1616</small><br>
+            <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-paintbrush"></i> Designer + Bot Reviewer<br>
+              <i class="fa-solid fa-link"></i> <a target="blank" href="https://devghostly.carrd.co/"
+                style="text-decoration: underline;font-size:15px; color: white"> Ghostly Portfolio</a>
+          </p>
+        </a>
         </div>
       </div>
     </div>
@@ -47,8 +57,8 @@
     }
   
     .card {
-      height: 400px;
-      width: 400px;
+      height: 100px;
+      width: 450px;
       backdrop-filter: blur(16px) saturate(180%);
       -webkit-backdrop-filter: blur(16px) saturate(180%);
       background-color: rgba(17, 25, 40, 0.75);
@@ -60,6 +70,12 @@
       position: relative;
       display: inline-block;
       box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      background-color: transparent;
     }
   
     @media only screen and (max-width: 600px) {
@@ -92,6 +108,10 @@
       margin-top: 65px;
     }
   
+    .text-muted {
+      color: rgba(255, 255, 255, 0.4) !important;
+    }
+
     .votebtn {
       background-color: #480ddd;
       height: 40px;
@@ -126,11 +146,11 @@
   
     .botname_main {
       color: white;
-      font-size: 25px;
-      margin-top: -105px;
-      margin-left: 125px;
+      font-size: 20px;
+      margin-top: -87px;
+      margin-left: 105px;
       border-radius: 10px;
-      font-weight: bold;
+      font-weight: 700;
     }
   
     .adbutton {
@@ -147,11 +167,11 @@
     }
   
     .botimg_main {
-      width: 115px;
-      height: 115px;
+      width: 85px;
+      height: 85px;
       border-radius: 100%;
       margin-top: 5px;
-      margin-left: 5px;
+      margin-left: 10px;
   
     }
   
@@ -181,7 +201,7 @@
     }
   
     .container {
-      padding: 2px 16px;
+      padding: 2px 14px;
     }
   
     .top_bots {
@@ -227,6 +247,11 @@
       margin-top: 80px;
     }
   
+    .small, small {
+      font-size: 80%;
+      font-weight: 400;
+    }
+
     a:hover {
       color: white;
       text-decoration: none;
