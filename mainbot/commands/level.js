@@ -25,7 +25,7 @@ module.exports = {
       .setAvatar(img)
       .setCurrentXP(user.xp)
       .setRequiredXP(level * 50)
-      .setStatus("online")
+      .setStatus(user.presence.status)
       .setLevel(user.level)
       .setRank(parseInt(user.position))
       .setProgressBar("#FFFFFF", "COLOR")
