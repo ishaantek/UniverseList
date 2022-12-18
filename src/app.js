@@ -1036,7 +1036,11 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const server = await global.serverModel.findOne({ id: id });
   if (!server) return res.redirect("/404");
 
-  if (req.user.id !== server.owner) return res.redirect("/403");
+  if (
+    req.user.id !== server.owner ||
+    member.roles.cache.some((role) => role.id === config.roles.bottester)
+  )
+    return res.redirect("/403");
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
 
@@ -1058,7 +1062,11 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   const server = await global.serverModel.findOne({ id: id });
   if (!server) return res.redirect("/404");
 
-  if (req.user.id !== server.owner) return res.redirect("/403");
+  if (
+    req.user.id !== server.owner ||
+    member.roles.cache.some((role) => role.id === config.roles.bottester)
+  )
+    return res.redirect("/403");
 
   server.shortDesc = data.short_description;
   server.desc = data.long_description;
@@ -1360,7 +1368,11 @@ app.post("/users/:id/edit", checkAuth, async (req, res) => {
     return res.redirect("/");
   }
 
-  if (req.user.id !== userm.id) return res.redirect("/403");
+  if (
+    req.user.id !== userm.id ||
+    member.roles.cache.some((role) => role.id === config.roles.bottester)
+  )
+    return res.redirect("/403");
 
   const user = await client.users.fetch(req.params.id).catch(() => null);
   if (!user) {
