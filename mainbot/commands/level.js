@@ -27,7 +27,7 @@ module.exports = {
       .setRequiredXP(level * 50)
       .setStatus("online")
       .setLevel(user.level)
-      .setRank(rankIndex)
+      .setRank(parseInt(user.position))
       .setProgressBar("#FFFFFF", "COLOR")
       .setUsername(message.author.username)
       .setDiscriminator(message.author.discriminator);
