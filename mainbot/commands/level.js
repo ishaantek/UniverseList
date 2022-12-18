@@ -20,12 +20,14 @@ module.exports = {
     let flitered = await model.find({}).sort({ xp: -1 }).limit(10);
     let sorted = flitered.map((x) => x.xp).sort((a, b) => b - a);
     let rank = sorted.splice(0, message.guild.memberCount);
+    let background = "https://cdn.discordapp.com/attachments/941896555718410285/1054106088171110480/image.png";
     let rankIndex = rank.indexOf(user.xp) + 1;
     const userrank = new canvacord.Rank()
       .setAvatar(img)
       .setCurrentXP(user.xp)
       .setRequiredXP(level * 50)
       .setStatus("online")
+      .setBackground("IMAGE", background)
       .setLevel(user.level)
       .setRank(rankIndex)
       .setProgressBar("#FFFFFF", "COLOR")
