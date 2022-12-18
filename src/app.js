@@ -402,7 +402,7 @@ app.get("/bots/:id/edit", checkAuth, async (req, res) => {
       member: member,
     });
   } else {
-    return res.redirect("/404");
+    return res.redirect("/403");
   }
 });
 
@@ -471,7 +471,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
       `/bots/${req.params.id}?success=true&body=You have successfully edited your bot.`
     );
   } else {
-    return res.redirect("/404");
+    return res.redirect("/403");
   }
 });
 
@@ -1036,7 +1036,7 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const server = await global.serverModel.findOne({ id: id });
   if (!server) return res.redirect("/404");
 
-  if (req.user.id !== server.owner) return res.redirect("/404");
+  if (req.user.id !== server.owner) return res.redirect("/403");
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
 
@@ -1058,7 +1058,7 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   const server = await global.serverModel.findOne({ id: id });
   if (!server) return res.redirect("/404");
 
-  if (req.user.id !== server.owner) return res.redirect("/404");
+  if (req.user.id !== server.owner) return res.redirect("/403");
 
   server.shortDesc = data.short_description;
   server.desc = data.long_description;
@@ -1073,7 +1073,9 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   server.name = ServerRaw.name;
 
   if (server.published === false) {
-    const logs = global.sclient.channels.cache.get(global.config.channels.weblogs);
+    const logs = global.sclient.channels.cache.get(
+      global.config.channels.weblogs
+    );
     const date = new Date();
     const publishEmbed = new EmbedBuilder()
       .setTitle("Server Published")
@@ -1332,7 +1334,7 @@ app.get("/users/:id/edit", checkAuth, async (req, res) => {
   if (!user) {
     res.status(404).json({ message: "This user was not found on Discord." });
   }
-  if (req.user.id !== user.id) return res.redirect("/404");
+  if (req.user.id !== user.id) return res.redirect("/403");
 
   let userm = await global.userModel.findOne({
     id: req.params.id,
@@ -1358,7 +1360,7 @@ app.post("/users/:id/edit", checkAuth, async (req, res) => {
     return res.redirect("/");
   }
 
-  if (req.user.id !== userm.id) return res.redirect("/404");
+  if (req.user.id !== userm.id) return res.redirect("/403");
 
   const user = await client.users.fetch(req.params.id).catch(() => null);
   if (!user) {
@@ -1733,7 +1735,7 @@ function checkAuth(req, res, next) {
 
 function checkStaff(req, res, next) {
   const config = global.config;
-  const guild = global.client.guilds.cache.get("941896554736934933")
+  const guild = global.client.guilds.cache.get("941896554736934933");
   const member = guild.members.cache.get(req.user.id)
 
   if (member.roles.cache.some((role) => role.id === config.roles.mod) || member.roles.cache.some((role) => role.id === config.roles.admin)) {
