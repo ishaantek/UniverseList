@@ -1697,6 +1697,10 @@ app.get("/bot-requirements", async (req, res) => {
   res.render("legal/bot-requirements.ejs", { user: req.user });
 });
 
+app.get("/403", async (req, res) => {
+  res.render("errors/403.ejs", { user: req.user });
+});
+
 //-Error Pages-//
 app.all("*", (req, res) => {
   res.status(404);
