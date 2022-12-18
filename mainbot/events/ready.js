@@ -5,7 +5,7 @@ module.exports = {
   async run(client) {
     global.logger.system(`${client.user.tag} is online and ready.`);
     client.user.setActivity(
-      `universe-list.xyz | ${await global.botModel.count()} bots.`,
+      `${await global.botModel.count()} bots.`,
       {
         type: 3,
       }
