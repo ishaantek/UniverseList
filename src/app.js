@@ -1060,8 +1060,7 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   if (!server) return res.redirect("/404");
 
   if (
-    req.user.id !== server.owner ||
-    member.roles.cache.some((role) => role.id === config.roles.bottester)
+    req.user.id !== server.owner
   )
     return res.redirect("/403");
 
