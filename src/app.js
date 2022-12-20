@@ -1036,7 +1036,10 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const server = await global.serverModel.findOne({ id: id });
   if (!server) return res.redirect("/404");
 
-  if (req.user.id !== server.owner || req.user.id === "941896554736934934")
+  if (
+    req.user.id !== server.owner ||
+    req.user.roles.cache.some((role) => role.id === config.roles.bottester)
+  )
     return res.redirect("/403");
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
