@@ -1365,8 +1365,7 @@ app.post("/users/:id/edit", checkAuth, async (req, res) => {
   }
 
   if (
-    req.user.id !== userm.id ||
-    member.roles.cache.some((role) => role.id === config.roles.bottester)
+    req.user.id !== userm.id
   )
     return res.redirect("/403");
 
