@@ -1,3 +1,8 @@
+const japiRestPkg = require("japi.rest");
+const japiRest = new japiRestPkg(
+  "JAPI.ODc0NzEzMTM4OTkzODgzNDUw.BUb.K2ggLd3lH7D6ka9QsS0GO"
+);
+
 const logger = require("../functions/logger");
 const {
   EmbedBuilder,
@@ -18,15 +23,22 @@ const express = require("express"),
   Strategy = require("passport-discord").Strategy;
 const SQLiteStore = require("connect-sqlite3")(session);
 const helmet = require("helmet");
+
 // const rateLimit = require('express-rate-limit')
-Array.prototype.shuffle = function () { // Define this once 
-  return this.map((k, i, o, p = Math.floor(Math.random() * this.length)) => [o[i], o[p]] = [o[p], o[i]]) && this
-}
-require('https').globalAgent.options.rejectUnauthorized = false;
+Array.prototype.shuffle = function () {
+  // Define this once
+  return (
+    this.map(
+      (k, i, o, p = Math.floor(Math.random() * this.length)) =>
+        ([o[i], o[p]] = [o[p], o[i]])
+    ) && this
+  );
+};
+require("https").globalAgent.options.rejectUnauthorized = false;
 
 //-Database Login-//
 
-mongoose.set('strictQuery', true);
+mongoose.set("strictQuery", true);
 
 try {
   mongoose.connect(config.mongo).then(logger.system("Mongoose connected."));
@@ -232,7 +244,6 @@ app.get("/", async (req, res) => {
     bots[i].tags = bots[i].tags.join(", ");
   }
 
-
   res.render("index.ejs", {
     bot: req.bot,
     bots: bots.shuffle(),
@@ -261,10 +272,9 @@ app.get("/bots", async (req, res) => {
     user: req.user || null,
   });
 }); //Removing end point
-app.get('/explore', async (req, res) => {
-  res.redirect('/')
+app.get("/explore", async (req, res) => {
+  res.redirect("/");
 });
-
 
 app.get("/bots/new", checkAuth, async (req, res) => {
   res.render("botlist/add.ejs", {
@@ -302,7 +312,8 @@ app.post("/bots/new", checkAuth, async (req, res) => {
 
   if (bot.bot === false) {
     return res.status(400).json({
-      message: "You tried to add a user account to the site, you need to add a BOT ID.",
+      message:
+        "You tried to add a user account to the site, you need to add a BOT ID.",
     });
   }
 
@@ -495,8 +506,10 @@ app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
   }
   bot.apikey = genApiKey({ length: 20 });
   await bot.save();
-  return res.redirect(`https://universe-list.xyz/bots/${id}/edit?success=true&body=You have successfully generated a new token.`)
-})
+  return res.redirect(
+    `https://universe-list.xyz/bots/${id}/edit?success=true&body=You have successfully generated a new token.`
+  );
+});
 
 app.post("/bots/:id/vote", checkAuth, async (req, res) => {
   let bot = await global.botModel.findOne({ id: req.params.id });
@@ -509,11 +522,11 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
     bot: req.params.id,
   });
   if (x) {
-        const vote = canUserVote(x);
-        if (!vote.status)
-          return res.redirect(
-            `/bots/${req.params.id}/vote?error=true&body=Please wait ${vote.formatted} before you can vote again.`
-          );
+    const vote = canUserVote(x);
+    if (!vote.status)
+      return res.redirect(
+        `/bots/${req.params.id}/vote?error=true&body=Please wait ${vote.formatted} before you can vote again.`
+      );
     await x.remove().catch(() => null);
   }
 
@@ -527,13 +540,11 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
     { id: req.params.id },
     { $inc: { votes: 1 } }
   );
-  const BotRaw = await global.client.users
-    .fetch(bot.id)
-    .catch(() => ({
-      username: "Unknown Bot",
-      discriminator: "0000",
-      avatar: "",
-    }));
+  const BotRaw = await global.client.users.fetch(bot.id).catch(() => ({
+    username: "Unknown Bot",
+    discriminator: "0000",
+    avatar: "",
+  }));
   bot.name = BotRaw.username;
   bot.discriminator = BotRaw.discriminator;
   bot.avatar = BotRaw.avatar;
@@ -601,9 +612,8 @@ app.get("/bots/:id/review", checkAuth, async (req, res) => {
 
   if (bot.owner === req.user.id)
     return res.status(400).json({
-      message: "You cannot review your own bot."
-    })
-
+      message: "You cannot review your own bot.",
+    });
 
   const BotRaw = (await global.client.users.fetch(bot.id)) || null;
   bot.name = BotRaw.username;
@@ -615,7 +625,7 @@ app.get("/bots/:id/review", checkAuth, async (req, res) => {
     config: global.config,
     user: req.user || null,
   });
-})
+});
 
 app.post("/bots/:id/review", checkAuth, async (req, res) => {
   let id = req.params.id;
@@ -645,9 +655,10 @@ app.post("/bots/:id/review", checkAuth, async (req, res) => {
     date: new Date().toLocaleString(),
   });
 
-  return res.redirect(`https://universe-list.xyz/bots/${id}?success=true&body=Your review was successfully added.`)
-
-})
+  return res.redirect(
+    `https://universe-list.xyz/bots/${id}?success=true&body=Your review was successfully added.`
+  );
+});
 
 app.get("/bots/:id", async (req, res) => {
   let id = req.params.id;
@@ -661,7 +672,7 @@ app.get("/bots/:id", async (req, res) => {
   const marked = require("marked");
   const desc = marked.parse(bot.desc);
   const BotRaw = (await client.users.fetch(id)) || null;
-  const OwnerRaw = await client.users.fetch(bot.owner) || null;
+  const OwnerRaw = (await client.users.fetch(bot.owner)) || null;
   bot.name = BotRaw.username;
   bot.avatar = BotRaw.avatar;
   bot.discriminator = BotRaw.discriminator;
@@ -672,7 +683,7 @@ app.get("/bots/:id", async (req, res) => {
   bot.desc = desc;
   bot.flags = BotRaw.flags.bitfield;
 
-  const reviews = await reviewsModel.find({ botid: bot.id })
+  const reviews = await reviewsModel.find({ botid: bot.id });
 
   for (let i = 0; i < reviews.length; i++) {
     const ReviewerRaw = await client.users.fetch(reviews[i].reviewer);
@@ -710,9 +721,9 @@ app.get("/bots/:id/widget", async (req, res) => {
 
   res.render("botlist/widget.ejs", {
     bot: bot,
-    user: req.user || null
-  })
-})
+    user: req.user || null,
+  });
+});
 
 //-TAGS-//
 
@@ -785,52 +796,50 @@ app.get("/servers/tags/:tag", async (req, res) => {
 //-API-//
 
 app.get("/api/bots/:id", async (req, res) => {
-    const rs = await global.botModel.findOne({ id: req.params.id });
-    if (!rs)
-      return res
-        .status(404)
-        .json({ message: "This bot is not in our database." });
-    if (!rs.approved)
-      return res.status(404).json({ message: "This bot is not approved yet." });
-    const reviews = await global.reviewModel.find(
-      { botid: req.params.id },
-      "-_id -__v"
-    );
-    const BotRaw = await global.client.users.fetch(rs.id).catch(() => null);
-    const OwnerRaw = await global.client.users
-      .fetch(rs.owner)
-      .catch(() => null);
-    return res.json({
-      // This doesn't need to be in another object (i.e: 'final_data')
-      id: rs.id,
-      username: BotRaw.username,
-      discriminator: BotRaw.discriminator,
-      avatar: `https://cdn.discordapp.com/avatars/${rs.id}/${BotRaw.avatar}.png`,
-      prefix: rs.prefix,
-      owner: rs.owner,
-      ownerTag: OwnerRaw.tag,
-      tags: rs.tags,
-      reviewer: rs.reviewer,
-      submittedOn: rs.submittedOn,
-      approvedOn: rs.approvedOn,
-      shortDescription: rs.shortDesc,
-      description: rs.desc,
-      reviews,
+  const rs = await global.botModel.findOne({ id: req.params.id });
+  if (!rs)
+    return res
+      .status(404)
+      .json({ message: "This bot is not in our database." });
+  if (!rs.approved)
+    return res.status(404).json({ message: "This bot is not approved yet." });
+  const reviews = await global.reviewModel.find(
+    { botid: req.params.id },
+    "-_id -__v"
+  );
+  const BotRaw = await global.client.users.fetch(rs.id).catch(() => null);
+  const OwnerRaw = await global.client.users.fetch(rs.owner).catch(() => null);
+  return res.json({
+    // This doesn't need to be in another object (i.e: 'final_data')
+    id: rs.id,
+    username: BotRaw.username,
+    discriminator: BotRaw.discriminator,
+    avatar: `https://cdn.discordapp.com/avatars/${rs.id}/${BotRaw.avatar}.png`,
+    prefix: rs.prefix,
+    owner: rs.owner,
+    ownerTag: OwnerRaw.tag,
+    tags: rs.tags,
+    reviewer: rs.reviewer,
+    submittedOn: rs.submittedOn,
+    approvedOn: rs.approvedOn,
+    shortDescription: rs.shortDesc,
+    description: rs.desc,
+    reviews,
 
-      // Counts
-      shards: +rs.shards,
-      servers: +rs.servers,
-      votes: rs.votes,
-      views: rs.views,
+    // Counts
+    shards: +rs.shards,
+    servers: +rs.servers,
+    votes: rs.votes,
+    views: rs.views,
 
-      // Links
-      reviewer: rs.reviewer,
-      banner: rs.banner,
-      invite: rs.invite,
-      website: rs.website,
-      github: rs.github,
-      support: rs.support,
-    });
+    // Links
+    reviewer: rs.reviewer,
+    banner: rs.banner,
+    invite: rs.invite,
+    website: rs.website,
+    github: rs.github,
+    support: rs.support,
+  });
 });
 
 app.post("/api/bots/:id/", async (req, res) => {
@@ -838,12 +847,18 @@ app.post("/api/bots/:id/", async (req, res) => {
   if (!key) return res.status(401).json({ json: "Please provides a API Key." });
 
   let bot = await global.botModel.findOne({ apikey: key });
-  if (!bot) return res.status(404).json({ message: "This bot is not on our list, or you entered an invaild API Key." });
+  if (!bot)
+    return res.status(404).json({
+      message:
+        "This bot is not on our list, or you entered an invaild API Key.",
+    });
   const servers = req.body.server_count || req.header("server_count");
   const shards = req.body.shard_count || req.header("shard_count");
 
-  if (!servers) return res.status(400).json({ message: "Please provide a server count." });
-  if (!shards) return res.status(400).json({ message: "Please provide a shard count." });
+  if (!servers)
+    return res.status(400).json({ message: "Please provide a server count." });
+  if (!shards)
+    return res.status(400).json({ message: "Please provide a shard count." });
 
   bot.servers = servers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   bot.shards = shards.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -865,17 +880,13 @@ app.get("/api/bots/:id/voted", async (req, res) => {
       .json({ message: `You didn't provide 'user' in the query` });
   let user = await global.client.users.fetch(id).catch(() => null);
   if (!user)
-    return res
-      .status(400)
-      .json({
-        message: `The 'user' you provided couldn't be found on Discord.`,
-      });
+    return res.status(400).json({
+      message: `The 'user' you provided couldn't be found on Discord.`,
+    });
   if (user.bot)
-    return res
-      .status(400)
-      .json({
-        message: `The 'user' id you provided is a Discord bot, bots can't vote.`,
-      });
+    return res.status(400).json({
+      message: `The 'user' id you provided is a Discord bot, bots can't vote.`,
+    });
 
   let x = await global.voteModel.findOne({ bot: bot.id, user: user.id });
   if (!x) return res.json({ voted: false });
@@ -963,8 +974,7 @@ app.get("/servers/:id", async (req, res) => {
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
   (server.name = ServerRaw.name),
     (server.icon = ServerRaw.iconURL({ dynamic: true })),
-    (server.memberCount = ServerRaw.memberCount
-      .toLocaleString()),
+    (server.memberCount = ServerRaw.memberCount.toLocaleString()),
     (server.boosts = ServerRaw.premiumSubscriptionCount);
   server.tags = server.tags.join(", ");
   server.ownerTag = OwnerRaw.tag;
@@ -983,18 +993,14 @@ app.get("/api/servers/:id", async (req, res) => {
   if (!server)
     return res.status(404).json({ message: `That server is not in the list` });
   if (!server.published)
-    return res
-      .status(404)
-      .json({
-        message: `That server isn't published yet, so you're not able to GET data for it!`,
-      });
+    return res.status(404).json({
+      message: `That server isn't published yet, so you're not able to GET data for it!`,
+    });
   const guild = await global.sclient.guilds.fetch(server.id).catch(() => null);
   if (!guild?.available)
-    return res
-      .status(500)
-      .json({
-        message: `I was unable to fetch the information for the server, try again later.`,
-      });
+    return res.status(500).json({
+      message: `I was unable to fetch the information for the server, try again later.`,
+    });
   return res.json({
     name: guild.name,
     id: server.id,
@@ -1025,8 +1031,14 @@ app.get("/api/servers/:id", async (req, res) => {
 app.get("/servers/:id/join", async (req, res) => {
   const server = await global.serverModel.findOne({ id: req.params.id });
   if (!server) return res.status(404).redirect("/404");
-  if (!server.published) return res.send("This server hasn't been published yet, so you cannot join it!");
-  if (!server.invite) return res.send("This server does not have an invite set, please contact the owner or set one with the /invite command in this guild.");
+  if (!server.published)
+    return res.send(
+      "This server hasn't been published yet, so you cannot join it!"
+    );
+  if (!server.invite)
+    return res.send(
+      "This server does not have an invite set, please contact the owner or set one with the /invite command in this guild."
+    );
   return res.redirect(server.invite);
 });
 
@@ -1036,8 +1048,7 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const server = await global.serverModel.findOne({ id: id });
   if (!server) return res.redirect("/404");
 
-  if (req.user.id !== server.owner)
-    return res.redirect("/403");
+  if (req.user.id !== server.owner) return res.redirect("/403");
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
 
@@ -1059,10 +1070,7 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   const server = await global.serverModel.findOne({ id: id });
   if (!server) return res.redirect("/404");
 
-  if (
-    req.user.id !== server.owner
-  )
-    return res.redirect("/403");
+  if (req.user.id !== server.owner) return res.redirect("/403");
 
   server.shortDesc = data.short_description;
   server.desc = data.long_description;
@@ -1113,7 +1121,9 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
       `/servers/${req.params.id}?success=true&body=Your server was successfully published.`
     );
   } else {
-    const logs = global.sclient.channels.cache.get(global.config.channels.weblogs);
+    const logs = global.sclient.channels.cache.get(
+      global.config.channels.weblogs
+    );
     const date = new Date();
     const editEmbed = new EmbedBuilder()
       .setTitle("Server Edited")
@@ -1290,7 +1300,10 @@ app.get("/users/:id", async (req, res) => {
   let client = global.client;
   let user = (await client.users.fetch(req.params.id)) || null;
   if (user.bot) return res.redirect("/");
-  if (!user) return res.status(404).json({ message: "This user was not found on Discord." });
+  if (!user)
+    return res
+      .status(404)
+      .json({ message: "This user was not found on Discord." });
   let userm = await global.userModel.findOne({
     id: req.params.id,
   });
@@ -1364,10 +1377,7 @@ app.post("/users/:id/edit", checkAuth, async (req, res) => {
     return res.redirect("/");
   }
 
-  if (
-    req.user.id !== userm.id
-  )
-    return res.redirect("/403");
+  if (req.user.id !== userm.id) return res.redirect("/403");
 
   const user = await client.users.fetch(req.params.id).catch(() => null);
   if (!user) {
@@ -1483,7 +1493,7 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
       .json({ message: "This bot is already denied on Universe List." });
   }
 
-  const OwnerRaw = await global.client.users.fetch(bot.owner) || null;
+  const OwnerRaw = (await global.client.users.fetch(bot.owner)) || null;
 
   bot.tag = BotRaw.tag;
   bot.denied = true;
@@ -1623,6 +1633,10 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     await bot.save();
     const date = new Date();
 
+    japiRest.discord
+      .getApplication(bot.id)
+      .then((user) => console.log(user));
+    
     const approveEmbed = new EmbedBuilder()
       .setTitle("Bot Approved")
       .setDescription(
@@ -1690,7 +1704,7 @@ app.get("/team", async (req, res) => {
 
 app.get("/docs", async (req, res) => {
   res.render("apidocs.ejs", { user: req.user });
-})
+});
 
 app.get("/terms", async (req, res) => {
   res.render("legal/terms.ejs", { user: req.user });
@@ -1747,10 +1761,13 @@ function checkAuth(req, res, next) {
 function checkStaff(req, res, next) {
   const config = global.config;
   const guild = global.client.guilds.cache.get("941896554736934933");
-  const member = guild.members.cache.get(req.user.id)
+  const member = guild.members.cache.get(req.user.id);
 
-  if (member.roles.cache.some((role) => role.id === config.roles.mod) || member.roles.cache.some((role) => role.id === config.roles.admin)) {
-   return next();
+  if (
+    member.roles.cache.some((role) => role.id === config.roles.mod) ||
+    member.roles.cache.some((role) => role.id === config.roles.admin)
+  ) {
+    return next();
   } else {
     return res.render("errors/403.ejs", {
       user: req.user || null,
