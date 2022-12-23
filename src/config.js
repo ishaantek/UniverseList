@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 dotenv.config();
 
 module.exports = {
-  port: 44760,
+  port: 55113,
   staff: ["998763334264442912", "536538183555481601", "642085851429339157"],
   owners: ["998763334264442912"],
   developers: ["998763334264442912"],
