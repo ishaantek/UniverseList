@@ -24,15 +24,6 @@ module.exports = {
       }
     }, 300000);
 
-    await fetch("https://universe-list.xyz/api/bots/1000496153462329496", {
-      method: "POST",
-      headers: {
-        authorization: global.config.servers.apikey,
-        server_count: sclient.guilds.cache.size,
-        shard_count: "1",
-        "Content-Type": "application/json",
-      },
-    });
   },
 };
  
