@@ -1540,6 +1540,12 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
       iconURL: `${global.client.user.displayAvatarURL()}`,
     });
   logs.send({ content: `<@${bot.owner}>`, embeds: [denyEmbed] });
+  const owner = global.client.guilds.cache.get(global.config.guilds.main).members.cache.get(bot.owner)
+  try {
+  owner.send({ embeds: [denyEmbed] });
+  } catch(e) {
+  logs.send({ content: `error dming him` });
+  }
   const channelName = `${BotRaw.username}-${BotRaw.discriminator}`;
   let guild = global.client.guilds.cache.get(global.config.guilds.testing);
   const kickBot = guild.members.cache.get(bot.id);
