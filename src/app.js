@@ -1544,7 +1544,7 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
   try {
   owner.send({ embeds: [denyEmbed] });
   } catch(e) {
-  logs.send({ content: `error dming him` });
+  logs.send({ content: `Could not DM the user.` });
   }
   const channelName = `${BotRaw.username}-${BotRaw.discriminator}`;
   let guild = global.client.guilds.cache.get(global.config.guilds.testing);
