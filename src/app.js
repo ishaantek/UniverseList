@@ -1540,11 +1540,13 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
       iconURL: `${global.client.user.displayAvatarURL()}`,
     });
   logs.send({ content: `<@${bot.owner}>`, embeds: [denyEmbed] });
-  const owner = global.client.guilds.cache.get(global.config.guilds.main).members.cache.get(bot.owner)
+  const owner = global.client.guilds.cache
+    .get(global.config.guilds.main)
+    .members.cache.get(bot.owner);
   try {
-  owner.send({ embeds: [denyEmbed] });
-  } catch(e) {
-  logs.send({ content: `Could not DM the user.` });
+    owner.send({ embeds: [denyEmbed] });
+  } catch (e) {
+    logs.send({ content: `Could not DM the user.` });
   }
   const channelName = `${BotRaw.username}-${BotRaw.discriminator}`;
   let guild = global.client.guilds.cache.get(global.config.guilds.testing);
@@ -1639,10 +1641,8 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     await bot.save();
     const date = new Date();
 
-    japiRest.discord
-      .getApplication(bot.id)
-      .then((user) => console.log(user));
-    
+    japiRest.discord.getApplication(bot.id).then((user) => console.log(user));
+
     const approveEmbed = new EmbedBuilder()
       .setTitle("Bot Approved")
       .setDescription(
@@ -1677,6 +1677,14 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
       });
 
     logs.send({ content: `<@${bot.owner}>`, embeds: [approveEmbed] });
+    const owner = global.client.guilds.cache
+      .get(global.config.guilds.main)
+      .members.cache.get(bot.owner);
+    try {
+      owner.send({ embeds: [approveEmbed] });
+    } catch (e) {
+      logs.send({ content: `Could not DM the user.` });
+    }
     const mainGuild = client.guilds.cache.get(global.config.guilds.main);
     const ownerRaw = mainGuild.members.cache.get(bot.owner);
     ownerRaw.roles.add(global.config.roles.developer);
