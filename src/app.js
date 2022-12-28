@@ -255,8 +255,8 @@ app.get("/bots", async (req, res) => {
   const client = global.client;
   let bots = await global.botModel.find({ approved: true });
 
-  console.log(bots);
-  const japiData = await japiRest.discord.getApplication("1018001748020961311");
+  // console.log(bots);
+  // const japiData = await japiRest.discord.getApplication("1018001748020961311");
 
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
@@ -545,7 +545,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
         .json({ message: "This is not a real application on Discord." });
     await botm.delete();
     res.redirect("/delete");
-    
+
     const date = new Date();
     const editEmbed = new EmbedBuilder()
       .setTitle("Bot Deleted")
