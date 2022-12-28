@@ -53,7 +53,7 @@
         <% if (voted[i].id === "1018001748020961311") { %>
           <span title="Official Bot"><i class="fa fa-circle-check"></i></span>
           <%  } %> <br>
-        <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= voted[i].servers %> • <i class="fa-solid fa-check-to-slot"></i> <%= voted[i].votes %></span>
+        <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= appInfo.data.bot.approximate_guild_count %> • <i class="fa-solid fa-check-to-slot"></i> <%= voted[i].votes %></span>
       </p>
       <div class="botdesc_main" style="height:75px;width:100%;flex:auto;padding:10px;">
         <i class="fa-solid fa-file-lines"></i> <%= voted[i].shortDesc %>

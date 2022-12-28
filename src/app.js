@@ -255,6 +255,9 @@ app.get("/bots", async (req, res) => {
   const client = global.client;
   let bots = await global.botModel.find({ approved: true });
 
+  console.log(bots);
+  const japiData = await japiRest.discord.getApplication("1018001748020961311");
+
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
     bots[i].name = BotRaw.username;
@@ -270,6 +273,7 @@ app.get("/bots", async (req, res) => {
     bot: req.bot,
     bots: bots.shuffle(),
     user: req.user || null,
+    appInfo: japiData,
   });
 }); //Removing end point
 app.get("/explore", async (req, res) => {
@@ -486,7 +490,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
   }
 });
 
-app.get("/bots/:id/edit", checkAuth, async (req, res) => {
+app.get("/bots/:id/delete", checkAuth, async (req, res) => {
   const client = global.client;
   const config = global.config;
   const id = req.params.id;
@@ -508,7 +512,7 @@ app.get("/bots/:id/edit", checkAuth, async (req, res) => {
     const guild = global.client.guilds.cache.get(global.config.guilds.main);
     const member = guild.members.cache.get(req.user.id);
 
-    res.render("botlist/edit.ejs", {
+    res.render("botlist/delete.ejs", {
       bot: bot,
       tags: global.config.tags,
       user: req.user || null,
@@ -519,7 +523,7 @@ app.get("/bots/:id/edit", checkAuth, async (req, res) => {
   }
 });
 
-app.post("/bots/:id/edit", checkAuth, async (req, res) => {
+app.post("/bots/:id/delete", checkAuth, async (req, res) => {
   const client = global.client;
   const config = global.config;
   const logs = client.channels.cache.get(config.channels.weblogs);
@@ -539,26 +543,17 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
       return res
         .status(400)
         .json({ message: "This is not a real application on Discord." });
-    botm.id = req.params.id;
-    botm.prefix = data.prefix;
-    botm.desc = data.desc;
-    botm.shortDesc = data.shortDesc;
-    botm.tags = data.tags;
-    botm.invite = data.invite;
-    botm.support = data.support || null;
-    botm.github = data.github || null;
-    botm.website = data.website || null;
-    botm.donate = data.donate || null;
-    botm.webhook = data.webhook || null;
-    await botm.save();
+    await botm.delete();
 
     const date = new Date();
     const editEmbed = new EmbedBuilder()
-      .setTitle("Bot Edited")
+      .setTitle("Bot Deleted")
       .setDescription(
-        ":pencil: " + bot.tag + " has been edited on Universe List."
+        "<:ul_no:946581450600370298> " +
+          bot.tag +
+          " has been edited on Universe List."
       )
-      .setColor("Yellow")
+      .setColor("Red")
       .addFields({
         name: "Bot",
         value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
@@ -575,13 +570,13 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
         inline: true,
       })
       .setFooter({
-        text: "Edit Logs - Universe List",
+        text: "Delete Logs - Universe List",
         iconURL: `${global.client.user.displayAvatarURL()}`,
       });
     logs.send({ content: `<@${req.user.id}>`, embeds: [editEmbed] });
 
     return res.redirect(
-      `/bots/${req.params.id}?success=true&body=You have successfully edited your bot.`
+      `/bots/${req.params.id}?success=true&body=You have successfully deleted your bot.`
     );
   } else {
     return res.redirect("/403");
