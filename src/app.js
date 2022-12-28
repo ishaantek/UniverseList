@@ -544,7 +544,8 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
         .status(400)
         .json({ message: "This is not a real application on Discord." });
     await botm.delete();
-
+    res.redirect("/delete");
+    
     const date = new Date();
     const editEmbed = new EmbedBuilder()
       .setTitle("Bot Deleted")
