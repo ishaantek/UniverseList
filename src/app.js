@@ -273,7 +273,7 @@ app.get("/bots", async (req, res) => {
     bot: req.bot,
     bots: bots.shuffle(),
     user: req.user || null,
-    appInfo: japiData,
+    // appInfo: japiData,
   });
 }); //Removing end point
 app.get("/explore", async (req, res) => {
