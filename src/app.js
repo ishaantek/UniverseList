@@ -235,6 +235,8 @@ app.get("/", async (req, res) => {
 
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
+    const japidata = await japiRest.discord.getApplication(bots[i].id);
+    bots[i].servers = japidata.data.bot.approximate_guild_count;
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].name = bots[i].name.replace(
@@ -255,11 +257,11 @@ app.get("/bots", async (req, res) => {
   const client = global.client;
   let bots = await global.botModel.find({ approved: true });
 
-  // console.log(bots);
-  // const japiData = await japiRest.discord.getApplication("1018001748020961311");
-
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
+    const japidata = await japiRest.discord.getApplication(bots[i].id);
+    bots[i].servers = japidata.data.bot.approximate_guild_count;
+
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].name = bots[i].name.replace(
@@ -1738,8 +1740,6 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     bot.tested = true;
     await bot.save();
     const date = new Date();
-
-    japiRest.discord.getApplication(bot.id).then((user) => console.log(user));
 
     const approveEmbed = new EmbedBuilder()
       .setTitle("Bot Approved")
