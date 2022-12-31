@@ -1,5 +1,9 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const model = require("../../src/models/bot.js");
+const japiRestPkg = require("japi.rest");
+const japiRest = new japiRestPkg(
+  "JAPI.ODc0NzEzMTM4OTkzODgzNDUw.BUb.K2ggLd3lH7D6ka9QsS0GO"
+);
 
 module.exports = {
   name: "botinfo",
@@ -12,6 +16,11 @@ module.exports = {
     if (!data) return message.reply("That's not a bot on Universe List.");
     const botOwner = await client.users.fetch(data.owner);
 
+
+    console.log(data.id);
+
+    const japidata = await japiRest.discord.getApplication(data.id);
+    
     let embed = new EmbedBuilder()
       .setAuthor({
         name: `${bot.tag}`,
@@ -33,7 +42,7 @@ module.exports = {
       })
       .addFields({
         name: "Servers:",
-        value: `${data.servers || "N/A"}`,
+        value: `${japidata.data.bot.approximate_guild_count || "N/A"}`,
         inline: true,
       })
       .addFields({
@@ -58,7 +67,7 @@ module.exports = {
         inline: true,
       })
       .setFooter({
-        text: "Universe List - BotInfo command",
+        text: "Universe List - Bot Info command",
         iconURL: global.client.user.displayAvatarURL(),
       });
     let row = new ActionRowBuilder();
