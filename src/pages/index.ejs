@@ -55,7 +55,7 @@
   <% let allbots = bots %>
   <% let servers = allbots.sort((a,b) => b.servers - a.servers) %>
   <% for(let i = 0; i < servers.length; i++){ %>
-  <%  if (i === 8) break; %>
+  <%  if (i === 9) break; %>
   <div class="card" style="border-radius:10px;">
     <img src="https://cdn.discordapp.com/avatars/<%= servers[i].id %>/<%= servers[i].avatar %>.png" alt="<%= servers[i].name %>'s Avatar" draggable="false" class="botimg_main">
     <p class="botname_main" style="height:65px;width:250px;padding:10px;"> 
@@ -83,7 +83,7 @@
         <p>These are the top voted bots for this month.</p>
         <% let voted = allbots.sort((a,b) => b.votes - a.votes) %>
         <% for(let i = 0; i < voted.length; i++){ %>
-        <%  if (i === 8) break; %>
+        <%  if (i === 9) break; %>
         <div class="card" style="border-radius:10px;">
           <img src="https://cdn.discordapp.com/avatars/<%= voted[i].id %>/<%= voted[i].avatar %>.png" alt="<%= voted[i].name %>'s Avatar" draggable="false" class="botimg_main">
           <p class="botname_main" style="height:65px;width:250px;padding:10px;"> 
@@ -112,7 +112,7 @@
         <% let addedbots = bots %>
         <% let added = addedbots.sort((a,b) => b.approvedOn - a.approvedOn) %>
         <% for(let i = 0; i < voted.length; i++){ %>
-        <%  if (i === 8) break; %>
+        <%  if (i === 9) break; %>
         <div class="card" style="border-radius:10px;">
           <a href="/bots/<%=added[i].id %>/">
 
@@ -151,7 +151,7 @@
     %>
     <% 
         for(let i = 0; i < randomBots.length; i++) {
-        if (i === 8) break;
+        if (i === 9) break;
         let labBots = randomBots[i];
       if(labBots) {
     %>
