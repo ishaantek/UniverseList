@@ -32,11 +32,11 @@ module.exports = {
         .setTitle(`Top 10 Leaderboard`)
         .setDescription(`${list}`)
         .setColor("#5565f3")
-        .setThumbnail("https://universe-list.xyz/img/christmas.png")
+        .setThumbnail("https://universe-list.xyz/img/icon.png")
         .setTimestamp()
         .setFooter({
           text: lb_message.guild.name + " - Live Leaderboard | Updated",
-          iconURL: "https://universe-list.xyz/img/christmas.png",
+          iconURL: "https://universe-list.xyz/img/icon.png",
         });
       await lb_message.edit({ embeds: [embed] });
     }, 300000);

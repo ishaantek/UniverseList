@@ -1,5 +1,5 @@
 <div align='center'>
-  <img src="https://universe-list.xyz/img/christmas.png" height='100px' width='100px' />
+  <img src="https://universe-list.xyz/img/icon.png" height='100px' width='100px' />
   <h1>Universe List</h1>
   <h3>The Ultimate Discord List for Bots and Servers!</h3>
 </div>
