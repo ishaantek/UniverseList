@@ -72,8 +72,8 @@
       <a href="/servers/<%= bumped[i].id %>/">
         <button class="viewbtn">View</button>
     </div></a>
-    <a href="/servers/<%= bumped[i].id %>/vote">
-      <button class="votebtn">Vote</button></a>
+    <a href="/servers/<%= bumped[i].id %>/join">
+      <button class="joinbtn">Join</button></a>
   </div></a>
   <% } %><br><br><br><br><br>
     <h3><b><i class="fa-solid fa-chart-line"></i> Top Servers</b></h3>
@@ -98,8 +98,8 @@
       <a href="/servers/<%= members[i].id %>/">
         <button class="viewbtn">View</button>
     </div></a>
-    <a href="/servers/<%= members[i].id %>/vote">
-      <button class="votebtn">Vote</button></a>
+    <a href="/servers/<%= members[i].id %>/join">
+      <button class="joinbtn">Join</button></a>
   </div></a>
   <% } %><br><br><br><br>
   <h3><i class="fa-solid fa-fire-flame-curved"></i> <b>Top Voted Servers</b></h3>
@@ -125,8 +125,8 @@
       <a href="/servers/<%= voted[i].id %>/">
         <button class="viewbtn">View</button>
     </div></a>
-    <a href="/servers/<%= voted[i].id %>/vote">
-      <button class="votebtn">Vote</button></a>
+    <a href="/servers/<%= voted[i].id %>/join">
+      <button class="joinbtn">Join</button></a>
   </div></a>
   <% } %>
 </div>
@@ -192,7 +192,7 @@
     margin-top: 65px;
   }
 
-  .votebtn {
+  .joinbtn {
     background-color: #480ddd;
     height: 40px;
     width: 150px;
