@@ -44,12 +44,12 @@ module.exports = {
       })
       .addFields({
         name: "Added on:",
-        value: `<t:${Math.floor(data.submittedOn / 1000)}:R>`,
+        value: `<t:${Math.floor(data.submittedOn / 1000)}:D>`,
         inline: true,
       })
       .addFields({
         name: "Approved on:",
-        value: `<t:${Math.floor(data.approvedOn / 1000)}:R>`,
+        value: `<t:${Math.floor(data.approvedOn / 1000)}:D>`,
         inline: true,
       })
       .addFields({
