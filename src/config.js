@@ -65,7 +65,6 @@ module.exports = {
     ],
     bots: [
       "Moderation",
-      "Auto-Moderation",
       "Fun",
       "Economy",
       "Leveling",
