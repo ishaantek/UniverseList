@@ -63,7 +63,7 @@ module.exports = {
       })
       .setThumbnail(member.user.displayAvatarURL({ dyncamic: true }))
       .setTitle("Bot Reviewer Hired")
-      .setDescription(`${member.user} has been hired in Universe List`)
+      .setDescription(`${member.user} has been hired in Universe List.`)
       .addFields({
         name: "Joined Discord",
         value: `<t:${Math.floor(member.user.createdTimestamp / 1000)}:R>`,
