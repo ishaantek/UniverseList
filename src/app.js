@@ -773,6 +773,8 @@ app.get("/bots/:id", async (req, res) => {
   const desc = marked.parse(bot.desc);
   const BotRaw = (await client.users.fetch(id)) || null;
   const OwnerRaw = (await client.users.fetch(bot.owner)) || null;
+  const japidata = await japiRest.discord.getApplication(bot.id);
+  bot.servers = japidata.data.bot.approximate_guild_count;
   bot.name = BotRaw.username;
   bot.avatar = BotRaw.avatar;
   bot.discriminator = BotRaw.discriminator;
@@ -1417,6 +1419,8 @@ app.get("/users/:id", async (req, res) => {
   });
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await global.client.users.fetch(bots[i].id);
+    const japidata = await japiRest.discord.getApplication(bots[i].id);
+    bots[i].servers = japidata.data.bot.approximate_guild_count;
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].tags = bots[i].tags.join(", ");
