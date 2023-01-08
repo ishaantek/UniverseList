@@ -96,7 +96,7 @@ module.exports = {
     if (data.github)
       row.addComponents(
         new ButtonBuilder()
-          .setURL(`https://github.com/${data.github}`)
+          .setURL(`${data.github}`)
           .setLabel("Github")
           .setStyle(ButtonStyle.Link)
       );
