@@ -48,6 +48,10 @@
           <% if (bot.website) { %>
           <a href="<%= bot.website %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
           <% } %>
+          <% if (bot.github) { %>
+            <a href="<%= bot.github %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i
+                class="fa-brands fa-github"></i> Github</a>
+            <% } %>
           <% if (bot.donate) { %>
             <a href="<%= bot.donate %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-circle-dollar-to-slot"></i> Donate</a>
             <% } %>
