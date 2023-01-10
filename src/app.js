@@ -336,6 +336,7 @@ app.post("/bots/new", checkAuth, async (req, res) => {
     support: data.support || null,
     github: data.github || null,
     website: data.website || null,
+    donate: data.donate || null,
   });
 
   const date = new Date();
