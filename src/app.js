@@ -1812,6 +1812,10 @@ app.get("/discord", (_req, res) =>
   res.redirect("https://discord.gg/PXdJjTF6yS")
 );
 
+app.get("/delete", async (req, res) => {
+  res.render("botlist/delete.ejs", { user: req.user || null });
+});
+
 app.get("/partners", async (req, res) => {
   res.render("partners.ejs", { user: req.user || null });
 });
