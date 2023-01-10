@@ -80,7 +80,7 @@ module.exports = {
       "Crypto",
       "Welcomer",
       "Reaction-Roles",
-      "24/7",
+      "24-7",
     ],
   },
 }; 
