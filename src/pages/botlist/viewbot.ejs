@@ -39,31 +39,31 @@
           <hr>
           </hr>
           <% if (bot.invite) { %>
-          <a href="/bots/<%= bot.id %>/invite" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-plus"></i> Invite</a>
+          <a target="blank" href="/bots/<%= bot.id %>/invite" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-plus"></i> Invite</a>
           <% } else { %>
-          <a href="https://discordapp.com/oauth2/authorize?client_id=<%= bot.id %>&scope=bot&permissions=0" type="button" style="border-radius: 5px;" class="btn btn-primary pr-3 pl-3 mr-1">i class="fa-solid fa-plus"></i> Invite</a>
+          <a target="blank" href="https://discordapp.com/oauth2/authorize?client_id=<%= bot.id %>&scope=bot&permissions=0" type="button" style="border-radius: 5px;" class="btn btn-primary pr-3 pl-3 mr-1">i class="fa-solid fa-plus"></i> Invite</a>
           <% } %>
           <form id="votebutton" method="post" action="/bots/<%= bot.id %>/vote" style="display: none;"></form>
           <a href="/bots/<%= bot.id %>/vote" onclick="document.getElementById('votebutton').submit();" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-check-to-slot"></i> Vote</a>
           <% if (bot.website) { %>
-          <a href="<%= bot.website %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
+          <a target="blank" href="<%= bot.website %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
           <% } %>
           <% if (bot.github) { %>
-            <a href="<%= bot.github %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i
+            <a target="blank" href="<%= bot.github %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i
                 class="fa-brands fa-github"></i> Github</a>
             <% } %>
           <% if (bot.donate) { %>
-            <a href="<%= bot.donate %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-circle-dollar-to-slot"></i> Donate</a>
+            <a target="blank" href="<%= bot.donate %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-circle-dollar-to-slot"></i> Donate</a>
             <% } %>
           <% if (bot.support) { %>
-          <a href="https://discord.gg/<%= bot.support %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Support</a>
+          <a target="blank" href="https://discord.gg/<%= bot.support %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Support</a>
           <% } %>
           <% if (user) { %>
             <% if (!bot.owner.includes(user.id)) { %>
-              <a href="/bots/<%= bot.id %>/review" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Review</a>
+              <a target="blank" href="/bots/<%= bot.id %>/review" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Review</a>
               <% } %>
           <% if (bot.owner.includes(user.id) || member.roles.cache.some((role) => role.id === config.roles.bottester)) { %>
-          <a href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+          <a target="blank" href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
           <% } %>
           <% } %>
         </div>

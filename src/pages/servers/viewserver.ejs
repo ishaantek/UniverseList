@@ -33,18 +33,18 @@
           <hr>
           </hr>
           <% if (server.invite) { %>
-          <a href="/servers/<%= server.id %>/join" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Join</a>
+          <a target="blank" href="/servers/<%= server.id %>/join" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Join</a>
           <% } %>
           <a href="/servers/<%= server.id %>/vote" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-check-to-slot"></i> Vote</a>
           <% if (server.website) { %>
-          <a href="<%= server.website %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
+          <a target="blank" href="<%= server.website %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
           <% } %>
           <% if (server.support) { %>
-          <a href="https://discord.gg/<%= bot.support %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Support</a>
+          <a target="blank" href="https://discord.gg/<%= bot.support %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Support</a>
           <% } %>
           <% if (user) { %>
           <% if (server.owner.includes(user.id)) { %>
-          <a href="/servers/<%= server.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+          <a target="blank" href="/servers/<%= server.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
           <% } %>
           <% } %>
         </div>
