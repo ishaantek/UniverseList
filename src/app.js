@@ -546,7 +546,6 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       return res
         .status(400)
         .json({ message: "This is not a real application on Discord." });
-    res.redirect('https://vercel.com');
     await botm.delete();
 
     const date = new Date();
