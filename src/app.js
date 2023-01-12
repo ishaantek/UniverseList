@@ -1811,6 +1811,12 @@ app.get("/discord", (_req, res) =>
   res.redirect("https://discord.gg/PXdJjTF6yS")
 );
 
+app.get("/analytics", (_req, res) =>
+  res.redirect(
+    "https://analytics.umami.is/share/GgNV4PtXH3fBmJB7/Universe%20List"
+  )
+);
+
 app.get("/delete", async (req, res) => {
   res.render("botlist/delete.ejs", { user: req.user || null });
 });
