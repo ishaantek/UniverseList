@@ -39,18 +39,18 @@
         </hr>
         <% if (user) { %>
         <% if (fetched_user.id === user.id) { %>
-        <a href="/users/<%= fetched_user.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
+        <a target="blank" href="/users/<%= fetched_user.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
         <% } %>
         <% } %>
-        <a href="https://discord.com/users/<%= fetched_user.id %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Discord</a>
+        <a target="blank" href="https://discord.com/users/<%= fetched_user.id %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Discord</a>
         <% if (fetched_user.website) { %>
-        <a href="<%= fetched_user.website %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
+        <a target="blank" href="<%= fetched_user.website %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
         <% } %>
         <% if (fetched_user.twitter) { %>
-        <a href="https://twitter.com/<%= fetched_user.twitter %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-twitter"></i> Twitter</a>
+        <a target="blank" href="https://twitter.com/<%= fetched_user.twitter %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-twitter"></i> Twitter</a>
         <% } %>
         <% if (fetched_user.github) { %>
-        <a href="https://github.com/<%= fetched_user.github %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-github"></i> Github</a>
+        <a target="blank" href="https://github.com/<%= fetched_user.github %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-github"></i> Github</a>
         <% } %>
 
       </div>
