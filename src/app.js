@@ -1692,7 +1692,7 @@ app.post("/bots/:id/testing", checkAuth, checkStaff, async (req, res) => {
   const embed = new EmbedBuilder()
     .setTitle("New Testing Session")
     .setDescription(
-      `Welcome to your new testing session for ${LogRaw}.\nYou may now begin testing this bot. Any questions? View the queue page or ask a admin.`
+      `Welcome to your new testing session for ${LogRaw}.\nYou may now begin testing this bot. Any questions? View the queue page or ask an admin.`
     )
     .addFields({ name: "Bot Prefix", value: `${bot.prefix}` })
     .setFooter({
