@@ -22,16 +22,16 @@
       <div class="col-sm">
         <h3><%= fetched_user.username %><small class="text-muted">#<%= fetched_user.discriminator %></small></h3>
         <% if (config.owners.includes(fetched_user.id)) { %>
-          <i class="fa fa-crown" style="bottom: -5px; font-size: 20px;" title="Universe List Owner"></i>
+          <i class="fa fa-crown" style="color:#FFDB51; bottom: -5px; font-size: 20px;" title="Universe List Owner"></i>
          <% } %>
         <% if (config.designers.includes(fetched_user.id)) { %>
-          <i class="fa fa-paint-brush" style="bottom: -5px; font-size: 20px;" title="Universe List Designer"></i>
+          <i class="fa fa-paint-brush" style="color:#FF6961; bottom: -5px; font-size: 20px;" title="Universe List Designer"></i>
           <% } %>
           <% if (config.staff.includes(fetched_user.id)) { %>
-           <i class="fa fa-screwdriver-wrench" style="bottom: -5px; font-size: 20px;" title="Universe List Staff"></i>
+           <i class="fa fa-screwdriver-wrench" style="color:#979797; bottom: -5px; font-size: 20px;" title="Universe List Staff"></i>
             <% } %>
             <% if (config.betatesters.includes(fetched_user.id)) { %>
-              <i class="fa fa-vial" style="bottom: -5px; font-size: 20px;" title="Universe List Beta Tester"></i>
+              <i class="fa fa-vial" style="color:#2ecc71; bottom: -5px; font-size: 20px;" title="Universe List Beta Tester"></i>
                <% } %>
             <br>
         <%- fetched_user.bio %>
