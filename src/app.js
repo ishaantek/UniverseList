@@ -1420,7 +1420,6 @@ app.get("/users/:id", async (req, res) => {
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await global.client.users.fetch(bots[i].id);
     const japidata = await japiRest.discord.getApplication(bots[i].id);
-    bots[i].servers = japidata.data.bot.approximate_guild_count;
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].tags = bots[i].tags.join(", ");
@@ -1815,6 +1814,10 @@ app.get("/analytics", (_req, res) =>
   res.redirect(
     "https://analytics.umami.is/share/GgNV4PtXH3fBmJB7/Universe%20List"
   )
+);
+
+app.get("/developer-app", (_req, res) =>
+  res.redirect("https://ishaantek.typeform.com/ul-dev")
 );
 
 app.get("/delete", async (req, res) => {
