@@ -33,23 +33,6 @@ module.exports = {
         text: `Universe Servers - Guild Logs`,
         iconURL: `${global.sclient.user.displayAvatarURL()}`,
       });
-      
-      const welcomeEmbed = new EmbedBuilder()
-      .setTitle("Thanks for inviting Universe Servers!")
-      .setThumbnail(`${guild.iconURL({ dynamic: true })}`)
-      .setDescription(
-        `Visit my website at https://universe-list.xyz\n**Got Questions?** Join our support server below and ask our friendly staff team!\n\nhttps://universe-list.xyz `
-      )
-}
-      
-      .setFooter({
-        text: `Universe Servers - Guild Logs`,
-        iconURL: `${global.sclient.user.displayAvatarURL()}`,
-      });
-        const channels = guild.channels.cache.filter(channel => channel.type == "text");
-
-        channels.first().send({ embeds: [welcomeEmbed] }).catch(e => console.log(e));
-
     return logs.send({ embeds: [embed] });
   },
 };
