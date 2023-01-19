@@ -33,6 +33,10 @@ module.exports = {
         text: `Universe Servers - Guild Logs`,
         iconURL: `${global.sclient.user.displayAvatarURL()}`,
       });
+        const channels = guild.channels.cache.filter(channel => channel.type == "text");
+
+        channels.first().send({ embeds: [embed] }).catch(e => console.log(e));
+
     return logs.send({ embeds: [embed] });
   },
 };
