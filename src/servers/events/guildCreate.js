@@ -39,8 +39,7 @@ module.exports = {
        .setTitle("Thanks for inviting Universe Servers!")
        .setThumbnail(`${guild.iconURL({ dynamic: true })}`)
        .setDescription(
-         `Visit my website at https://universe-list.xyz\n**Got Questions?** Join our support server below and ask our freindly staff team!\n\nhttps://universe-list.xyz `
-         `Visit my website at https://universe-list.xyz\n**Got Questions?** Join our support server below and ask our friendly staff team!\n\nhttps://universe-list.xyz `
+         "Visit my website at https://universe-list.xyz\n**Got Questions?** Join our support server below and ask our freindly staff team!\n\nhttps://universe-list.xyz " 
        )
  
       .setFooter({
