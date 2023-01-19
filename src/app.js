@@ -1820,6 +1820,10 @@ app.get("/developer-app", (_req, res) =>
   res.redirect("https://ishaantek.typeform.com/ul-dev")
 );
 
+app.get("/github", (_req, res) =>
+  res.redirect("https://github.com/ishaantek/UniverseList")
+);
+
 app.get("/delete", async (req, res) => {
   res.render("botlist/delete.ejs", { user: req.user || null });
 });
