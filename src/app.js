@@ -1126,7 +1126,7 @@ app.get("/api/servers/:id", async (req, res) => {
     views: server.views,
     votes: server.votes,
 
-    shortDesc: server.shortDesc,
+    shortDesc: server.shortDesc,`
     description: server.desc,
   });
 });
@@ -1153,7 +1153,7 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const server = await global.serverModel.findOne({ id: id });
   if (!server) return res.redirect("/404");
 
-  if (req.user.id !== server.owner ||    !member.roles.cache.some((role) => role.id === config.roles.mod) ) return res.redirect("/403")
+  if (req.user.id !== server.owner ||    !member.roles.cache.some((role) => role.id === config.roles.admin) ) return res.redirect("/403")
                                   
 
 
