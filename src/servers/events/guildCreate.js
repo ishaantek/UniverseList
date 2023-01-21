@@ -17,10 +17,9 @@ module.exports = {
     const logs = sclient.channels.cache.get(global.config.channels.modlogs);
     const embed = new EmbedBuilder()
       .setTitle("New Guild")
+      .setColor("Green")
       .setThumbnail(`${guild.iconURL({ dynamic: true })}`)
-      .setDescription(
-        `**${guild.name}** has invited Universe Servers.`
-      )
+      .setDescription(`**${guild.name}** has invited Universe Servers.`)
       .addFields(
         { name: "Guild Owner:", value: `${owner.user.tag} | \`${owner.id}\`` },
         { name: "Member Count:", value: `${guild.memberCount} members` },
@@ -33,6 +32,7 @@ module.exports = {
         text: `Universe Servers - Guild Logs`,
         iconURL: `${global.sclient.user.displayAvatarURL()}`,
       });
+      
     return logs.send({ embeds: [embed] });
   },
 };
