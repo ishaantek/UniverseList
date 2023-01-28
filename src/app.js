@@ -546,6 +546,10 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       return res
         .status(400)
         .json({ message: "This is not a real application on Discord." });
+
+      let guild = client.guilds.cache.get(global.config.guilds.main);
+      const kickBot = guild.members.cache.get(bot.id);
+      kickBot.kick("Deleted from Universe List.");
     await botm.delete();
 
     const date = new Date();
