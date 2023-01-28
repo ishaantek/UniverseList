@@ -554,7 +554,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       .setDescription(
         "<:ul_no:946581450600370298> " +
           bot.tag +
-          " has been edited on Universe List."
+          " has been deleted on Universe List."
       )
       .setColor("Red")
       .addFields({
