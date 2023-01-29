@@ -50,9 +50,7 @@ module.exports = {
             ? ""
             : InProgressBots.map(
                 (a) =>
-                  "<@" +
-                  a.id +
-                  "> `(" +
+                  "`(" +
                   a.id +
                   ")` Owner: <@" +
                   a.owner +
