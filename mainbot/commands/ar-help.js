@@ -1,11 +1,11 @@
 const { EmbedBuilder } = require("discord.js");
 module.exports = {
-  name: "auto-responders",
+  name: "auto-responses",
   aliases: ["ar"],
-  description: "Get a list of auto responders related to Universe List.",
+  description: "Get a list of auto responses related to Universe List.",
   async run(client, message, args) {
     const embed = new EmbedBuilder()
-      .setTitle("Universe List Guides")
+      .setTitle("Universe List Auto Responses")
       .setColor("7289da")
       .setDescription("**!apps** - Information on volunteer applications.\n**!declinedbot** - Information on declined bots.\n**!upto** - Information on the bot reviewment process.\n**!htmldesc** - Information on making your bot's page.\n**!wrongserver** - Information on how to find a bot's support server.")
       .setFooter({
