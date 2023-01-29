@@ -33,9 +33,7 @@ module.exports = {
             : awaitingApprovalBots
                 .map(
                   (a) =>
-                    "<@" +
-                    a.id +
-                    "> `(" +
+                    "`(" +
                     a.id +
                     ")` Owner: <@" +
                     a.owner +
