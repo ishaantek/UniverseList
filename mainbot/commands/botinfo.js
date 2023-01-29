@@ -23,7 +23,7 @@ module.exports = {
         name: `${bot.tag}`,
         iconURL: `${bot.displayAvatarURL()}`,
       })
-      .setColor("8694c3")
+      .setColor("7289da")
       .setThumbnail(bot.displayAvatarURL())
       .setDescription(
         "**[Vote for " +

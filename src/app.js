@@ -660,7 +660,7 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
     .setDescription(
       `<:vote:1043639183991898203> ${bot.name}#${bot.discriminator} has been voted on Universe List.`
     )
-    .setColor("#8694c3")
+    .setColor("#7289da")
     .addFields(
       {
         name: "Bot",
@@ -1306,7 +1306,7 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
     .setDescription(
       `<:vote:1043639183991898203> ${server.name} has been voted on Universe Servers.`
     )
-    .setColor("#8694c3")
+    .setColor("#7289da")
     .addFields(
       {
         name: "Server",
@@ -1826,6 +1826,10 @@ app.get("/developer-app", (_req, res) =>
 
 app.get("/github", (_req, res) =>
   res.redirect("https://github.com/ishaantek/UniverseList")
+);
+
+app.get("/newbot", (_req, res) =>
+  res.redirect("https://universe-list.xyz/bots/new")
 );
 
 app.get("/delete", async (req, res) => {

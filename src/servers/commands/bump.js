@@ -46,7 +46,7 @@ module.exports = {
         .setDescription(
           `:small_red_triangle: ${interaction.guild.name} has been bumped on Universe Servers.`
         )
-        .setColor("#8694c3")
+        .setColor("#7289da")
         .addFields(
           {
             name: "Server",

@@ -55,7 +55,7 @@ module.exports = {
       .setDescription(
         `<:vote:1043639183991898203> ${interaction.guild.name} has been voted on Universe Servers.`
       )
-      .setColor("#8694c3")
+      .setColor("#7289da")
       .addFields({
         name: "Server",
         value: `[${interaction.guild.name}](https://universe-list.xyz/servers/${interaction.guild.id})`,

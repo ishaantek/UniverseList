@@ -4,10 +4,10 @@ module.exports = {
   async run(client, message, args) {
     const commands = client.commands
       .filter((c) => c.name !== "help")
-      .map((c) => `**${c.name}** - ${c.description}`);
+      .map((c) => `**!${c.name}** - ${c.description}`);
     const embed = new EmbedBuilder()
       .setTitle("Universe List Help")
-      .setColor("8694c3")
+      .setColor("7289da")
       .setDescription(commands.join("\n"))
       .setFooter({
         text: `${message.guild.name} - Help Command`,
