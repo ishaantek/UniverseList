@@ -50,11 +50,12 @@ module.exports = {
       try {
         const embed = new EmbedBuilder()
           .setTitle("Welcome to Universe List!")
+          .setColor("7289da")
           .setDescription(
-            "Welcome to Universe List, one of the most powerful bot and server listing site!\nIf you have any questions or concerns, please contact an admin.\nHave a wonderful day!"
+            "Welcome to Universe List, one of the most powerful bot and server listing site!\n\nIf you have any questions or concerns, please contact an admin.\nHave a wonderful day!"
           )
           .setFooter({
-            text: `Please contact support to stop these messages. - Universe List`,
+            text: `© Universe List 2023, All Rights Reserved.`,
             iconURL: `https://universe-list.xyz/img/icon.png`,
           });
 
