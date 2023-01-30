@@ -1624,7 +1624,7 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
     .setColor("Red")
     .addFields({
       name: "Bot",
-      value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+      value: `[${bot.tag}](https://universe-list.xyz/)`,
       inline: true,
     })
     .addFields({
