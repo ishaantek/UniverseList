@@ -67,9 +67,10 @@
         <label for="botSupport">Support Server</label>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span style="border-radius: 4px;" name="support" class="input-group-text">https://discord.gg/</span>
+            <span style="border-radius: 4px;" class="input-group-text">https://discord.gg/</span>
           </div>
-          <input type="text" class="form-control" id="botSupport" placeholder="PXdJjTF6yS" autocomplete="off">
+          <input type="text" value="<%= bot.support %>" name="support" class="form-control" id="botSupport"
+            placeholder="PXdJjTF6yS" autocomplete="off">
         </div>
       </div>
       <div class="form-group" id="tags-box">
