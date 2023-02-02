@@ -44,6 +44,7 @@ module.exports = {
         const welcomeEmbed = new EmbedBuilder()
           .setTitle("Thanks for inviting Universe Servers!")
           .setThumbnail("https://universe-list.xyz/img/icon.png")
+          .setColor("7289da")
           .setDescription(
             "Use the command </invite:1044035064691970060> to setup your server.\n\n**Got Any Questions?**\n Join our Discord server below and ask our community!\nhttps://discord.gg/PXdJjTF6yS "
           )
