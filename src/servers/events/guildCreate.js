@@ -32,7 +32,29 @@ module.exports = {
         text: `Universe Servers - Guild Logs`,
         iconURL: `${global.sclient.user.displayAvatarURL()}`,
       });
-      
+
+    let getOwners = async () => {
+      let owner = await guild.fetchOwner().catch((err) => err);
+      return owner;
+    };
+    getOwners().then((owner) => {
+      if (owner !== undefined) {
+        var serverIcon = guild.iconURL();
+
+        const welcomeEmbed = new EmbedBuilder()
+          .setTitle("Thanks for inviting Universe Servers!")
+          .setThumbnail("https://universe-list.xyz/img/icon.png")
+          .setDescription(
+            "Use the command </invite:1044035064691970060> to setup your server.\n\n**Got Any Questions?**\n Join our Discord server below and ask our community!\n\nhttps://discord.gg/PXdJjTF6yS "
+          )
+
+          .setFooter({
+            text: `Universe Servers - Guild Logs`,
+          });
+        owner.send({ embeds: [welcomeEmbed] });
+      }
+    });
+
     return logs.send({ embeds: [embed] });
   },
 };
