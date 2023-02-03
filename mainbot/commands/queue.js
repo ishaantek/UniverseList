@@ -25,7 +25,6 @@ module.exports = {
         iconURL: message.author.displayAvatarURL(),
       })
       .setDescription(`**There are ${bots.length || "0"} bot(s) in queue.**`)
-      .setColor("7289da")
       .addFields({
         name: "Awaiting Approval",
         value: `${
