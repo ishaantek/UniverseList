@@ -50,7 +50,7 @@ module.exports = {
           )
 
           .setFooter({
-            text: `Universe Servers - Guild Logs`,
+            text: `©️ Universe List 2023, All Rights Reserved.`,
           });
         owner.send({ embeds: [welcomeEmbed] });
       }
