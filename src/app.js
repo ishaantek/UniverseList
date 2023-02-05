@@ -1860,6 +1860,10 @@ app.get("/bot-requirements", async (req, res) => {
   res.render("legal/bot-requirements.ejs", { user: req.user });
 });
 
+app.get("/invite", async (req, res) => {
+  res.render("invite.ejs", { user: req.user });
+});
+
 app.get("/403", async (req, res) => {
   res.render("errors/403.ejs", { user: req.user });
 });
