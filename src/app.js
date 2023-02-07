@@ -1820,8 +1820,8 @@ app.get("/analytics", (_req, res) =>
   )
 );
 
-app.get("/developer-app", (_req, res) =>
-  res.redirect("https://ishaantek.typeform.com/ul-dev")
+app.get("/bot-reviewer", (_req, res) =>
+  res.redirect("https://ishaantek.typeform.com/bot-reviewer")
 );
 
 app.get("/github", (_req, res) =>
