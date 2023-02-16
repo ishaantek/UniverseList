@@ -48,7 +48,7 @@ module.exports = {
       .create(channel.id, { maxAge: 0 })
       .catch((e) => e);
     if (invitecode instanceof Error)
-      return interaction.reply(
+      return interaction.editReply(
         `There was an error while trying to make that invite.\n\`\`\`js\n${invitecode}\`\`\``
       );
     server.invite = invitecode.url;
