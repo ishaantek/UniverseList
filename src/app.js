@@ -1066,8 +1066,15 @@ app.get("/servers/:id", async (req, res) => {
 
   if (server.published === false) {
     if (!req.user) return res.redirect("/404?error=503");
-    if (!server.owner.includes(req.user.id))
-      return res.redirect("/404?error=503");
+    const guild = await global.sclient.guilds.fetch(id);
+    if (!guild) return res.redirect("/404");
+    const member = await guild.members.fetch(req.user.id);
+    if (
+      !member.permissions.has("ADMINISTRATOR") &&
+      !server.owner.includes(req.user.id)
+    ) {
+      return res.redirect("/403");
+    }
   }
 
   server.views = parseInt(server.views) + 1;
