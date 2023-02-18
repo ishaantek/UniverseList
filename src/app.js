@@ -1155,13 +1155,15 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const server = await global.serverModel.findOne({ id: id });
   if (!server) return res.redirect("/404");
 
-  if (req.user.id !== server.owner) return res.redirect("/403");
+  const guild = await global.sclient.guilds.fetch(id);
+  if (!guild) return res.redirect("/404");
 
-  const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
+  const member = await guild.members.fetch(req.user.id);
+  if (!member.permissions.has("ADMINISTRATOR")) return res.redirect("/403");
 
-  (server.name = ServerRaw.name),
-    (server.icon = ServerRaw.iconURL()),
-    (server.memberCount = ServerRaw.memberCount);
+  server.name = guild.name;
+  server.icon = guild.iconURL();
+  server.memberCount = guild.memberCount;
 
   res.render("servers/editserver.ejs", {
     bot: req.bot,
