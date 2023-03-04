@@ -3,7 +3,16 @@ module.exports = {
   name: "help",
   async run(client, message, args) {
     const commands = client.commands
-      .filter((c) => c.name !== "help" && c.name !== "htmldesc" && c.name !== "wrongserver" && c.name !== "upto" && c.name !== "declinedbot" && c.name !== "apps")
+      .filter(
+        (c) =>
+          c.name !== "help" &&
+          c.name !== "htmldesc" &&
+          c.name !== "wrongserver" &&
+          c.name !== "upto" &&
+          c.name !== "declinedbot" &&
+          c.name !== "apps" &&
+          c.name !== "notified"
+      )
       .map((c) => `**!${c.name}** - ${c.description}`);
     const embed = new EmbedBuilder()
       .setTitle("Universe List Help")

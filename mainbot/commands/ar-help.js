@@ -7,7 +7,9 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle("Universe List Auto Responses")
       .setColor("7289da")
-      .setDescription("**!apps** - Information on volunteer applications.\n**!declinedbot** - Information on declined bots.\n**!upto** - Information on the bot reviewment process.\n**!htmldesc** - Information on making your bot's page.\n**!wrongserver** - Information on how to find a bot's support server.")
+      .setDescription(
+        "**!apps** - Information on volunteer applications.\n**!declinedbot** - Information on declined bots.\n**!upto** - Information on the bot reviewment process.\n**!htmldesc** - Information on making your bot's page.\n**!wrongserver** - Information on how to find a bot's support server.\n**!notified** - Information on how to check if your bot was reviewed.\n**!wrongserver** - Information on how to find a bot's support server."
+      )
       .setFooter({
         text: `${message.guild.name} - Guides Command`,
         iconURL: message.guild.iconURL(),
