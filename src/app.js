@@ -59,7 +59,11 @@ const app = express();
 // Apply the rate limiting middleware to all requests
 //app.use(limiter)
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(
+  express.urlencoded({
+    extended: false,
+  })
+);
 app.use(
   helmet({
     contentSecurityPolicy: false,
@@ -255,7 +259,9 @@ app.get("/", async (req, res) => {
 
 app.get("/bots", async (req, res) => {
   const client = global.client;
-  let bots = await global.botModel.find({ approved: true });
+  let bots = await global.botModel.find({
+    approved: true,
+  });
 
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
@@ -379,7 +385,9 @@ app.post("/bots/new", checkAuth, async (req, res) => {
 
 app.get("/bots/:id/invite", async (req, res) => {
   const id = req.params.id;
-  const bot = await global.botModel.findOne({ id: id });
+  const bot = await global.botModel.findOne({
+    id: id,
+  });
   if (!bot) return res.status(404).redirect("/404");
 
   if (!bot.invite) {
@@ -396,7 +404,9 @@ app.get("/bots/:id/edit", checkAuth, async (req, res) => {
   const config = global.config;
   const id = req.params.id;
 
-  const bot = await global.botModel.findOne({ id: id });
+  const bot = await global.botModel.findOne({
+    id: id,
+  });
   if (!bot) return res.redirect("/404");
 
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
@@ -428,7 +438,9 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
   const client = global.client;
   const config = global.config;
   const logs = client.channels.cache.get(config.channels.weblogs);
-  const botm = await global.botModel.findOne({ id: req.params.id });
+  const botm = await global.botModel.findOne({
+    id: req.params.id,
+  });
   let data = req.body;
   if (!data) return res.redirect("/");
 
@@ -441,9 +453,9 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
   ) {
     const bot = await client.users.fetch(req.params.id).catch(() => null);
     if (!bot)
-      return res
-        .status(400)
-        .json({ message: "This is not a real application on Discord." });
+      return res.status(400).json({
+        message: "This is not a real application on Discord.",
+      });
     botm.id = req.params.id;
     botm.prefix = data.prefix;
     botm.desc = data.desc;
@@ -483,7 +495,10 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
         text: "Edit Logs - Universe List",
         iconURL: `${global.client.user.displayAvatarURL()}`,
       });
-    logs.send({ content: `<@${req.user.id}>`, embeds: [editEmbed] });
+    logs.send({
+      content: `<@${req.user.id}>`,
+      embeds: [editEmbed],
+    });
 
     return res.redirect(
       `/bots/${req.params.id}?success=true&body=You have successfully edited your bot.`
@@ -498,7 +513,9 @@ app.get("/bots/:id/delete", checkAuth, async (req, res) => {
   const config = global.config;
   const id = req.params.id;
 
-  const bot = await global.botModel.findOne({ id: id });
+  const bot = await global.botModel.findOne({
+    id: id,
+  });
   if (!bot) return res.redirect("/404");
 
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
@@ -530,7 +547,9 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
   const client = global.client;
   const config = global.config;
   const logs = client.channels.cache.get(config.channels.weblogs);
-  const botm = await global.botModel.findOne({ id: req.params.id });
+  const botm = await global.botModel.findOne({
+    id: req.params.id,
+  });
   let data = req.body;
   if (!data) return res.redirect("/");
 
@@ -543,13 +562,13 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
   ) {
     const bot = await client.users.fetch(req.params.id).catch(() => null);
     if (!bot)
-      return res
-        .status(400)
-        .json({ message: "This is not a real application on Discord." });
+      return res.status(400).json({
+        message: "This is not a real application on Discord.",
+      });
 
-      let guild = client.guilds.cache.get(global.config.guilds.main);
-      const kickBot = guild.members.cache.get(bot.id);
-      kickBot.kick("Deleted from Universe List.");
+    let guild = client.guilds.cache.get(global.config.guilds.main);
+    const kickBot = guild.members.cache.get(bot.id);
+    kickBot.kick("Deleted from Universe List.");
     await botm.delete();
 
     const date = new Date();
@@ -580,7 +599,10 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
         text: "Delete Logs - Universe List",
         iconURL: `${global.client.user.displayAvatarURL()}`,
       });
-    logs.send({ content: `<@${req.user.id}>`, embeds: [editEmbed] });
+    logs.send({
+      content: `<@${req.user.id}>`,
+      embeds: [editEmbed],
+    });
 
     return res.redirect(
       `/bots/${req.params.id}?success=true&body=You have successfully deleted your bot.`
@@ -592,11 +614,14 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
 
 app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
   let id = req.params.id;
-  let bot = await global.botModel.findOne({ id: id });
+  let bot = await global.botModel.findOne({
+    id: id,
+  });
   if (!bot) return res.redirect("/");
   if (req.user.id !== bot.owner) return res.redirect("/");
 
   let data = req.body;
+
   function genApiKey(options = {}) {
     let length = options.length || 5;
     let string =
@@ -608,7 +633,9 @@ app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
     }
     return code;
   }
-  bot.apikey = genApiKey({ length: 20 });
+  bot.apikey = genApiKey({
+    length: 20,
+  });
   await bot.save();
   return res.redirect(
     `https://universe-list.xyz/bots/${id}/edit?success=true&body=You have successfully generated a new token.`
@@ -616,11 +643,13 @@ app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
 });
 
 app.post("/bots/:id/vote", checkAuth, async (req, res) => {
-  let bot = await global.botModel.findOne({ id: req.params.id });
+  let bot = await global.botModel.findOne({
+    id: req.params.id,
+  });
   if (!bot)
-    return res
-      .status(404)
-      .json({ message: "This bot was not found on our site." });
+    return res.status(404).json({
+      message: "This bot was not found on our site.",
+    });
   let x = await global.voteModel.findOne({
     user: req.user.id,
     bot: req.params.id,
@@ -641,8 +670,14 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
     time: 43200000,
   });
   await global.botModel.findOneAndUpdate(
-    { id: req.params.id },
-    { $inc: { votes: 1 } }
+    {
+      id: req.params.id,
+    },
+    {
+      $inc: {
+        votes: 1,
+      },
+    }
   );
   const BotRaw = await global.client.users.fetch(bot.id).catch(() => ({
     username: "Unknown Bot",
@@ -672,13 +707,22 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
         value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       },
-      { name: "Date", value: `${date.toLocaleString()}`, inline: true }
+      {
+        name: "Date",
+        value: `${date.toLocaleString()}`,
+        inline: true,
+      }
     )
     .setFooter({
       text: "Vote Logs - Universe List",
       iconURL: global.client.user.displayAvatarURL(),
     });
-  if (logs) logs.send({ embeds: [votedEmbed] }).catch(() => null);
+  if (logs)
+    logs
+      .send({
+        embeds: [votedEmbed],
+      })
+      .catch(() => null);
 
   return res.redirect(
     `/bots/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
@@ -686,13 +730,20 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
 });
 
 app.get("/bots/:id/vote", checkAuth, async (req, res) => {
-  let bot = await global.botModel.findOne({ id: req.params.id });
+  let bot = await global.botModel.findOne({
+    id: req.params.id,
+  });
   if (!bot)
-    return res
-      .status(404)
-      .json({ message: "This bot was not found on our site." });
-  let user = await global.userModel.findOne({ id: req.user.id });
-  if (!user) await global.userModel.create({ id: req.user.id });
+    return res.status(404).json({
+      message: "This bot was not found on our site.",
+    });
+  let user = await global.userModel.findOne({
+    id: req.user.id,
+  });
+  if (!user)
+    await global.userModel.create({
+      id: req.user.id,
+    });
 
   const BotRaw = (await global.client.users.fetch(bot.id)) || null;
   bot.name = BotRaw.username;
@@ -707,7 +758,9 @@ app.get("/bots/:id/vote", checkAuth, async (req, res) => {
 
 app.get("/bots/:id/review", checkAuth, async (req, res) => {
   let id = req.params.id;
-  const bot = await global.botModel.findOne({ id: id });
+  const bot = await global.botModel.findOne({
+    id: id,
+  });
 
   if (!bot)
     return res.status(404).json({
@@ -733,13 +786,17 @@ app.get("/bots/:id/review", checkAuth, async (req, res) => {
 
 app.post("/bots/:id/review", checkAuth, async (req, res) => {
   let id = req.params.id;
-  const bot = await global.botModel.findOne({ id });
+  const bot = await global.botModel.findOne({
+    id,
+  });
   if (!bot)
-    return res
-      .status(404)
-      .json({ message: "This bot could not be found in our site." });
+    return res.status(404).json({
+      message: "This bot could not be found in our site.",
+    });
   if (bot.owner === req.user.id)
-    return res.status(400).json({ message: "You cannot review your own bot." });
+    return res.status(400).json({
+      message: "You cannot review your own bot.",
+    });
   const data = req.body;
 
   if (
@@ -748,9 +805,9 @@ app.post("/bots/:id/review", checkAuth, async (req, res) => {
       botid: req.params.id,
     })
   )
-    return res
-      .status(400)
-      .json({ message: "You already have a review for this bot." });
+    return res.status(400).json({
+      message: "You already have a review for this bot.",
+    });
   await global.reviewModel.create({
     reviewer: req.user.id,
     botid: req.params.id,
@@ -768,11 +825,13 @@ app.get("/bots/:id", async (req, res) => {
   let id = req.params.id;
   const client = global.client;
   const reviewsModel = global.reviewModel;
-  const bot = await global.botModel.findOne({ id });
+  const bot = await global.botModel.findOne({
+    id,
+  });
   if (!bot)
-    return res
-      .status(404)
-      .json({ message: "This bot was not found on our list." });
+    return res.status(404).json({
+      message: "This bot was not found on our list.",
+    });
   const marked = require("marked");
   const desc = marked.parse(bot.desc);
   const BotRaw = (await client.users.fetch(id)) || null;
@@ -789,7 +848,9 @@ app.get("/bots/:id", async (req, res) => {
   bot.desc = desc;
   bot.flags = BotRaw.flags.bitfield;
 
-  const reviews = await reviewsModel.find({ botid: bot.id });
+  const reviews = await reviewsModel.find({
+    botid: bot.id,
+  });
 
   for (let i = 0; i < reviews.length; i++) {
     const ReviewerRaw = await client.users.fetch(reviews[i].reviewer);
@@ -817,7 +878,9 @@ app.get("/bots/:id", async (req, res) => {
 app.get("/bots/:id/widget", async (req, res) => {
   let id = req.params.id;
   const client = global.client;
-  const bot = await global.botModel.findOne({ id: id });
+  const bot = await global.botModel.findOne({
+    id: id,
+  });
 
   const BotRaw = (await client.users.fetch(id)) || null;
   bot.name = BotRaw.username;
@@ -844,9 +907,9 @@ app.get("/tags", async (req, res) => {
 app.get("/bots/tags/:tag", async (req, res) => {
   const tag = req.params.tag;
   if (!global.config.tags.bots.includes(tag))
-    return res
-      .status(404)
-      .json({ message: "This tag was not found in our database." });
+    return res.status(404).json({
+      message: "This tag was not found in our database.",
+    });
   let data = await global.botModel.find();
   let bots = data.filter((a) => a.approved === true && a.tags.includes(tag));
   if (bots.length <= 0) return res.redirect("/");
@@ -872,9 +935,9 @@ app.get("/bots/tags/:tag", async (req, res) => {
 app.get("/servers/tags/:tag", async (req, res) => {
   const tag = req.params.tag;
   if (!global.config.tags.bots.includes(tag))
-    return res
-      .status(404)
-      .json({ message: "This tag was not found in our database." });
+    return res.status(404).json({
+      message: "This tag was not found in our database.",
+    });
 
   let data = await global.serverModel.find();
   let servers = data.filter(
@@ -884,7 +947,9 @@ app.get("/servers/tags/:tag", async (req, res) => {
   for (let i = 0; i < servers.length; i++) {
     const ServerRaw = await global.sclient.guilds.fetch(servers[i].id);
     servers[i].name = ServerRaw.name;
-    servers[i].icon = ServerRaw.iconURL({ dynamic: true });
+    servers[i].icon = ServerRaw.iconURL({
+      dynamic: true,
+    });
     servers[i].memberCount = ServerRaw.memberCount
       .toLocaleString()
       .replace(",", ",");
@@ -902,15 +967,21 @@ app.get("/servers/tags/:tag", async (req, res) => {
 //-API-//
 
 app.get("/api/bots/:id", async (req, res) => {
-  const rs = await global.botModel.findOne({ id: req.params.id });
+  const rs = await global.botModel.findOne({
+    id: req.params.id,
+  });
   if (!rs)
-    return res
-      .status(404)
-      .json({ message: "This bot is not in our database." });
+    return res.status(404).json({
+      message: "This bot is not in our database.",
+    });
   if (!rs.approved)
-    return res.status(404).json({ message: "This bot is not approved yet." });
+    return res.status(404).json({
+      message: "This bot is not approved yet.",
+    });
   const reviews = await global.reviewModel.find(
-    { botid: req.params.id },
+    {
+      botid: req.params.id,
+    },
     "-_id -__v"
   );
   const BotRaw = await global.client.users.fetch(rs.id).catch(() => null);
@@ -951,9 +1022,14 @@ app.get("/api/bots/:id", async (req, res) => {
 
 app.post("/api/bots/:id/", async (req, res) => {
   const key = req.headers.authorization;
-  if (!key) return res.status(401).json({ json: "Please provides a API Key." });
+  if (!key)
+    return res.status(401).json({
+      json: "Please provides a API Key.",
+    });
 
-  let bot = await global.botModel.findOne({ apikey: key });
+  let bot = await global.botModel.findOne({
+    apikey: key,
+  });
   if (!bot)
     return res.status(404).json({
       message:
@@ -963,28 +1039,40 @@ app.post("/api/bots/:id/", async (req, res) => {
   const shards = req.body.shard_count || req.header("shard_count");
 
   if (!servers)
-    return res.status(400).json({ message: "Please provide a server count." });
+    return res.status(400).json({
+      message: "Please provide a server count.",
+    });
   if (!shards)
-    return res.status(400).json({ message: "Please provide a shard count." });
+    return res.status(400).json({
+      message: "Please provide a shard count.",
+    });
 
   bot.servers = servers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   bot.shards = shards.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   await bot.save().catch(() => null);
-  return res.json({ message: "Successfully updated." });
+  return res.json({
+    message: "Successfully updated.",
+  });
 });
 
 app.get("/api/bots/:id/voted", async (req, res) => {
-  const bot = await global.botModel.findOne({ id: req.params.id });
+  const bot = await global.botModel.findOne({
+    id: req.params.id,
+  });
   if (!bot)
-    return res.status(404).json({ message: "This bot is not on our list." });
+    return res.status(404).json({
+      message: "This bot is not on our list.",
+    });
   if (!bot.approved)
-    return res.status(400).json({ message: "This bot is not approved yet." });
+    return res.status(400).json({
+      message: "This bot is not approved yet.",
+    });
 
   const id = req.query.user;
   if (!id)
-    return res
-      .status(400)
-      .json({ message: `You didn't provide 'user' in the query` });
+    return res.status(400).json({
+      message: `You didn't provide 'user' in the query`,
+    });
   let user = await global.client.users.fetch(id).catch(() => null);
   if (!user)
     return res.status(400).json({
@@ -995,10 +1083,19 @@ app.get("/api/bots/:id/voted", async (req, res) => {
       message: `The 'user' id you provided is a Discord bot, bots can't vote.`,
     });
 
-  let x = await global.voteModel.findOne({ bot: bot.id, user: user.id });
-  if (!x) return res.json({ voted: false });
+  let x = await global.voteModel.findOne({
+    bot: bot.id,
+    user: user.id,
+  });
+  if (!x)
+    return res.json({
+      voted: false,
+    });
   const vote = canUserVote(x);
-  if (vote.status) return res.json({ voted: false });
+  if (vote.status)
+    return res.json({
+      voted: false,
+    });
   return res.json({
     voted: true,
     current: parseInt(x.date),
@@ -1007,13 +1104,21 @@ app.get("/api/bots/:id/voted", async (req, res) => {
 });
 
 app.get("/api/bots/:id/votes", async (req, res) => {
-  const bot = await global.botModel.findOne({ id: req.params.id });
+  const bot = await global.botModel.findOne({
+    id: req.params.id,
+  });
   if (!bot)
-    return res.status(404).json({ message: "This bot is not on our list." });
+    return res.status(404).json({
+      message: "This bot is not on our list.",
+    });
   if (!bot.approved)
-    return res.status(400).json({ message: "This bot is not approved yet." });
+    return res.status(400).json({
+      message: "This bot is not approved yet.",
+    });
 
-  let x = await global.voteModel.find({ bot: bot.id });
+  let x = await global.voteModel.find({
+    bot: bot.id,
+  });
   if (!x || !x.length)
     return res.json({
       status: false,
@@ -1031,11 +1136,15 @@ app.get("/api/bots/:id/votes", async (req, res) => {
 //-ServerList-//
 
 app.get("/servers", async (req, res) => {
-  let servers = await global.serverModel.find({ published: true });
+  let servers = await global.serverModel.find({
+    published: true,
+  });
   for (let i = 0; i < servers.length; i++) {
     const ServerRaw = await global.sclient.guilds.fetch(servers[i].id);
     servers[i].name = ServerRaw.name;
-    servers[i].icon = ServerRaw.iconURL({ dynamic: true });
+    servers[i].icon = ServerRaw.iconURL({
+      dynamic: true,
+    });
     servers[i].name = servers[i].name.replace(
       /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
       ""
@@ -1061,20 +1170,22 @@ app.get("/servers/new", checkAuth, async (req, res) =>
 app.get("/servers/:id", async (req, res) => {
   const id = req.params.id;
 
-  const server = await global.serverModel.findOne({ id: id });
+  const server = await global.serverModel.findOne({
+    id: id,
+  });
   if (!server) return res.redirect("/404");
 
   if (server.published === false) {
     if (!req.user) return res.redirect("/404?error=503");
-    const guild = await global.sclient.guilds.fetch(id);
-    if (!guild) return res.redirect("/404");
-    const member = await guild.members.fetch(req.user.id);
+    const member = await global.sclient.guilds
+      .fetch(server.id)
+      .then((guild) => guild.members.fetch(req.user.id));
     if (
-      !member.permissions.has("ADMINISTRATOR") &&
-      !server.owner.includes(req.user.id)
-    ) {
-      return res.redirect("/403");
-    }
+      !member ||
+      (!member.permissions.has("ADMINISTRATOR") &&
+        !server.owner.includes(req.user.id))
+    )
+      return res.redirect("/404?error=503");
   }
 
   server.views = parseInt(server.views) + 1;
@@ -1087,7 +1198,9 @@ app.get("/servers/:id", async (req, res) => {
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
   (server.name = ServerRaw.name),
-    (server.icon = ServerRaw.iconURL({ dynamic: true })),
+    (server.icon = ServerRaw.iconURL({
+      dynamic: true,
+    })),
     (server.memberCount = ServerRaw.memberCount.toLocaleString()),
     (server.boosts = ServerRaw.premiumSubscriptionCount);
   server.tags = server.tags.join(", ");
@@ -1103,9 +1216,13 @@ app.get("/servers/:id", async (req, res) => {
 });
 
 app.get("/api/servers/:id", async (req, res) => {
-  const server = await global.serverModel.findOne({ id: req.params.id });
+  const server = await global.serverModel.findOne({
+    id: req.params.id,
+  });
   if (!server)
-    return res.status(404).json({ message: `That server is not in the list` });
+    return res.status(404).json({
+      message: `That server is not in the list`,
+    });
   if (!server.published)
     return res.status(404).json({
       message: `That server isn't published yet, so you're not able to GET data for it!`,
@@ -1119,16 +1236,18 @@ app.get("/api/servers/:id", async (req, res) => {
     name: guild.name,
     id: server.id,
     members: guild.memberCount,
-    icon: guild.iconURL({ dynamic: true }),
+    icon: guild.iconURL({
+      dynamic: true,
+    }),
 
     invite: server.invite,
     submittedOn: server.date,
     website: server.website,
     owner: server.owner,
     ownerTag: (
-      await global.sclient.users
-        .fetch(server.owner)
-        .catch(() => ({ tag: "Unknown User#0000" }))
+      await global.sclient.users.fetch(server.owner).catch(() => ({
+        tag: "Unknown User#0000",
+      }))
     ).tag,
     tags: server.tags,
 
@@ -1143,7 +1262,9 @@ app.get("/api/servers/:id", async (req, res) => {
 });
 
 app.get("/servers/:id/join", async (req, res) => {
-  const server = await global.serverModel.findOne({ id: req.params.id });
+  const server = await global.serverModel.findOne({
+    id: req.params.id,
+  });
   if (!server) return res.status(404).redirect("/404");
   if (!server.published)
     return res.send(
@@ -1159,18 +1280,25 @@ app.get("/servers/:id/join", async (req, res) => {
 app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const id = req.params.id;
 
-  const server = await global.serverModel.findOne({ id: id });
+  const server = await global.serverModel.findOne({
+    id: id,
+  });
   if (!server) return res.redirect("/404");
 
-  const guild = await global.sclient.guilds.fetch(id);
-  if (!guild) return res.redirect("/404");
+  const member = await global.sclient.guilds
+    .fetch(server.id)
+    .then((guild) => guild.members.fetch(req.user.id));
+  if (
+    !member ||
+    (!member.permissions.has("ADMINISTRATOR") && req.user.id !== server.owner)
+  )
+    return res.redirect("/403");
 
-  const member = await guild.members.fetch(req.user.id);
-  if (!member.permissions.has("ADMINISTRATOR")) return res.redirect("/403");
+  const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
 
-  server.name = guild.name;
-  server.icon = guild.iconURL();
-  server.memberCount = guild.memberCount;
+  (server.name = ServerRaw.name),
+    (server.icon = ServerRaw.iconURL()),
+    (server.memberCount = ServerRaw.memberCount);
 
   res.render("servers/editserver.ejs", {
     bot: req.bot,
@@ -1183,7 +1311,9 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
 app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   const id = req.params.id;
   const data = req.body;
-  const server = await global.serverModel.findOne({ id: id });
+  const server = await global.serverModel.findOne({
+    id: id,
+  });
   if (!server) return res.redirect("/404");
 
   if (req.user.id !== server.owner) return res.redirect("/403");
@@ -1232,7 +1362,10 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
         text: "Publish Logs - Universe Servers",
         iconURL: `${global.sclient.user.displayAvatarURL()}`,
       });
-    logs.send({ content: `<@${req.user.id}>`, embeds: [publishEmbed] });
+    logs.send({
+      content: `<@${req.user.id}>`,
+      embeds: [publishEmbed],
+    });
     return res.redirect(
       `/servers/${req.params.id}?success=true&body=Your server was successfully published.`
     );
@@ -1266,7 +1399,10 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
         text: "Edit Logs - Universe Servers",
         iconURL: `${global.sclient.user.displayAvatarURL()}`,
       });
-    logs.send({ content: `<@${req.user.id}>`, embeds: [editEmbed] });
+    logs.send({
+      content: `<@${req.user.id}>`,
+      embeds: [editEmbed],
+    });
     return res.redirect(
       `/servers/${req.params.id}?success=true&body=Your server was successfully edited.`
     );
@@ -1274,22 +1410,26 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
 });
 
 app.post("/servers/:id/vote", checkAuth, async (req, res) => {
-  let server = await global.serverModel.findOne({ id: req.params.id });
+  let server = await global.serverModel.findOne({
+    id: req.params.id,
+  });
   if (!server)
-    return res
-      .status(404)
-      .json({ message: "This server was not found on our site." });
+    return res.status(404).json({
+      message: "This server was not found on our site.",
+    });
   let x = await global.serverVoteModel.findOne({
     user: req.user.id,
     server: req.params.id,
   });
   if (x) {
     const left = x.time - (Date.now() - x.date),
-      formatted = ms(left, { long: true });
+      formatted = ms(left, {
+        long: true,
+      });
     if (left > 0)
-      return res
-        .status(400)
-        .json({ message: `You can vote again in ${formatted}.` });
+      return res.status(400).json({
+        message: `You can vote again in ${formatted}.`,
+      });
     await x.remove().catch(() => null);
   }
 
@@ -1300,8 +1440,14 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
     time: 3600000,
   });
   await global.serverModel.findOneAndUpdate(
-    { id: req.params.id },
-    { $inc: { votes: 1 } }
+    {
+      id: req.params.id,
+    },
+    {
+      $inc: {
+        votes: 1,
+      },
+    }
   );
 
   const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
@@ -1337,7 +1483,12 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
       text: "Vote Logs - Universe Servers",
       iconURL: global.sclient.user.displayAvatarURL(),
     });
-  if (logs) logs.send({ embeds: [votedEmbed] }).catch(() => null);
+  if (logs)
+    logs
+      .send({
+        embeds: [votedEmbed],
+      })
+      .catch(() => null);
 
   return res.redirect(
     `/servers/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
@@ -1349,15 +1500,17 @@ app.get("/servers/:id/vote", checkAuth, async (req, res) => {
     id: req.params.id,
   });
   if (!server)
-    return res
-      .status(404)
-      .json({ message: "This server was not found on our site." });
+    return res.status(404).json({
+      message: "This server was not found on our site.",
+    });
   let user = await global.userModel.findOne({
     id: req.user.id,
   });
 
   if (!user) {
-    await global.userModel.create({ id: req.user.id });
+    await global.userModel.create({
+      id: req.user.id,
+    });
   }
 
   const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
@@ -1390,7 +1543,9 @@ app.get("/me", checkAuth, async (req, res) => {
   for (let i = 0; i < servers.length; i++) {
     const ServerRaw = await global.sclient.guilds.fetch(servers[i].id);
     servers[i].name = ServerRaw.name;
-    servers[i].icon = ServerRaw.iconURL({ dynamic: true });
+    servers[i].icon = ServerRaw.iconURL({
+      dynamic: true,
+    });
     servers[i].memberCount = ServerRaw.memberCount;
     servers[i].boosts = ServerRaw.premiumSubscriptionCount;
     servers[i].tags = servers[i].tags.join(", ");
@@ -1417,9 +1572,9 @@ app.get("/users/:id", async (req, res) => {
   let user = (await client.users.fetch(req.params.id)) || null;
   if (user.bot) return res.redirect("/");
   if (!user)
-    return res
-      .status(404)
-      .json({ message: "This user was not found on Discord." });
+    return res.status(404).json({
+      message: "This user was not found on Discord.",
+    });
   let userm = await global.userModel.findOne({
     id: req.params.id,
   });
@@ -1444,7 +1599,9 @@ app.get("/users/:id", async (req, res) => {
   for (let i = 0; i < servers.length; i++) {
     const ServerRaw = await global.sclient.guilds.fetch(servers[i].id);
     servers[i].name = ServerRaw.name;
-    servers[i].icon = ServerRaw.iconURL({ dynamic: true });
+    servers[i].icon = ServerRaw.iconURL({
+      dynamic: true,
+    });
     servers[i].memberCount = ServerRaw.memberCount;
     servers[i].boosts = ServerRaw.premiumSubscriptionCount;
     servers[i].tags = servers[i].tags.join(", ");
@@ -1466,7 +1623,9 @@ app.get("/users/:id/edit", checkAuth, async (req, res) => {
   user = user?.user;
   if (user.bot) return res.redirect("/");
   if (!user) {
-    res.status(404).json({ message: "This user was not found on Discord." });
+    res.status(404).json({
+      message: "This user was not found on Discord.",
+    });
   }
   if (req.user.id !== user.id) return res.redirect("/403");
 
@@ -1487,7 +1646,9 @@ app.get("/users/:id/edit", checkAuth, async (req, res) => {
 
 app.post("/users/:id/edit", checkAuth, async (req, res) => {
   const client = global.client;
-  const userm = await global.userModel.findOne({ id: req.params.id });
+  const userm = await global.userModel.findOne({
+    id: req.params.id,
+  });
   let data = req.body;
 
   if (!data) {
@@ -1558,7 +1719,9 @@ app.get("/queue", checkAuth, checkStaff, async (req, res) => {
 
 app.get("/bots/:id/approve", checkAuth, checkStaff, async (req, res) => {
   const config = global.config;
-  let bot = await global.botModel.findOne({ id: req.params.id });
+  let bot = await global.botModel.findOne({
+    id: req.params.id,
+  });
   if (!bot)
     return res.status(404).json({
       message: "This application could not be found in our site.",
@@ -1573,7 +1736,9 @@ app.get("/bots/:id/approve", checkAuth, checkStaff, async (req, res) => {
 });
 
 app.get("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
-  let bot = await global.botModel.findOne({ id: req.params.id });
+  let bot = await global.botModel.findOne({
+    id: req.params.id,
+  });
   if (!bot)
     return res.status(404).json({
       message: "This application could not be found in our site.",
@@ -1591,7 +1756,9 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
   const config = global.config;
   const logs = global.client.channels.cache.get(config.channels.weblogs);
   const BotRaw = await global.client.users.fetch(req.params.id);
-  let bot = await global.botModel.findOne({ id: req.params.id });
+  let bot = await global.botModel.findOne({
+    id: req.params.id,
+  });
 
   if (!bot)
     return res.status(404).json({
@@ -1599,15 +1766,15 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
     });
 
   if (bot.approved === true) {
-    return res
-      .status(400)
-      .json({ message: "This bot is already approved on Universe List." });
+    return res.status(400).json({
+      message: "This bot is already approved on Universe List.",
+    });
   }
 
   if (bot.denied === true) {
-    return res
-      .status(400)
-      .json({ message: "This bot is already denied on Universe List." });
+    return res.status(400).json({
+      message: "This bot is already denied on Universe List.",
+    });
   }
 
   const OwnerRaw = (await global.client.users.fetch(bot.owner)) || null;
@@ -1646,7 +1813,11 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
       value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
       inline: true,
     })
-    .addFields({ name: "Reason", value: `${bot.reason}`, inline: true })
+    .addFields({
+      name: "Reason",
+      value: `${bot.reason}`,
+      inline: true,
+    })
     .addFields({
       name: "Date",
       value: `${date.toLocaleString()}`,
@@ -1656,19 +1827,28 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
       text: "Deny Logs - Universe List",
       iconURL: `${global.client.user.displayAvatarURL()}`,
     });
-  logs.send({ content: `<@${bot.owner}>`, embeds: [denyEmbed] });
+  logs.send({
+    content: `<@${bot.owner}>`,
+    embeds: [denyEmbed],
+  });
   const owner = global.client.guilds.cache
     .get(global.config.guilds.main)
     .members.cache.get(bot.owner);
   try {
-    owner.send({ embeds: [denyEmbed] });
+    owner.send({
+      embeds: [denyEmbed],
+    });
   } catch (e) {
-    logs.send({ content: `Could not DM the user.` });
+    logs.send({
+      content: `Could not DM the user.`,
+    });
   }
   const channelName = `${BotRaw.username}-${BotRaw.discriminator}`;
   let guild = global.client.guilds.cache.get(global.config.guilds.testing);
   const kickBot = guild.members.cache.get(bot.id);
-  kickBot.kick({ reason: "Denied on Universe List." });
+  kickBot.kick({
+    reason: "Denied on Universe List.",
+  });
   let channel = guild.channels.cache.find(
     (c) => c.name == channelName.toLowerCase().replace(" ", "-")
   );
@@ -1679,7 +1859,9 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
 });
 
 app.post("/bots/:id/testing", checkAuth, checkStaff, async (req, res) => {
-  let bot = await global.botModel.findOne({ id: req.params.id });
+  let bot = await global.botModel.findOne({
+    id: req.params.id,
+  });
   let client = global.client;
 
   if (!bot)
@@ -1706,7 +1888,10 @@ app.post("/bots/:id/testing", checkAuth, checkStaff, async (req, res) => {
     .setDescription(
       `Welcome to your new testing session for ${LogRaw}.\nYou may now begin testing this bot. Any questions? View the queue page or ask an admin.`
     )
-    .addFields({ name: "Bot Prefix", value: `${bot.prefix}` })
+    .addFields({
+      name: "Bot Prefix",
+      value: `${bot.prefix}`,
+    })
     .setFooter({
       text: "Testing Session - Universe List",
       iconURL: `${global.client.user.displayAvatarURL()}`,
@@ -1727,7 +1912,9 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
   const client = global.client;
   const logs = client.channels.cache.get(config.channels.weblogs);
   const BotRaw = await client.users.fetch(req.params.id);
-  let bot = await global.botModel.findOne({ id: req.params.id });
+  let bot = await global.botModel.findOne({
+    id: req.params.id,
+  });
 
   if (!bot)
     return res.status(404).json({
@@ -1735,15 +1922,15 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     });
 
   if (bot.approved === true) {
-    return res
-      .status(400)
-      .json({ message: "This bot is already approved on Universe List." });
+    return res.status(400).json({
+      message: "This bot is already approved on Universe List.",
+    });
   }
 
   if (bot.denied === true) {
-    return res
-      .status(400)
-      .json({ message: "This bot is already denied on Universe List." });
+    return res.status(400).json({
+      message: "This bot is already denied on Universe List.",
+    });
   }
 
   const OwnerRaw = await client.users.fetch(bot.owner);
@@ -1791,14 +1978,21 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
         iconURL: `${global.client.user.displayAvatarURL()}`,
       });
 
-    logs.send({ content: `<@${bot.owner}>`, embeds: [approveEmbed] });
+    logs.send({
+      content: `<@${bot.owner}>`,
+      embeds: [approveEmbed],
+    });
     const owner = global.client.guilds.cache
       .get(global.config.guilds.main)
       .members.cache.get(bot.owner);
     try {
-      owner.send({ embeds: [approveEmbed] });
+      owner.send({
+        embeds: [approveEmbed],
+      });
     } catch (e) {
-      logs.send({ content: `Could not DM the user.` });
+      logs.send({
+        content: `Could not DM the user.`,
+      });
     }
     const mainGuild = client.guilds.cache.get(global.config.guilds.main);
     const ownerRaw = mainGuild.members.cache.get(bot.owner);
@@ -1842,35 +2036,57 @@ app.get("/newbot", (_req, res) =>
 );
 
 app.get("/delete", async (req, res) => {
-  res.render("botlist/delete.ejs", { user: req.user || null });
+  res.render("botlist/delete.ejs", {
+    user: req.user || null,
+  });
 });
 
 app.get("/partners", async (req, res) => {
-  res.render("partners.ejs", { user: req.user || null });
+  res.render("partners.ejs", {
+    user: req.user || null,
+  });
 });
 
 app.get("/team", async (req, res) => {
-  res.render("team.ejs", { user: req.user || null });
+  res.render("team.ejs", {
+    user: req.user || null,
+  });
 });
 
 app.get("/docs", async (req, res) => {
-  res.render("apidocs.ejs", { user: req.user });
+  res.render("apidocs.ejs", {
+    user: req.user,
+  });
 });
 
 app.get("/terms", async (req, res) => {
-  res.render("legal/terms.ejs", { user: req.user });
+  res.render("legal/terms.ejs", {
+    user: req.user,
+  });
 });
 
 app.get("/privacy", async (req, res) => {
-  res.render("legal/privacy.ejs", { user: req.user });
+  res.render("legal/privacy.ejs", {
+    user: req.user,
+  });
 });
 
 app.get("/bot-requirements", async (req, res) => {
-  res.render("legal/bot-requirements.ejs", { user: req.user });
-}); 
+  res.render("legal/bot-requirements.ejs", {
+    user: req.user,
+  });
+});
+
+app.get("/invite", async (req, res) => {
+  res.render("invite.ejs", {
+    user: req.user,
+  });
+});
 
 app.get("/403", async (req, res) => {
-  res.render("errors/403.ejs", { user: req.user });
+  res.render("errors/403.ejs", {
+    user: req.user,
+  });
 });
 
 //-Error Pages-//
@@ -1928,9 +2144,18 @@ function checkStaff(req, res, next) {
 
 function canUserVote(x) {
   const left = x.time - (Date.now() - x.date),
-    formatted = ms(left, { long: true });
-  if (left <= 0 || formatted.includes("-")) return { status: true };
-  return { status: false, left, formatted };
+    formatted = ms(left, {
+      long: true,
+    });
+  if (left <= 0 || formatted.includes("-"))
+    return {
+      status: true,
+    };
+  return {
+    status: false,
+    left,
+    formatted,
+  };
 }
 
 /* function checkKey(req, res, next) {
