@@ -29,8 +29,58 @@
                   <input type="text" class="form-control" value="<%= bot.prefix %>" name="prefix" id="botPrefix"
                     placeholder="vl!" autocomplete="off" required>
                 </div>
+                <div class="alert alert-dismissible alert-danger" id="form-error-popup" style="display: none;"></div>
+                <p style="color: #555;">By clicking submit, you agree to our <a style="color: #094cdb"
+                    href="https://universe-list.xyz/terms">TOS</a> and the <a style="color: #094cdb"
+                    href="https://discord.com/developers/docs/policies-and-agreements/terms-of-service">Discord
+                    Developer TOS</a></p>
+                <button type="submit" class="bluebtn"><i class="fa-solid fa-paper-plane"></i> Submit</button>
+              </form>
+            </div>
+            <br><br>
   </div>
   </div>
+
+  <script>
+    const tags = [];
+    $.each($("input[name='tag']:checked"), function () {
+      tags.push($(this).val());
+    });
+    const longDesc = $('#botLongDesc');
+    const longDescPreview = $('#botLongDescPreview');
+
+    longDesc.on('change keyup paste', function () {
+      const markdownRender = marked(longDesc.val());
+      const sanitizedRender = sanitizeHtml(markdownRender, {
+        allowedTags: ["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
+          "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
+          "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
+          "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
+          "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
+          "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
+          "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img", "iframe", "style"],
+        allowedSchemes: ['data', 'http', 'https'],
+        allowedAttributes: {
+          a: ['href', 'name', 'target'],
+          img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading'],
+          iframe: ['src', 'width', 'height', 'id']
+        },
+      });
+      longDescPreview.html(sanitizedRender);
+    });
+
+    $(".custom-control-input").on('change', function () {
+      const tags = [];
+      $.each($("input[name='tag']:checked"), function () {
+        tags.push($(this).val());
+      });
+      if (tags.length > 4) {
+        this.checked = false;
+      }
+    });
+    window.initiateMulti()
+  </script>
+
   <style>
     .form-group.required label:after {
       content: " *";
