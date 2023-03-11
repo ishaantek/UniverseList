@@ -26,12 +26,24 @@
                 </div>
                 <div class="form-group required">
                   <label for="botPrefix">Does your bot follow Discord's Guidelines and TOS?</label>
-                  <input style="text-align: left !important;" type="checkbox" class="form-control" value="<%= bot.prefix %>" name="prefix" id="botPrefix"
+                  <input type="checkbox" class="form-control" value="<%= bot.prefix %>" name="prefix" id="botPrefix"
                     placeholder="vl!" autocomplete="off" required>
+                </div>
+                <div class="form-group required">
+                  <label for="botPrefix">Does your bot follow the best practices for Discord bots?</label>
+                  <input type="checkbox" class="form-control" value="<%= bot.prefix %>" name="prefix" id="botPrefix" placeholder="vl!"
+                    autocomplete="off" required>
+                </div>
+                <div class="form-group required">
+                  <label for="botPrefix">Does your bot follow all of the certification requirements?</label>
+                  <small id="botInvitehelp" class="form-text text-muted">You can read the certification requirements at <a style="color: #094cdb" target="__blank"
+                      href="https://universe-list.xyz/certification">.</a></small>
+                  <input type="texcheckboxt" class="form-control" value="<%= bot.prefix %>" name="prefix" id="botPrefix" placeholder="vl!"
+                    autocomplete="off" required>
                 </div>
                 <div class="alert alert-dismissible alert-danger" id="form-error-popup" style="display: none;"></div>
                 <p style="color: #555;">By clicking submit, you agree to our <a style="color: #094cdb"
-                    href="https://universe-list.xyz/terms">TOS</a> and the <a style="color: #094cdb"
+                    href="https://universe-list.xyz/terms">TOS</a>, <a style="color: #094cdb" href="https://universe-list.xyz/certification">Certification Guidelines,</a> and the <a style="color: #094cdb"
                     href="https://discord.com/developers/docs/policies-and-agreements/terms-of-service">Discord
                     Developer TOS</a></p>
                 <button type="submit" class="bluebtn"><i class="fa-solid fa-paper-plane"></i> Submit</button>
