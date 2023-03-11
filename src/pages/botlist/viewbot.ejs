@@ -65,9 +65,9 @@
           <% if (bot.owner.includes(user.id) || member.roles.cache.some((role) => role.id === config.roles.bottester)) { %>
           <a target="blank" href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
           <% } %>
-          <% if (bot.owner.includes(user.id) { %>
-            <a target="blank" href="/bots/<%= bot.id %>/certify" type="button" style="border-radius: 5px; background-color: #f69e4b;"
-              class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> #f69e4b Certify</a>
+          <% if (bot.owner.includes(user.id)) { %>
+            <a target="blank" href="/bots/<%= bot.id %>/certify" type="button" style=" background-color: #f69e4b; border-radius: 5px;"
+              class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Certify</a>
             <% } %>
           <% } %>
         </div>
