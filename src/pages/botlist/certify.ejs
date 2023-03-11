@@ -1,158 +1,52 @@
-
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script src="/multiselect.js"></script>
-  <title>Certify - Universe List</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+  <title>Certifying <%- bot.name %> - Universe List</title>
   <%- include("../parts/head.ejs") %>
 </head>
 <%- include("../parts/navbar.ejs") %>
-<div class="container">
-  <h2 style="color:white;margin-top: 175px;"><b>Certification Program</b></h2>
-  <p style="color:white;font-size: 20">Fill out the form below in order to apply one or more of your bots to get certified.</p><br><br>
-  <div class="form">
-    <form action="/bots/new/" method="POST">
-      <div class="form-group required">
-        <label for="botID">Your Bot's Application ID</label>
-        <input type="number" class="form-control" name="id" placeholder="1026362109287739423" minlength="18" aria-describedby="botIDhelp" autocomplete="off" required>
-        <small id="botIDhelp" class="form-text text-muted">Can be found at <a style="color: #094cdb" target="__blank" href="https://discord.com/developers">Discord Developers Page</a></small>
-      </div>
-      <div class="form-group required">
-        <label for="botPrefix">Does your bot follow Discord's Guidelines and TOS?</label>
-        <input type="text" class="form-control" id="botPrefix" placeholder="/" name="prefix" autocomplete="off" required>
-      </div>
-      <div class="form-group required">
-        <label for="botShortDesc">Short Description</label>
-        <input type="text" class="form-control" id="botShortDesc" name="shortDesc" minlength="50" maxlength="100" aria-describedby="botShortDeschelp" placeholder="Revolutionary bot with..." autocomplete="off" required>
-        <small id="botShortDeschelp" class="form-text text-muted">Short Description about the bot (Min. 50 & Max. 100 characters)</small>
-      </div>
-      <div class="form-group required">
-        <label for="botLongDesc">Long Description</label>
-        <textarea class="form-control" id="botLongDesc" minlength="250" rows="3" name="desc" placeholder="More about the Revolution..." autocomplete="off" required></textarea>
-        <small id="botLongDeschelp" class="form-text text-muted">HTML & Markdown can be used (Min. 250 characters)</small>
-      </div>
-      <div class="botLongDescPreviewBox">
-        <label>Long Description Preview</label>
-        <div class="card mb-3">
-          <div class="desccard">
-          <div class="card-body">
-            <div id="botLongDescPreview"></div>
-          </div>
-          </div>
-        </div>
-      </div>
-      <div class="form-group required">
-        <label for="botInvite">Invite URL</label>
-        <input type="url" class="form-control" id="botInvite" aria-describedby="botInvitehelp" name="invite" placeholder="https://discord.com/oauth2/authorize?client_id=<%= bot.user.id %>&scope=bot&permissions=8" autocomplete="off" required>
-        <small id="botInvitehelp" class="form-text text-muted">Can be generated at <a style="color: #094cdb" target="__blank" href="https://discordapi.com/permissions.html">Discord API Permissions</a></small>
-      </div>
-      <div class="form-group">
-        <label for="botWebsite">Website</label>
-        <input type="url" class="form-control" id="botWebsite" name="website" placeholder="https://universe-list.xyz" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label for="botGitHub">GitHub</label>
-        <input type="url" class="form-control" id="botWebsite" name="github" placeholder="https://github.com/ishaantek" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label for="botDonate">Donate URL</label>
-        <input type="url" class="form-control" value="<%= bot.donate %>" name="donate" id="botDonate"
-          placeholder="https://ko-fi.com/ishaantek" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label for="botSupport">Support Server</label>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span style="border-radius: 4px;" class="input-group-text">https://discord.gg/</span>
-          </div>
-          <input type="text" value="<%= bot.support %>" name="support" class="form-control" id="botSupport"
-            placeholder="PXdJjTF6yS" autocomplete="off">
-        </div>
-      </div>
-      <div class="form-group" id="tags-box">
-        <label class="mb-0">Bot Tags</label>
-        <small class="form-text text-muted mt-0 mb-2">Max. 4 tags</small>
-        <select data-link="bot-multiselect" name="tags" id="tags" class="form-control multiselect" id="tags"
-          placeholder="Max. 4 tags" multiple required>
-          <% tags.bots.map(tag=> {%>
-            <option value="<%= tag %>">
-              <%= tag %>
-            </option>
-            <% }); %>
+  <div class="container">
+    <h2 style="color:white;margin-top: 175px;"><b>Certify Bot</b></h2>
+    <p style="color:white;font-size: 20">Fill out the form below in order to edit your bot.</p>
+    <hr class="my-4"><br>
 
-        </select>
-      </div>
-      <div class="alert alert-dismissible alert-danger" id="form-error-popup" style="display: none;"></div>
-      <p style="color: #555;">By clicking submit, you agree to our <a style="color: #094cdb" href="https://universe-list.xyz/terms">TOS</a> and the <a style="color: #094cdb" href="https://discord.com/developers/docs/policies-and-agreements/terms-of-service">Discord Developer TOS</a></p>
-      <button type="submit" class="bluebtn"><i class="fa-solid fa-paper-plane"></i>&nbsp&nbspSubmit</button>
-    </form>
+            <div class="form">
+              <form action="/bots/<%= bot.id %>/edit" method="POST">
+                <div class="form-group required">
+                  <label for="botID">Your Bot's Application ID</label>
+                  <input type="number" class="form-control" value="<%= bot.id %>" name="id"
+                    placeholder="1026362109287739423" aria-describedby="botIDhelp" autocomplete="off" readonly disabled>
+                  <small id="botIDhelp" class="form-text text-muted">This field is read only</small>
+                </div>
+                <div class="form-group required">
+                  <label for="botPrefix">Prefix</label>
+                  <input type="text" class="form-control" value="<%= bot.prefix %>" name="prefix" id="botPrefix"
+                    placeholder="vl!" autocomplete="off" required>
+                </div>
   </div>
-  <br><br>
-</div>
-<br><br><br><br><br>
-</div>
-
-<script>
-  const tags = [];
-  $.each($("input[name='tag']:checked"), function() {
-    tags.push($(this).val());
-  });
-
-  const longDesc = $('#botLongDesc');
-  const longDescPreview = $('#botLongDescPreview');
-
-  longDesc.on('change keyup paste', function() {
-    const markdownRender = marked(longDesc.val());
-    const sanitizedRender = sanitizeHtml(markdownRender, {
-      allowedTags: ["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
-        "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
-        "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
-        "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
-        "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
-        "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
-        "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img", "iframe", "style"],
-     allowedSchemes: [ 'data', 'http', 'https'],
-     allowedAttributes: {
-     a: [ 'href', 'name', 'target' ],
-     img: [ 'src', 'srcset', 'alt', 'title', 'width', 'height', 'loading' ],
-     iframe: ['src', 'width', 'height', 'id']
-     },
-    });
-    longDescPreview.html(sanitizedRender);
-  });
-
-  $(".custom-control-input").on('change', function() {
-    const tags = [];
-    $.each($("input[name='tag']:checked"), function() {
-      tags.push($(this).val());
-    });
-    if (tags.length > 4) {
-      this.checked = false;
+  </div>
+  <style>
+    .form-group.required label:after {
+      content: " *";
+      color: red;
     }
-  });
-  window.initiateMulti()
-</script>
 
-<style>
-  .form-group.required label:after {
-    content: " *";
-    color: red;
-  }
+    .form-control {
+      background-color: rgba(255, 255, 255, 0.743);
+    }
 
-  .form-control {
-    background-color: rgba(255, 255, 255, 0.743);
-  }
-
-  .desccard {
-        background: rgba(255, 255, 255, 0.15);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-      }
-</style>
+    .desccard {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+  </style>
