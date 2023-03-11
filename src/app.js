@@ -2170,6 +2170,12 @@ app.get("/bot-requirements", async (req, res) => {
   });
 });
 
+app.get("/certification", async (req, res) => {
+  res.render("legal/certification.ejs", {
+    user: req.user,
+  });
+});
+
 app.get("/invite", async (req, res) => {
   res.render("invite.ejs", {
     user: req.user,
