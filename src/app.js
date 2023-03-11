@@ -523,8 +523,7 @@ app.get("/bots/:id/certify", checkAuth, async (req, res) => {
   const member = guild.members.cache.get(req.user.id);
 
   if (
-    bot.owner.includes(req.user.id) ||
-    member.roles.cache.some((role) => role.id === config.roles.bottester)
+    bot.owner.includes(req.user.id)
   ) {
     const BotRaw = (await client.users.fetch(id)) || null;
     bot.name = BotRaw.username;
@@ -535,7 +534,6 @@ app.get("/bots/:id/certify", checkAuth, async (req, res) => {
 
     res.render("botlist/certify.ejs", {
       bot: bot,
-      tags: global.config.tags,
       user: req.user || null,
       member: member,
     });
@@ -932,7 +930,7 @@ app.get("/bots/:id", async (req, res) => {
                 message: "This bot was not found on our list."
             });
     const marked = require("marked");
-    const desc = marked.Parser(bot.desc);
+    const desc = marked.parse(bot.desc);
     const BotRaw = (await client.users.fetch(id)) || null;
     const OwnerRaw = (await client.users.fetch(bot.owner)) || null;
     const japidata = await japiRest.discord.getApplication(bot.id);
