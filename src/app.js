@@ -566,12 +566,12 @@ app.post("/bots/:id/certify", checkAuth, async (req, res) => {
     const date = new Date();
     const editEmbed = new EmbedBuilder()
       .setTitle("Certification Requested")
+      .setColor("Blue")
       .setDescription(
         "<:add:946594917596164136> " +
           bot.tag +
           " has been applied for a certification on Universe List."
       )
-      .setColor("Blue")
       .addFields({
         name: "Bot",
         value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
