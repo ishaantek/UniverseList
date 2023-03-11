@@ -932,7 +932,7 @@ app.get("/bots/:id", async (req, res) => {
                 message: "This bot was not found on our list."
             });
     const marked = require("marked");
-    const desc = marked.parse(bot.desc);
+    const desc = marked.Parser(bot.desc);
     const BotRaw = (await client.users.fetch(id)) || null;
     const OwnerRaw = (await client.users.fetch(bot.owner)) || null;
     const japidata = await japiRest.discord.getApplication(bot.id);
