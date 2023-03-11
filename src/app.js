@@ -396,6 +396,8 @@ app.get("/bots/:id/invite", async (req, res) => {
     return res.redirect(bot.invite);
 });
 
+
+
 app.get("/bots/:id/edit", checkAuth, async (req, res) => {
     const client = global.client;
     const config = global.config;
@@ -505,6 +507,103 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
     } else {
         return res.redirect("/403");
     }
+});
+
+app.get("/bots/:id/certify", checkAuth, async (req, res) => {
+  const client = global.client;
+  const config = global.config;
+  const id = req.params.id;
+
+  const bot = await global.botModel.findOne({
+    id: id,
+  });
+  if (!bot) return res.redirect("/404");
+
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
+
+  if (
+    bot.owner.includes(req.user.id) ||
+    member.roles.cache.some((role) => role.id === config.roles.bottester)
+  ) {
+    const BotRaw = (await client.users.fetch(id)) || null;
+    bot.name = BotRaw.username;
+    bot.avatar = BotRaw.avatar;
+
+    const guild = global.client.guilds.cache.get(global.config.guilds.main);
+    const member = guild.members.cache.get(req.user.id);
+
+    res.render("botlist/certify.ejs", {
+      bot: bot,
+      tags: global.config.tags,
+      user: req.user || null,
+      member: member,
+    });
+  } else {
+    return res.redirect("/403");
+  }
+});
+
+app.post("/bots/:id/certify", checkAuth, async (req, res) => {
+  const client = global.client;
+  const config = global.config;
+  const logs = client.channels.cache.get(config.channels.weblogs);
+  const botm = await global.botModel.findOne({
+    id: req.params.id,
+  });
+  let data = req.body;
+  if (!data) return res.redirect("/");
+
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
+
+  if (
+    botm.owner.includes(req.user.id) ||
+    member.roles.cache.some((role) => role.id === config.roles.bottester)
+  ) {
+    const bot = await client.users.fetch(req.params.id).catch(() => null);
+    if (!bot)
+      return res.status(400).json({
+        message: "This is not a real application on Discord.",
+      });
+    
+    const date = new Date();
+    const editEmbed = new EmbedBuilder()
+      .setTitle("Bot Applied")
+      .setDescription(
+        ":pencil: " + bot.tag + " has been applied for certification on Universe List."
+      )
+      .setColor("Yellow")
+      .addFields({
+        name: "Bot",
+        value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+        inline: true,
+      })
+      .addFields({
+        name: "Owner",
+        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        inline: true,
+      })
+      .addFields({
+        name: "Date",
+        value: `${date.toLocaleString()}`,
+        inline: true,
+      })
+      .setFooter({
+        text: "Certify Logs - Universe List",
+        iconURL: `${global.client.user.displayAvatarURL()}`,
+      });
+    logs.send({
+      content: `<@${req.user.id}>`,
+      embeds: [editEmbed],
+    });
+
+    return res.redirect(
+      `/bots/${req.params.id}?success=true&body=You have successfully applied for certification.`
+    );
+  } else {
+    return res.redirect("/403");
+  }
 });
 
 app.get("/bots/:id/delete", checkAuth, async (req, res) => {
