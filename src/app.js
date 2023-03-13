@@ -268,7 +268,6 @@ app.get("/bots", async (req, res) => {
         const japidata = await japiRest.discord.getApplication(bots[i].id);
         
       if (
-        !japidata.data.bot.approximate_guild_count ||
         japidata.data.bot.approximate_guild_count === undefined
       ) {
         bots[i].servers = 0;
