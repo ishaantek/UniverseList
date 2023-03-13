@@ -16,7 +16,8 @@ module.exports = {
     if (!data) return message.reply("That's not a bot on Universe List.");
     const botOwner = await client.users.fetch(data.owner);
 
-    const japidata = await japiRest.discord.getApplication(data.id);
+    const japidata = (await japiRest.discord.getApplication(data.id)) || null;
+
     
     let embed = new EmbedBuilder()
       .setAuthor({
