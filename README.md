@@ -3,12 +3,11 @@
   <h1>Universe List</h1>
   <h3>The Ultimate Discord List for Bots and Servers!</h3>
 </div>
+<!---
 <br></br>
-
-
 > # **⚠️ Universe List Release!**<br>
 > Our fantastic team has just recently released Universe List, which means that there **WILL BE** many bugs. [Join our Discord Server](https://discord.gg/PXdJjTF6yS) or [Email Us](mailto:ishaan@ishaantek.com) to report any issues / bugs!
-
+-->
 
 ## Installation
 
@@ -31,8 +30,8 @@ Make sure to change `example.com` with your domain.
   * You cannot use our branding anywhere on your site & claim it as your own.</a><br>
   * You have the permission to share in writing, but you have to mention us, our server, in the article.</a><br>
   * You can't speak in a "we did it" way.</a><br>
-  * You cannot sell this</a><br>
-  * Don't touch this part on footer;</a><br>
+  * You cannot sell the code.</a><br>
+  * Don't touch this part on footer:</a><br>
 ```
 Copyright © 2023 Universe List, All Rights Reserved.
 ```
@@ -41,10 +40,10 @@ Copyright © 2023 Universe List, All Rights Reserved.
 
 Universe List is in a continuous state of development. New features/updates may come at any time. Some pending ideas are:
 
-  * Bot Widgets
-  * Bot Re-submit Option
-  * Website Themes
-  * Optimize the code
+  * Bot Widgets.
+  * Bots with uptime of less than 75% should be removed.
+  * Co-owner feature to bots.
+  * Add delete/edit/reply features for bot reviews.
 
 ## Config
 
