@@ -2179,9 +2179,14 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
 
 app.use("/user/ban", checkAuth, checkAdmin, async (req, res) => {
     let bandata = await banSchema.find();
-    // res.render("./pages/ban/site-ban.ejs", {
-    //     //variables idk what to add lemme make the page first
-    // })
+    res.render("./pages/ban/site-ban.ejs", {
+        bot: global.client,
+        path: req.path,
+        req: req,
+        bandata: bandata,
+        config: config,
+        user: req.user || null,
+    })
 });
 
 app.get("/user/ban", checkAuth, checkAdmin, async (req, res) => {
