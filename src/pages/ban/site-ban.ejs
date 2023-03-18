@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue - Universe List</title>
+  <%- include("../parts/head.ejs") %>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+  <%- include("../parts/navbar.ejs", { bot, user }) %>
+  <br><br><br><br><br>
+  <div class="container">
+    <center>
+      <h2><b><i class="fa fa-bars mr-1"></i>Queue</b></h2>
+      <p>People who you wanted to be banned are listed and banned here :)</p>
+    </center>
+    <br><br>
+    <div class="bots-list">
+      <br>
+      <h5>Ban User Form</h5>
+      
+      <form action="/user/ban" method="POST">
+        <div class="form">
+       
+            <div class="form-group required">
+                <label for="botID">User ID</label>
+                <input type="number" class="form-control" name="userID" placeholder="1026362109287739423" minlength="18" aria-describedby="botIDhelp" autocomplete="off" required>
+                <small id="userIDhelp" class="form-text text-muted">Can be found at after right clicking a user</small>
+              </div>
+              <div class="form-group required">
+                <label for="botPrefix">Reason</label>
+                <input type="text" class="form-control" id="reason" placeholder="Abused the API..." name="prefix" autocomplete="off" required>
+              </div>
+        
+
+              <button type="submit" class="bluebtn"><i class="fa-solid fa fa-ban"></i>&nbsp&nbspUnban</button>
+    </form>
+    </div>
+    </div>
+    <div class="bots-list">
+        <br>
+        <h5>Unban User Form</h5>
+        
+        <form action="/user/unban" method="POST">
+          <div class="form">
+         
+              <div class="form-group required">
+                  <label for="botID">User ID</label>
+                  <input type="number" class="form-control" name="userID" placeholder="1026362109287739423" minlength="10" aria-describedby="botIDhelp" autocomplete="off" required>
+                  <small id="userIDhelp" class="form-text text-muted">Can be found at after right clicking a user</small>
+                </div>
+                <div class="form-group required">
+                  <label for="botPrefix">Reason</label>
+                  <input type="text" class="form-control" id="reason" placeholder="Abused the API..." name="prefix" autocomplete="off" required>
+                </div>
+          
+  
+        <button type="submit" name="ban" class="btn btn-primary mt-3"><i class="fa fa-ban"></i> Unban</button>
+      </form>
+      </div>
+      </div>
+    <div class="progress-list">
+      <br>
+      <h5>Banned Users</h5>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">User</th>
+            <th scope="col">Reason</th>
+            <th scope="col">uuid</th>
+          </tr>
+        </thead>
+        <tbody class="bots-list-body" style="color: #D9E4EC;">
+            <% bandata.map(a => { %>
+                <tr>
+                    <td><%= a.user %></td>
+                    <td><%= a.reason %></td>
+                    <td><%= a.uuid %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>User</th>
+                <th>Reason</th>
+                <th>uuid</th>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</body>
+
+<script>
+  var toastMixin = Swal.mixin({
+    toast: true,
+    icon: 'success',
+    animation: false,
+    position: 'top-right',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  });
+
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('success') && urlParams.get('success')) {
+    toastMixin.fire({
+      timer: 3000,
+      icon: 'success',
+      background: '#274472',
+      html: `<p style='color:white; margin-top: 12px'>${urlParams.get('body')}</p>`
+    });
+  }
+  if (urlParams.has('error') && urlParams.get('error')) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: urlParams.get('body'),
+    })
+  }
+</script>
