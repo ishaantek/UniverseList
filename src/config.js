@@ -3,6 +3,7 @@ dotenv.config();
 
 module.exports = {
   port: 55558,
+  japikey: process.env.japikey,
   staff: [
     "998763334264442912",
     "536538183555481601",
