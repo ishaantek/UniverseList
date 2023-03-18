@@ -45,7 +45,7 @@ mongoose.set("strictQuery", true);
 try {
     mongoose.connect(config.mongo).then(logger.system("Mongoose connected."));
 } catch (error) {
-    logger.error(error);
+    console.log(error);
 }
 
 //-Webserver-//
