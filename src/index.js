@@ -25,7 +25,7 @@ const express = require("express"),
     Strategy = require("passport-discord").Strategy;
 const SQLiteStore = require("connect-sqlite3")(session);
 const helmet = require("helmet");
-const banSchema = require("./database/models/site-ban.js"); // Ban DataBase
+const banSchema = require("./models/site-ban.js"); // Ban DataBase
 // const rateLimit = require('express-rate-limit')
 Array.prototype.shuffle = function() {
     // Define this once
