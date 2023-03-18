@@ -50,6 +50,10 @@
     <div class="card" style="border-radius:10px;">
       <img src="https://cdn.discordapp.com/avatars/<%= voted[i].id %>/<%= voted[i].avatar %>.png" alt="<%= voted[i].name %>'s Avatar" draggable="false" class="botimg_main">
       <p class="botname_main"><%= voted[i].name %>
+
+      <% if (voted[i].id==="1076426970914635776" ) { %>
+        <span title="Paid Promotion"><i class="fa-solid fa-circle-dollar-to-slot"></i></span>
+        <% } %> 
         <% if (voted[i].id === "1018001748020961311") { %>
           <span title="Official Bot"><i class="fa fa-circle-check"></i></span>
           <%  } %> <br>

@@ -60,9 +60,12 @@
     <img src="https://cdn.discordapp.com/avatars/<%= servers[i].id %>/<%= servers[i].avatar %>.png" alt="<%= servers[i].name %>'s Avatar" draggable="false" class="botimg_main">
     <p class="botname_main" style="height:65px;width:250px;padding:10px;"> 
       <%= servers[i].name %>
-      <% if (servers[i].id === "1018001748020961311") { %>
-      <span title="Official Bot"><i class="fa fa-circle-check"></i></span>
-      <%  } %> <br>
+      <% if (voted[i].id==="1076426970914635776" ) { %>
+        <span title="Paid Promotion"><i class="fa-solid fa-circle-dollar-to-slot"></i></span>
+        <% } %>
+          <% if (voted[i].id==="1018001748020961311" ) { %>
+            <span title="Official Bot"><i class="fa fa-circle-check"></i></span>
+            <% } %> <br>
       <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= servers[i].servers %> • <i class="fa-solid fa-check-to-slot"></i> <%= servers[i].votes %></span>
     </p>
     <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
