@@ -1,6 +1,7 @@
+const config = global.config;
 const japiRestPkg = require("japi.rest");
 const japiRest = new japiRestPkg(
-    "JAPI.ODc0NzEzMTM4OTkzODgzNDUw.BUb.K2ggLd3lH7D6ka9QsS0GO"
+    config.japikey
 );
 
 const logger = require("../functions/logger");
@@ -16,7 +17,6 @@ const fetch = (...args) =>
         default: fetch
     }) => fetch(...args));
 const mongoose = require("mongoose");
-const config = global.config;
 const path = require("path");
 global.logger = logger;
 const express = require("express"),
@@ -2228,7 +2228,7 @@ function checkAuth(req, res, next) {
 
 function checkStaff(req, res, next) {
     const config = global.config;
-    const guild = global.client.guilds.cache.get("941896554736934933");
+    const guild = global.client.guilds.cache.get(config.guilds.main);
     const member = guild.members.cache.get(req.user.id);
 
     if (
