@@ -38,9 +38,7 @@
     "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-discord": "^0.1.4",
-    "sweetalert2": "^11.4.8"
-  },
-  "devDependencies": {
+    "sweetalert2": "^11.4.8",
     "japi.rest": "^1.0.1"
   }
 }
