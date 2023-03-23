@@ -1,4 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const axios = require('axios');
 const model = require("../../src/models/bot.js");
 
 module.exports = {
