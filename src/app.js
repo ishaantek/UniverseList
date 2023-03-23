@@ -1,40 +1,38 @@
-const config = global.config;
 const japiRestPkg = require("japi.rest");
 const japiRest = new japiRestPkg(
-    config.japikey
+  "JAPI.ODc0NzEzMTM4OTkzODgzNDUw.BUb.K2ggLd3lH7D6ka9QsS0GO"
 );
 
 const logger = require("../functions/logger");
 const {
-    EmbedBuilder,
-    ButtonBuilder,
-    ActionRowBuilder,
-    ButtonStyle,
+  EmbedBuilder,
+  ButtonBuilder,
+  ActionRowBuilder,
+  ButtonStyle,
 } = require("discord.js");
 const ms = require("ms");
 const fetch = (...args) =>
-    import("node-fetch").then(({
-        default: fetch
-    }) => fetch(...args));
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const mongoose = require("mongoose");
+const config = global.config;
 const path = require("path");
 global.logger = logger;
 const express = require("express"),
-    session = require("express-session"),
-    passport = require("passport"),
-    Strategy = require("passport-discord").Strategy;
+  session = require("express-session"),
+  passport = require("passport"),
+  Strategy = require("passport-discord").Strategy;
 const SQLiteStore = require("connect-sqlite3")(session);
 const helmet = require("helmet");
 
 // const rateLimit = require('express-rate-limit')
-Array.prototype.shuffle = function() {
-    // Define this once
-    return (
-        this.map(
-            (k, i, o, p = Math.floor(Math.random() * this.length)) =>
-            ([o[i], o[p]] = [o[p], o[i]])
-        ) && this
-    );
+Array.prototype.shuffle = function () {
+  // Define this once
+  return (
+    this.map(
+      (k, i, o, p = Math.floor(Math.random() * this.length)) =>
+        ([o[i], o[p]] = [o[p], o[i]])
+    ) && this
+  );
 };
 require("https").globalAgent.options.rejectUnauthorized = false;
 
@@ -43,9 +41,9 @@ require("https").globalAgent.options.rejectUnauthorized = false;
 mongoose.set("strictQuery", true);
 
 try {
-    mongoose.connect(config.mongo).then(logger.system("Mongoose connected."));
+  mongoose.connect(config.mongo).then(logger.system("Mongoose connected."));
 } catch (error) {
-    logger.error(error);
+  logger.error(error);
 }
 
 //-Webserver-//
@@ -77,73 +75,74 @@ app.use(express.static(__dirname + "/static"));
 app.set("views", path.join(__dirname, "pages"));
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost");
-    res.header("Access-Control-Allow-Headers", "*");
-    res.header("Access-Control-Allow-Methods", "*");
-    if (req.method === "OPTIONS") {
-        res.status(200).send();
-    } else {
-        next();
-    }
+  res.header("Access-Control-Allow-Origin", "http://localhost");
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Methods", "*");
+  if (req.method === "OPTIONS") {
+    res.status(200).send();
+  } else {
+    next();
+  }
 });
 
 //-Alaways use protection!-//
 
 var minifyHTML = require("express-minify-html-terser");
 app.use(
-    minifyHTML({
-        override: true,
-        exception_url: false,
-        htmlMinifier: {
-            removeComments: true,
-            collapseWhitespace: true,
-            collapseBooleanAttributes: true,
-            removeAttributeQuotes: true,
-            removeEmptyAttributes: true,
-            minifyJS: true,
-        },
-    })
+  minifyHTML({
+    override: true,
+    exception_url: false,
+    htmlMinifier: {
+      removeComments: true,
+      collapseWhitespace: true,
+      collapseBooleanAttributes: true,
+      removeAttributeQuotes: true,
+      removeEmptyAttributes: true,
+      minifyJS: true,
+    },
+  })
 );
 
 //-Passport Discord-//
 
-passport.serializeUser(function(user, done) {
-    done(null, user);
+passport.serializeUser(function (user, done) {
+  done(null, user);
 });
 
-passport.deserializeUser(function(obj, done) {
-    done(null, obj);
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
 });
 
 var scopes = ["identify", "guilds.join"];
 var prompt = "consent";
 
 passport.use(
-    new Strategy({
-            clientID: config.bot.id,
-            clientSecret: config.bot.secret,
-            callbackURL: config.bot.redirect || `${config.bot.redirect}/joinSupport`,
-            scope: scopes,
-            prompt: prompt,
-        },
-        function(accessToken, _refreshToken, profile, done) {
-            process.nextTick(function() {
-                profile.tokens = {
-                    accessToken,
-                };
-                return done(null, profile);
-            });
-        }
-    )
+  new Strategy(
+    {
+      clientID: config.bot.id,
+      clientSecret: config.bot.secret,
+      callbackURL: config.bot.redirect || `${config.bot.redirect}/joinSupport`,
+      scope: scopes,
+      prompt: prompt,
+    },
+    function (accessToken, _refreshToken, profile, done) {
+      process.nextTick(function () {
+        profile.tokens = {
+          accessToken,
+        };
+        return done(null, profile);
+      });
+    }
+  )
 );
 
 app.use(
-    session({
-        store: new SQLiteStore(),
-        secret: "SupersercetratioskklnkWiOndy",
-        resave: false,
-        saveUninitialized: false,
-    })
+  session({
+    store: new SQLiteStore(),
+    secret: "SupersercetratioskklnkWiOndy",
+    resave: false,
+    saveUninitialized: false,
+  })
 );
 
 app.use(passport.initialize());
@@ -153,108 +152,109 @@ app.use(passport.session());
 let normalScopes = ["identify"];
 
 app.get(
-    "/auth/login",
-    passport.authenticate("discord", {
-        scope: normalScopes,
-        prompt: prompt,
-        callbackURL: config.bot.redirect,
-    }),
-    (req, res) => {
-        if (req.query.from) req.session.returnTo = req.query.from;
-    }
+  "/auth/login",
+  passport.authenticate("discord", {
+    scope: normalScopes,
+    prompt: prompt,
+    callbackURL: config.bot.redirect,
+  }),
+  (req, res) => {
+    if (req.query.from) req.session.returnTo = req.query.from;
+  }
 );
 
 app.get(
-    "/auth/login/joinSupport",
-    passport.authenticate("discord", {
-        scope: scopes,
-        prompt: prompt,
-        callbackURL: `${config.bot.redirect}/joinSupport`,
-    }),
-    (req, res) => {
-        if (req.query.from) req.session.returnTo = req.query.from;
-    }
+  "/auth/login/joinSupport",
+  passport.authenticate("discord", {
+    scope: scopes,
+    prompt: prompt,
+    callbackURL: `${config.bot.redirect}/joinSupport`,
+  }),
+  (req, res) => {
+    if (req.query.from) req.session.returnTo = req.query.from;
+  }
 );
 
 app.get(
-    "/auth/callback",
-    passport.authenticate("discord", {
-        failureRedirect: "/",
-    }),
-    function(req, res) {
-        res.redirect(req.session.returnTo || "/");
-    }
+  "/auth/callback",
+  passport.authenticate("discord", {
+    failureRedirect: "/",
+  }),
+  function (req, res) {
+    res.redirect(req.session.returnTo || "/");
+  }
 );
 
 app.get(
-    "/auth/callback/joinSupport",
-    passport.authenticate("discord", {
-        failureRedirect: "/",
-        scope: scopes,
-        prompt: prompt,
-        callbackURL: `${config.bot.redirect}/joinSupport`,
-    }),
-    function(req, res) {
-        const client = global.client;
+  "/auth/callback/joinSupport",
+  passport.authenticate("discord", {
+    failureRedirect: "/",
+    scope: scopes,
+    prompt: prompt,
+    callbackURL: `${config.bot.redirect}/joinSupport`,
+  }),
+  function (req, res) {
+    const client = global.client;
 
-        try {
-            fetch(
-                `https://discord.com/api/v10/guilds/${config.guilds.main}/members/${req.user.id}`, {
-                    method: "PUT",
-                    body: JSON.stringify({
-                        access_token: req.user.accessToken,
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bot ${client.token}`,
-                    },
-                }
-            );
-        } catch {}
+    try {
+      fetch(
+        `https://discord.com/api/v10/guilds/${config.guilds.main}/members/${req.user.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            access_token: req.user.accessToken,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bot ${client.token}`,
+          },
+        }
+      );
+    } catch {}
 
-        res.redirect(req.session.returnTo || "/");
-    }
+    res.redirect(req.session.returnTo || "/");
+  }
 );
 
 app.get("/info", async (req, res) => {
-    return res.json(req.user);
+  return res.json(req.user);
 });
 
-app.get("/auth/logout", function(req, res) {
-    req.logout(() => {
-        res.redirect("/");
-    });
-    if (req.session.returnTo) {
-        delete req.session.returnTo;
-    }
+app.get("/auth/logout", function (req, res) {
+  req.logout(() => {
+    res.redirect("/");
+  });
+  if (req.session.returnTo) {
+    delete req.session.returnTo;
+  }
 });
 
 //-bot-//
 
 app.get("/", async (req, res) => {
-    const client = global.client;
-    let bots = await global.botModel.find({
-        approved: true,
-    });
+  const client = global.client;
+  let bots = await global.botModel.find({
+    approved: true,
+  });
 
-    for (let i = 0; i < bots.length; i++) {
-        const BotRaw = await client.users.fetch(bots[i].id);
-        const japidata = await japiRest.discord.getApplication(bots[i].id);
-        bots[i].servers = japidata.data.bot.approximate_guild_count;
-        bots[i].name = BotRaw.username;
-        bots[i].avatar = BotRaw.avatar;
-        bots[i].name = bots[i].name.replace(
-            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-            ""
-        );
-        bots[i].tags = bots[i].tags.join(", ");
-    }
+  for (let i = 0; i < bots.length; i++) {
+    const BotRaw = await client.users.fetch(bots[i].id);
+    const japidata = await japiRest.discord.getApplication(bots[i].id);
+    bots[i].servers = japidata.data.bot.approximate_guild_count;
+    bots[i].name = BotRaw.username;
+    bots[i].avatar = BotRaw.avatar;
+    bots[i].name = bots[i].name.replace(
+      /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+      ""
+    );
+    bots[i].tags = bots[i].tags.join(", ");
+  }
 
-    res.render("index.ejs", {
-        bot: req.bot,
-        bots: bots.shuffle(),
-        user: req.user || null,
-    });
+  res.render("index.ejs", {
+    bot: req.bot,
+    bots: bots.shuffle(),
+    user: req.user || null,
+  });
 });
 
 app.get("/bots", async (req, res) => {
@@ -263,123 +263,124 @@ app.get("/bots", async (req, res) => {
     approved: true,
   });
 
-    for (let i = 0; i < bots.length; i++) {
-        const BotRaw = await client.users.fetch(bots[i].id);
-        const japidata = await japiRest.discord.getApplication(bots[i].id);
-        bots[i].servers = japidata.data.bot.approximate_guild_count;
+  for (let i = 0; i < bots.length; i++) {
+    const BotRaw = await client.users.fetch(bots[i].id);
+    const japidata = await japiRest.discord.getApplication(bots[i].id);
+    bots[i].servers = japidata.data.bot.approximate_guild_count;
 
-        bots[i].name = BotRaw.username;
-        bots[i].avatar = BotRaw.avatar;
-        bots[i].name = bots[i].name.replace(
-            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-            ""
-        );
-        bots[i].tags = bots[i].tags.join(", ");
-    }
+    bots[i].name = BotRaw.username;
+    bots[i].avatar = BotRaw.avatar;
+    bots[i].name = bots[i].name.replace(
+      /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+      ""
+    );
+    bots[i].tags = bots[i].tags.join(", ");
+  }
 
-    res.render("botlist/bots.ejs", {
-        bot: req.bot,
-        bots: bots.shuffle(),
-        user: req.user || null,
-        // appInfo: japiData,
-    });
+  res.render("botlist/bots.ejs", {
+    bot: req.bot,
+    bots: bots.shuffle(),
+    user: req.user || null,
+    // appInfo: japiData,
+  });
 }); //Removing end point
 app.get("/explore", async (req, res) => {
-    res.redirect("/");
+  res.redirect("/");
 });
 
 app.get("/bots/new", checkAuth, async (req, res) => {
-    res.render("botlist/add.ejs", {
-        bot: global.client,
-        tags: global.config.tags,
-        user: req.user || null,
-    });
+  res.render("botlist/add.ejs", {
+    bot: global.client,
+    tags: global.config.tags,
+    user: req.user || null,
+  });
 });
 
 app.post("/bots/new", checkAuth, async (req, res) => {
-    const client = global.client;
-    const logs = client.channels.cache.get(config.channels.weblogs);
-    let data = req.body;
+  const client = global.client;
+  const logs = client.channels.cache.get(config.channels.weblogs);
+  let data = req.body;
 
-    if (!data) return res.redirect("/");
+  if (!data) return res.redirect("/");
 
-    if (
-        await global.botModel.findOne({
-            id: data.id,
-        })
+  if (
+    await global.botModel.findOne({
+      id: data.id,
+    })
+  )
+    return res.status(409).json({
+      message: "This application has already been added to our site.",
+    });
+
+  try {
+    await client.users.fetch(data.id);
+  } catch (err) {
+    return res.status(400).json({
+      message: "This is not a real application on Discord.",
+    });
+  }
+
+  const bot = await client.users.fetch(data.id);
+
+  if (bot.bot === false) {
+    return res.status(400).json({
+      message:
+        "You tried to add a user account to the site, you need to add a BOT ID.",
+    });
+  }
+
+  await global.botModel.create({
+    id: data.id,
+    prefix: data.prefix,
+    owner: req.user.id,
+    desc: data.desc,
+    shortDesc: data.shortDesc,
+    submittedOn: Date.now(),
+    views: 0,
+    tags: data.tags,
+    invite: data.invite,
+    support: data.support || null,
+    github: data.github || null,
+    website: data.website || null,
+    donate: data.donate || null,
+  });
+
+  const date = new Date();
+  const addEmbed = new EmbedBuilder()
+    .setTitle("Bot Added")
+    .setDescription(
+      "<:add:946594917596164136> " +
+        bot.tag +
+        " has been submitted to Universe List."
     )
-        return res.status(409).json({
-            message: "This application has already been added to our site.",
-        });
-
-    try {
-        await client.users.fetch(data.id);
-    } catch (err) {
-        return res.status(400).json({
-            message: "This is not a real application on Discord.",
-        });
-    }
-
-    const bot = await client.users.fetch(data.id);
-
-    if (bot.bot === false) {
-        return res.status(400).json({
-            message: "You tried to add a user account to the site, you need to add a BOT ID.",
-        });
-    }
-
-    await global.botModel.create({
-        id: data.id,
-        prefix: data.prefix,
-        owner: req.user.id,
-        desc: data.desc,
-        shortDesc: data.shortDesc,
-        submittedOn: Date.now(),
-        views: 0,
-        tags: data.tags,
-        invite: data.invite,
-        support: data.support || null,
-        github: data.github || null,
-        website: data.website || null,
-        donate: data.donate || null,
+    .setColor("Blue")
+    .addFields({
+      name: "Bot",
+      value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+      inline: true,
+    })
+    .addFields({
+      name: "Owner",
+      value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+      inline: true,
+    })
+    .addFields({
+      name: "Date",
+      value: `${date.toLocaleString()}`,
+      inline: true,
+    })
+    .setFooter({
+      text: "Add Logs - Universe List",
+      iconURL: `${global.client.user.displayAvatarURL()}`,
     });
+  logs.send({
+    content: `<@${req.user.id}> | <@&941896554736934934>`,
+    embeds: [addEmbed],
+  });
 
-    const date = new Date();
-    const addEmbed = new EmbedBuilder()
-        .setTitle("Bot Added")
-        .setDescription(
-            "<:add:946594917596164136> " +
-            bot.tag +
-            " has been submitted to Universe List."
-        )
-        .setColor("Blue")
-        .addFields({
-            name: "Bot",
-            value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
-            inline: true,
-        })
-        .addFields({
-            name: "Owner",
-            value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
-            inline: true,
-        })
-        .addFields({
-            name: "Date",
-            value: `${date.toLocaleString()}`,
-            inline: true,
-        })
-        .setFooter({
-            text: "Add Logs - Universe List",
-            iconURL: `${global.client.user.displayAvatarURL()}`,
-        });
-    logs.send({
-        content: `<@${req.user.id}> | <@&941896554736934934>`,
-        embeds: [addEmbed],
-    });
-
-    return res.redirect(
-        `/bots/${data.id}?success=true&body=Your bot was added successfully.`
-    );
+  return res.redirect(
+    `/bots/${data.id}?success=true&body=Your bot was added successfully.`
+  );
 });
 
 app.get("/bots/:id/invite", async (req, res) => {
@@ -389,50 +390,48 @@ app.get("/bots/:id/invite", async (req, res) => {
   });
   if (!bot) return res.status(404).redirect("/404");
 
-    if (!bot.invite) {
-        return res.redirect(
-            `https://discord.com/oauth2/authorize?client_id=${id}&scope=bot%20applications.commands&permissions=0&response_type=code`
-        );
-    }
+  if (!bot.invite) {
+    return res.redirect(
+      `https://discord.com/oauth2/authorize?client_id=${id}&scope=bot%20applications.commands&permissions=0&response_type=code`
+    );
+  }
 
-    return res.redirect(bot.invite);
+  return res.redirect(bot.invite);
 });
 
-
-
 app.get("/bots/:id/edit", checkAuth, async (req, res) => {
-    const client = global.client;
-    const config = global.config;
-    const id = req.params.id;
+  const client = global.client;
+  const config = global.config;
+  const id = req.params.id;
 
   const bot = await global.botModel.findOne({
     id: id,
   });
   if (!bot) return res.redirect("/404");
 
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
+
+  if (
+    bot.owner.includes(req.user.id) ||
+    member.roles.cache.some((role) => role.id === config.roles.bottester)
+  ) {
+    const BotRaw = (await client.users.fetch(id)) || null;
+    bot.name = BotRaw.username;
+    bot.avatar = BotRaw.avatar;
+
     const guild = global.client.guilds.cache.get(global.config.guilds.main);
     const member = guild.members.cache.get(req.user.id);
 
-    if (
-        bot.owner.includes(req.user.id) ||
-        member.roles.cache.some((role) => role.id === config.roles.bottester)
-    ) {
-        const BotRaw = (await client.users.fetch(id)) || null;
-        bot.name = BotRaw.username;
-        bot.avatar = BotRaw.avatar;
-
-        const guild = global.client.guilds.cache.get(global.config.guilds.main);
-        const member = guild.members.cache.get(req.user.id);
-
-        res.render("botlist/edit.ejs", {
-            bot: bot,
-            tags: global.config.tags,
-            user: req.user || null,
-            member: member,
-        });
-    } else {
-        return res.redirect("/403");
-    }
+    res.render("botlist/edit.ejs", {
+      bot: bot,
+      tags: global.config.tags,
+      user: req.user || null,
+      member: member,
+    });
+  } else {
+    return res.redirect("/403");
+  }
 });
 
 app.post("/bots/:id/edit", checkAuth, async (req, res) => {
@@ -445,8 +444,8 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
   let data = req.body;
   if (!data) return res.redirect("/");
 
-    const guild = global.client.guilds.cache.get(global.config.guilds.main);
-    const member = guild.members.cache.get(req.user.id);
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
 
   if (
     botm.owner.includes(req.user.id) ||
@@ -501,12 +500,12 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
       embeds: [editEmbed],
     });
 
-        return res.redirect(
-            `/bots/${req.params.id}?success=true&body=You have successfully edited your bot.`
-        );
-    } else {
-        return res.redirect("/403");
-    }
+    return res.redirect(
+      `/bots/${req.params.id}?success=true&body=You have successfully edited your bot.`
+    );
+  } else {
+    return res.redirect("/403");
+  }
 });
 
 app.get("/bots/:id/certify", checkAuth, async (req, res) => {
@@ -520,9 +519,7 @@ app.get("/bots/:id/certify", checkAuth, async (req, res) => {
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
   const member = guild.members.cache.get(req.user.id);
 
-  if (
-    bot.owner.includes(req.user.id)
-  ) {
+  if (bot.owner.includes(req.user.id)) {
     const BotRaw = (await client.users.fetch(id)) || null;
     bot.name = BotRaw.username;
     bot.avatar = BotRaw.avatar;
@@ -562,7 +559,7 @@ app.post("/bots/:id/certify", checkAuth, async (req, res) => {
       return res.status(400).json({
         message: "This is not a real application on Discord.",
       });
-    
+
     const date = new Date();
     const editEmbed = new EmbedBuilder()
       .setTitle("Certification Requested")
@@ -605,38 +602,38 @@ app.post("/bots/:id/certify", checkAuth, async (req, res) => {
 });
 
 app.get("/bots/:id/delete", checkAuth, async (req, res) => {
-    const client = global.client;
-    const config = global.config;
-    const id = req.params.id;
+  const client = global.client;
+  const config = global.config;
+  const id = req.params.id;
 
-    const bot = await global.botModel.findOne({
-        id: id
-    });
-    if (!bot) return res.redirect("/404");
+  const bot = await global.botModel.findOne({
+    id: id,
+  });
+  if (!bot) return res.redirect("/404");
+
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
+
+  if (
+    bot.owner.includes(req.user.id) ||
+    member.roles.cache.some((role) => role.id === config.roles.bottester)
+  ) {
+    const BotRaw = (await client.users.fetch(id)) || null;
+    bot.name = BotRaw.username;
+    bot.avatar = BotRaw.avatar;
 
     const guild = global.client.guilds.cache.get(global.config.guilds.main);
     const member = guild.members.cache.get(req.user.id);
 
-    if (
-        bot.owner.includes(req.user.id) ||
-        member.roles.cache.some((role) => role.id === config.roles.bottester)
-    ) {
-        const BotRaw = (await client.users.fetch(id)) || null;
-        bot.name = BotRaw.username;
-        bot.avatar = BotRaw.avatar;
-
-        const guild = global.client.guilds.cache.get(global.config.guilds.main);
-        const member = guild.members.cache.get(req.user.id);
-
-        res.render("botlist/delete.ejs", {
-            bot: bot,
-            tags: global.config.tags,
-            user: req.user || null,
-            member: member,
-        });
-    } else {
-        return res.redirect("/403");
-    }
+    res.render("botlist/delete.ejs", {
+      bot: bot,
+      tags: global.config.tags,
+      user: req.user || null,
+      member: member,
+    });
+  } else {
+    return res.redirect("/403");
+  }
 });
 
 app.post("/bots/:id/delete", checkAuth, async (req, res) => {
@@ -649,8 +646,8 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
   let data = req.body;
   if (!data) return res.redirect("/");
 
-    const guild = global.client.guilds.cache.get(global.config.guilds.main);
-    const member = guild.members.cache.get(req.user.id);
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
 
   if (
     botm.owner.includes(req.user.id) ||
@@ -700,12 +697,12 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       embeds: [editEmbed],
     });
 
-        return res.redirect(
-            `/bots/${req.params.id}?success=true&body=You have successfully deleted your bot.`
-        );
-    } else {
-        return res.redirect("/403");
-    }
+    return res.redirect(
+      `/bots/${req.params.id}?success=true&body=You have successfully deleted your bot.`
+    );
+  } else {
+    return res.redirect("/403");
+  }
 });
 
 app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
@@ -820,9 +817,9 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
       })
       .catch(() => null);
 
-    return res.redirect(
-        `/bots/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
-    );
+  return res.redirect(
+    `/bots/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
+  );
 });
 
 app.get("/bots/:id/vote", checkAuth, async (req, res) => {
@@ -841,15 +838,15 @@ app.get("/bots/:id/vote", checkAuth, async (req, res) => {
       id: req.user.id,
     });
 
-    const BotRaw = (await global.client.users.fetch(bot.id)) || null;
-    bot.name = BotRaw.username;
-    bot.discriminator = BotRaw.discriminator;
-    bot.avatar = BotRaw.avatar;
+  const BotRaw = (await global.client.users.fetch(bot.id)) || null;
+  bot.name = BotRaw.username;
+  bot.discriminator = BotRaw.discriminator;
+  bot.avatar = BotRaw.avatar;
 
-    res.render("botlist/vote.ejs", {
-        bot: bot,
-        user: req.user || null,
-    });
+  res.render("botlist/vote.ejs", {
+    bot: bot,
+    user: req.user || null,
+  });
 });
 
 app.get("/bots/:id/review", checkAuth, async (req, res) => {
@@ -858,26 +855,26 @@ app.get("/bots/:id/review", checkAuth, async (req, res) => {
     id: id,
   });
 
-    if (!bot)
-        return res.status(404).json({
-            message: "This bot could not be found in our site.",
-        });
-
-    if (bot.owner === req.user.id)
-        return res.status(400).json({
-            message: "You cannot review your own bot.",
-        });
-
-    const BotRaw = (await global.client.users.fetch(bot.id)) || null;
-    bot.name = BotRaw.username;
-    bot.discriminator = BotRaw.discriminator;
-    bot.avatar = BotRaw.avatar;
-
-    res.render("botlist/review.ejs", {
-        bot: bot,
-        config: global.config,
-        user: req.user || null,
+  if (!bot)
+    return res.status(404).json({
+      message: "This bot could not be found in our site.",
     });
+
+  if (bot.owner === req.user.id)
+    return res.status(400).json({
+      message: "You cannot review your own bot.",
+    });
+
+  const BotRaw = (await global.client.users.fetch(bot.id)) || null;
+  bot.name = BotRaw.username;
+  bot.discriminator = BotRaw.discriminator;
+  bot.avatar = BotRaw.avatar;
+
+  res.render("botlist/review.ejs", {
+    bot: bot,
+    config: global.config,
+    user: req.user || null,
+  });
 });
 
 app.post("/bots/:id/review", checkAuth, async (req, res) => {
@@ -912,9 +909,9 @@ app.post("/bots/:id/review", checkAuth, async (req, res) => {
     date: new Date().toLocaleString(),
   });
 
-    return res.redirect(
-        `https://universe-list.xyz/bots/${id}?success=true&body=Your review was successfully added.`
-    );
+  return res.redirect(
+    `https://universe-list.xyz/bots/${id}?success=true&body=Your review was successfully added.`
+  );
 });
 
 app.get("/bots/:id", async (req, res) => {
@@ -948,27 +945,27 @@ app.get("/bots/:id", async (req, res) => {
     botid: bot.id,
   });
 
-    for (let i = 0; i < reviews.length; i++) {
-        const ReviewerRaw = await client.users.fetch(reviews[i].reviewer);
-        reviews[i].reviewerName = ReviewerRaw.tag;
-        reviews[i].reviewerAvatar = ReviewerRaw.avatar;
-    }
+  for (let i = 0; i < reviews.length; i++) {
+    const ReviewerRaw = await client.users.fetch(reviews[i].reviewer);
+    reviews[i].reviewerName = ReviewerRaw.tag;
+    reviews[i].reviewerAvatar = ReviewerRaw.avatar;
+  }
 
-    const guild = global.client.guilds.cache.get(global.config.guilds.main);
-    let member = "";
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  let member = "";
 
-    if (req.user) {
-        member = guild.members.cache.get(req.user.id);
-    } else {
-        member = null;
-    }
-    res.render("botlist/viewbot.ejs", {
-        bot2: req.bot,
-        bot: bot,
-        user: req.user || null,
-        reviews: reviews.shuffle(),
-        member: member,
-    });
+  if (req.user) {
+    member = guild.members.cache.get(req.user.id);
+  } else {
+    member = null;
+  }
+  res.render("botlist/viewbot.ejs", {
+    bot2: req.bot,
+    bot: bot,
+    user: req.user || null,
+    reviews: reviews.shuffle(),
+    member: member,
+  });
 });
 
 app.get("/bots/:id/widget", async (req, res) => {
@@ -978,26 +975,26 @@ app.get("/bots/:id/widget", async (req, res) => {
     id: id,
   });
 
-    const BotRaw = (await client.users.fetch(id)) || null;
-    bot.name = BotRaw.username;
-    bot.avatar = BotRaw.avatar;
-    bot.discriminator = BotRaw.discriminator;
-    bot.tag = BotRaw.tag;
+  const BotRaw = (await client.users.fetch(id)) || null;
+  bot.name = BotRaw.username;
+  bot.avatar = BotRaw.avatar;
+  bot.discriminator = BotRaw.discriminator;
+  bot.tag = BotRaw.tag;
 
-    res.render("botlist/widget.ejs", {
-        bot: bot,
-        user: req.user || null,
-    });
+  res.render("botlist/widget.ejs", {
+    bot: bot,
+    user: req.user || null,
+  });
 });
 
 //-TAGS-//
 
 app.get("/tags", async (req, res) => {
-    res.render("tags.ejs", {
-        bottags: global.config.tags.bots,
-        servertags: global.config.tags.servers,
-        user: req.user || null,
-    });
+  res.render("tags.ejs", {
+    bottags: global.config.tags.bots,
+    servertags: global.config.tags.servers,
+    user: req.user || null,
+  });
 });
 
 app.get("/bots/tags/:tag", async (req, res) => {
@@ -1010,22 +1007,22 @@ app.get("/bots/tags/:tag", async (req, res) => {
   let bots = data.filter((a) => a.approved === true && a.tags.includes(tag));
   if (bots.length <= 0) return res.redirect("/");
 
-    for (let i = 0; i < bots.length; i++) {
-        const BotRaw = await global.client.users.fetch(bots[i].id);
-        bots[i].name = BotRaw.username;
-        bots[i].avatar = BotRaw.avatar;
-        bots[i].name = bots[i].name.replace(
-            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-            ""
-        );
-        bots[i].tags = bots[i].tags.join(", ");
-    }
+  for (let i = 0; i < bots.length; i++) {
+    const BotRaw = await global.client.users.fetch(bots[i].id);
+    bots[i].name = BotRaw.username;
+    bots[i].avatar = BotRaw.avatar;
+    bots[i].name = bots[i].name.replace(
+      /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+      ""
+    );
+    bots[i].tags = bots[i].tags.join(", ");
+  }
 
-    res.render("botlist/tags.ejs", {
-        bots: bots.shuffle(),
-        tag: tag,
-        user: req.user,
-    });
+  res.render("botlist/tags.ejs", {
+    bots: bots.shuffle(),
+    tag: tag,
+    user: req.user,
+  });
 });
 
 app.get("/servers/tags/:tag", async (req, res) => {
@@ -1053,11 +1050,11 @@ app.get("/servers/tags/:tag", async (req, res) => {
     servers[i].tags = servers[i].tags.join(", ");
   }
 
-    res.render("servers/tags.ejs", {
-        tag: tag,
-        user: req.user || null,
-        servers: servers.shuffle(),
-    });
+  res.render("servers/tags.ejs", {
+    tag: tag,
+    user: req.user || null,
+    servers: servers.shuffle(),
+  });
 });
 
 //-API-//
@@ -1100,20 +1097,20 @@ app.get("/api/bots/:id", async (req, res) => {
     description: rs.desc,
     reviews,
 
-        // Counts
-        shards: +rs.shards,
-        // servers: serverApi.data.bot.approximate_guild_count,
-        votes: rs.votes,
-        views: rs.views,
+    // Counts
+    shards: +rs.shards,
+    servers: serverApi.data.bot.approximate_guild_count,
+    votes: rs.votes,
+    views: rs.views,
 
-        // Links
-        reviewer: rs.reviewer,
-        banner: rs.banner,
-        invite: rs.invite,
-        website: rs.website,
-        github: rs.github,
-        support: rs.support,
-    });
+    // Links
+    reviewer: rs.reviewer,
+    banner: rs.banner,
+    invite: rs.invite,
+    website: rs.website,
+    github: rs.github,
+    support: rs.support,
+  });
 });
 
 app.post("/api/bots/:id/", async (req, res) => {
@@ -1250,20 +1247,21 @@ app.get("/servers", async (req, res) => {
     servers[i].tags = servers[i].tags.join(`, `);
   }
 
-    res.render("servers/index.ejs", {
-        bot: req.bot,
-        user: req.user || null,
-        servers: servers.shuffle(),
-    });
+  res.render("servers/index.ejs", {
+    bot: req.bot,
+    user: req.user || null,
+    servers: servers.shuffle(),
+  });
 });
 
 app.get("/servers/new", checkAuth, async (req, res) =>
-    res.redirect(
-        "https://discord.com/api/oauth2/authorize?client_id=1018001748020961311&permissions=19473&scope=applications.commands%20bot"
-    ));
+  res.redirect(
+    "https://discord.com/api/oauth2/authorize?client_id=1018001748020961311&permissions=19473&scope=applications.commands%20bot"
+  )
+);
 
 app.get("/servers/:id", async (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
 
   const server = await global.serverModel.findOne({
     id: id,
@@ -1283,12 +1281,12 @@ app.get("/servers/:id", async (req, res) => {
       return res.redirect("/404?error=503");
   }
 
-    server.views = parseInt(server.views) + 1;
-    await server.save();
+  server.views = parseInt(server.views) + 1;
+  await server.save();
 
-    //-Cleaning Server Desc-//
-    const marked = require("marked");
-    const desc = marked.parse(server.desc);
+  //-Cleaning Server Desc-//
+  const marked = require("marked");
+  const desc = marked.parse(server.desc);
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
@@ -1298,16 +1296,16 @@ app.get("/servers/:id", async (req, res) => {
     })),
     (server.memberCount = ServerRaw.memberCount.toLocaleString()),
     (server.boosts = ServerRaw.premiumSubscriptionCount);
-    server.tags = server.tags.join(", ");
-    server.ownerTag = OwnerRaw.tag;
-    server.ownerAvatar = OwnerRaw.avatar;
-    server.desc = desc;
-    server.emojis = ServerRaw.emojis.cache.size;
-    res.render("servers/viewserver.ejs", {
-        bot: global.client,
-        server: server,
-        user: req.user,
-    });
+  server.tags = server.tags.join(", ");
+  server.ownerTag = OwnerRaw.tag;
+  server.ownerAvatar = OwnerRaw.avatar;
+  server.desc = desc;
+  server.emojis = ServerRaw.emojis.cache.size;
+  res.render("servers/viewserver.ejs", {
+    bot: global.client,
+    server: server,
+    user: req.user,
+  });
 });
 
 app.get("/api/servers/:id", async (req, res) => {
@@ -1346,14 +1344,14 @@ app.get("/api/servers/:id", async (req, res) => {
     ).tag,
     tags: server.tags,
 
-        bump: server.bump,
-        bumps: server.bumps,
-        views: server.views,
-        votes: server.votes,
+    bump: server.bump,
+    bumps: server.bumps,
+    views: server.views,
+    votes: server.votes,
 
-        shortDesc: server.shortDesc,
-        description: server.desc,
-    });
+    shortDesc: server.shortDesc,
+    description: server.desc,
+  });
 });
 
 app.get("/servers/:id/join", async (req, res) => {
@@ -1373,7 +1371,7 @@ app.get("/servers/:id/join", async (req, res) => {
 });
 
 app.get("/servers/:id/edit", checkAuth, async (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
 
   const server = await global.serverModel.findOne({
     id: id,
@@ -1395,12 +1393,12 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
     (server.icon = ServerRaw.iconURL()),
     (server.memberCount = ServerRaw.memberCount);
 
-    res.render("servers/editserver.ejs", {
-        bot: req.bot,
-        server: server,
-        tags: global.config.tags,
-        user: req.user,
-    });
+  res.render("servers/editserver.ejs", {
+    bot: req.bot,
+    server: server,
+    tags: global.config.tags,
+    user: req.user,
+  });
 });
 
 app.post("/servers/:id/edit", checkAuth, async (req, res) => {
@@ -1411,19 +1409,19 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   });
   if (!server) return res.redirect("/404");
 
-    if (req.user.id !== server.owner) return res.redirect("/403");
+  if (req.user.id !== server.owner) return res.redirect("/403");
 
-    server.shortDesc = data.short_description;
-    server.desc = data.long_description;
-    server.tags = data.tags;
-    server.website = data.website || null;
-    server.donate = data.donate || null;
-    server.published = true;
-    await server.save();
+  server.shortDesc = data.short_description;
+  server.desc = data.long_description;
+  server.tags = data.tags;
+  server.website = data.website || null;
+  server.donate = data.donate || null;
+  server.published = true;
+  await server.save();
 
-    const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
+  const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
 
-    server.name = ServerRaw.name;
+  server.name = ServerRaw.name;
 
   if (server.published === false) {
     const logs = global.sclient.channels.cache.get(
@@ -1545,9 +1543,9 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
     }
   );
 
-    const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
-    server.name = ServerRaw.name;
-    server.icon = ServerRaw.iconURL();
+  const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
+  server.name = ServerRaw.name;
+  server.icon = ServerRaw.iconURL();
 
   const logs = global.sclient.channels.resolve(global.config.channels.weblogs);
   const date = new Date();
@@ -1585,9 +1583,9 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
       })
       .catch(() => null);
 
-    return res.redirect(
-        `/servers/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
-    );
+  return res.redirect(
+    `/servers/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
+  );
 });
 
 app.get("/servers/:id/vote", checkAuth, async (req, res) => {
@@ -1608,14 +1606,14 @@ app.get("/servers/:id/vote", checkAuth, async (req, res) => {
     });
   }
 
-    const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
-    server.name = ServerRaw.name;
-    server.icon = ServerRaw.iconURL();
+  const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
+  server.name = ServerRaw.name;
+  server.icon = ServerRaw.iconURL();
 
-    res.render("servers/vote.ejs", {
-        server: server,
-        user: req.user || null,
-    });
+  res.render("servers/vote.ejs", {
+    server: server,
+    user: req.user || null,
+  });
 });
 
 //-User Pages-//
@@ -1646,20 +1644,20 @@ app.get("/me", checkAuth, async (req, res) => {
     servers[i].tags = servers[i].tags.join(", ");
   }
 
-    for (let i = 0; i < bots.length; i++) {
-        const BotRaw = await global.client.users.fetch(bots[i].id);
-        bots[i].name = BotRaw.username;
-        bots[i].avatar = BotRaw.avatar;
-        bots[i].tags = bots[i].tags.join(", ");
-    }
-    res.render("user.ejs", {
-        bot: req.bot,
-        fetched_user: user || null,
-        bots: bots,
-        servers: servers,
-        config: global.config,
-        user: user || null,
-    });
+  for (let i = 0; i < bots.length; i++) {
+    const BotRaw = await global.client.users.fetch(bots[i].id);
+    bots[i].name = BotRaw.username;
+    bots[i].avatar = BotRaw.avatar;
+    bots[i].tags = bots[i].tags.join(", ");
+  }
+  res.render("user.ejs", {
+    bot: req.bot,
+    fetched_user: user || null,
+    bots: bots,
+    servers: servers,
+    config: global.config,
+    user: user || null,
+  });
 });
 
 app.get("/users/:id", async (req, res) => {
@@ -1702,14 +1700,14 @@ app.get("/users/:id", async (req, res) => {
     servers[i].tags = servers[i].tags.join(", ");
   }
 
-    res.render("user.ejs", {
-        bot: req.bot,
-        fetched_user: user,
-        bots: bots,
-        servers: servers,
-        config: global.config,
-        user: req.user || null,
-    });
+  res.render("user.ejs", {
+    bot: req.bot,
+    fetched_user: user,
+    bots: bots,
+    servers: servers,
+    config: global.config,
+    user: req.user || null,
+  });
 });
 
 app.get("/users/:id/edit", checkAuth, async (req, res) => {
@@ -1724,19 +1722,19 @@ app.get("/users/:id/edit", checkAuth, async (req, res) => {
   }
   if (req.user.id !== user.id) return res.redirect("/403");
 
-    let userm = await global.userModel.findOne({
-        id: req.params.id,
-    });
-    user.bio = userm?.bio || "This user has no bio set.";
-    user.website = userm?.website;
-    user.github = userm?.github;
-    user.twitter = userm?.twitter;
+  let userm = await global.userModel.findOne({
+    id: req.params.id,
+  });
+  user.bio = userm?.bio || "This user has no bio set.";
+  user.website = userm?.website;
+  user.github = userm?.github;
+  user.twitter = userm?.twitter;
 
-    res.render("edituser.ejs", {
-        bot: req.bot,
-        fetched_user: user,
-        user: req.user || null,
-    });
+  res.render("edituser.ejs", {
+    bot: req.bot,
+    fetched_user: user,
+    user: req.user || null,
+  });
 });
 
 app.post("/users/:id/edit", checkAuth, async (req, res) => {
@@ -1746,70 +1744,70 @@ app.post("/users/:id/edit", checkAuth, async (req, res) => {
   });
   let data = req.body;
 
-    if (!data) {
-        return res.redirect("/");
-    }
+  if (!data) {
+    return res.redirect("/");
+  }
 
-    if (req.user.id !== userm.id) return res.redirect("/403");
+  if (req.user.id !== userm.id) return res.redirect("/403");
 
-    const user = await client.users.fetch(req.params.id).catch(() => null);
-    if (!user) {
-        return res.status(400).json({
-            message: "This is not a real person on Discord.",
-        });
-    }
+  const user = await client.users.fetch(req.params.id).catch(() => null);
+  if (!user) {
+    return res.status(400).json({
+      message: "This is not a real person on Discord.",
+    });
+  }
 
-    userm.bio = data.bio || null;
-    userm.github = data.github || null;
-    userm.website = data.website || null;
-    userm.twitter = data.twitter || null;
-    await userm.save();
+  userm.bio = data.bio || null;
+  userm.github = data.github || null;
+  userm.website = data.website || null;
+  userm.twitter = data.twitter || null;
+  await userm.save();
 
-    return res.redirect(
-        `/users/${req.params.id}?success=true&body=You have successfully edited your profile.`
-    );
+  return res.redirect(
+    `/users/${req.params.id}?success=true&body=You have successfully edited your profile.`
+  );
 });
 
 //-Admin Pages-//
 
 app.get("/queue", checkAuth, checkStaff, async (req, res) => {
-    const client = global.client;
-    let bots = await global.botModel.find({
-        tested: false,
-    });
-    for (let i = 0; i < bots.length; i++) {
-        const BotRaw = await client.users.fetch(bots[i].id);
-        bots[i].name = BotRaw.username;
-        bots[i].tag = BotRaw.tag;
-        bots[i].avatar = BotRaw.avatar;
-        bots[i].name = bots[i].name.replace(
-            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-            ""
-        );
-        bots[i].tags = bots[i].tags.join(", ");
-    }
+  const client = global.client;
+  let bots = await global.botModel.find({
+    tested: false,
+  });
+  for (let i = 0; i < bots.length; i++) {
+    const BotRaw = await client.users.fetch(bots[i].id);
+    bots[i].name = BotRaw.username;
+    bots[i].tag = BotRaw.tag;
+    bots[i].avatar = BotRaw.avatar;
+    bots[i].name = bots[i].name.replace(
+      /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+      ""
+    );
+    bots[i].tags = bots[i].tags.join(", ");
+  }
 
-    let inprogress = await global.botModel.find({
-        inprogress: true,
-    });
+  let inprogress = await global.botModel.find({
+    inprogress: true,
+  });
 
-    for (let i = 0; i < inprogress.length; i++) {
-        const IPRaw = await client.users.fetch(inprogress[i].id);
-        const ReviewerRaw = await client.users.fetch(inprogress[i].reviewer);
-        inprogress[i].tag = IPRaw.tag;
-        inprogress[i].name = IPRaw.username;
-        inprogress[i].avatar = IPRaw.avatar;
-        inprogress[i].reviewer = ReviewerRaw.tag;
-        inprogress[i].tags = inprogress[i].tags.join(", ");
-    }
+  for (let i = 0; i < inprogress.length; i++) {
+    const IPRaw = await client.users.fetch(inprogress[i].id);
+    const ReviewerRaw = await client.users.fetch(inprogress[i].reviewer);
+    inprogress[i].tag = IPRaw.tag;
+    inprogress[i].name = IPRaw.username;
+    inprogress[i].avatar = IPRaw.avatar;
+    inprogress[i].reviewer = ReviewerRaw.tag;
+    inprogress[i].tags = inprogress[i].tags.join(", ");
+  }
 
-    res.render("queue/index.ejs", {
-        bot: req.bot,
-        bots: bots.shuffle(),
-        config: config,
-        user: req.user || null,
-        inprogress: inprogress,
-    });
+  res.render("queue/index.ejs", {
+    bot: req.bot,
+    bots: bots.shuffle(),
+    config: config,
+    user: req.user || null,
+    inprogress: inprogress,
+  });
 });
 
 app.get("/bots/:id/approve", checkAuth, checkStaff, async (req, res) => {
@@ -1822,12 +1820,12 @@ app.get("/bots/:id/approve", checkAuth, checkStaff, async (req, res) => {
       message: "This application could not be found in our site.",
     });
 
-    res.render("queue/approve.ejs", {
-        bot: req.bot,
-        id: req.params.id,
-        config: config,
-        user: req.user || null,
-    });
+  res.render("queue/approve.ejs", {
+    bot: req.bot,
+    id: req.params.id,
+    config: config,
+    user: req.user || null,
+  });
 });
 
 app.get("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
@@ -1839,12 +1837,12 @@ app.get("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
       message: "This application could not be found in our site.",
     });
 
-    res.render("queue/deny.ejs", {
-        bot: req.bot,
-        id: req.params.id,
-        config: config,
-        user: req.user || null,
-    });
+  res.render("queue/deny.ejs", {
+    bot: req.bot,
+    id: req.params.id,
+    config: config,
+    user: req.user || null,
+  });
 });
 
 app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
@@ -1855,10 +1853,10 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
     id: req.params.id,
   });
 
-    if (!bot)
-        return res.status(404).json({
-            message: "This application could not be found in our site.",
-        });
+  if (!bot)
+    return res.status(404).json({
+      message: "This application could not be found in our site.",
+    });
 
   if (bot.approved === true) {
     return res.status(400).json({
@@ -1872,18 +1870,18 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
     });
   }
 
-    const OwnerRaw = (await global.client.users.fetch(bot.owner)) || null;
+  const OwnerRaw = (await global.client.users.fetch(bot.owner)) || null;
 
-    bot.tag = BotRaw.tag;
-    bot.denied = true;
-    bot.tested = true;
-    bot.inprogress = false;
-    bot.ownerName = OwnerRaw.tag;
-    bot.reason = req.body.reason;
-    bot.deniedOn = Date.now();
-    const date = new Date();
+  bot.tag = BotRaw.tag;
+  bot.denied = true;
+  bot.tested = true;
+  bot.inprogress = false;
+  bot.ownerName = OwnerRaw.tag;
+  bot.reason = req.body.reason;
+  bot.deniedOn = Date.now();
+  const date = new Date();
 
-    await bot.delete();
+  await bot.delete();
 
   const denyEmbed = new EmbedBuilder()
     .setTitle("Bot Denied")
@@ -1959,15 +1957,15 @@ app.post("/bots/:id/testing", checkAuth, checkStaff, async (req, res) => {
   });
   let client = global.client;
 
-    if (!bot)
-        return res.status(404).json({
-            message: "This application could not be found in our site.",
-        });
-    const LogRaw = (await client.users.fetch(bot.id)) || null;
-    bot.inprogress = true;
-    bot.tested = true;
-    bot.reviewer = req.user.id;
-    await bot.save();
+  if (!bot)
+    return res.status(404).json({
+      message: "This application could not be found in our site.",
+    });
+  const LogRaw = (await client.users.fetch(bot.id)) || null;
+  bot.inprogress = true;
+  bot.tested = true;
+  bot.reviewer = req.user.id;
+  await bot.save();
 
   res.redirect(
     `https://discord.com/oauth2/authorize?client_id=${bot.id}&scope=bot&permissions=0&guild_id=${global.config.guilds.testing}`
@@ -2011,10 +2009,10 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     id: req.params.id,
   });
 
-    if (!bot)
-        return res.status(404).json({
-            message: "This application could not be found in our site.",
-        });
+  if (!bot)
+    return res.status(404).json({
+      message: "This application could not be found in our site.",
+    });
 
   if (bot.approved === true) {
     return res.status(400).json({
@@ -2028,50 +2026,50 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     });
   }
 
-    const OwnerRaw = await client.users.fetch(bot.owner);
+  const OwnerRaw = await client.users.fetch(bot.owner);
 
-    if (req.method === "POST") {
-        bot.tag = BotRaw.tag;
-        bot.approved = true;
-        bot.inprogress = false;
-        bot.ownerName = OwnerRaw.tag;
-        bot.approvedOn = Date.now();
-        bot.tested = true;
-        await bot.save();
-        const date = new Date();
+  if (req.method === "POST") {
+    bot.tag = BotRaw.tag;
+    bot.approved = true;
+    bot.inprogress = false;
+    bot.ownerName = OwnerRaw.tag;
+    bot.approvedOn = Date.now();
+    bot.tested = true;
+    await bot.save();
+    const date = new Date();
 
-        const approveEmbed = new EmbedBuilder()
-            .setTitle("Bot Approved")
-            .setDescription(
-                "<:yes:946581450852016198> " +
-                bot.tag +
-                " has been approved on Universe List."
-            )
-            .setColor("Green")
-            .addFields({
-                name: "Bot",
-                value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
-                inline: true,
-            })
-            .addFields({
-                name: "Owner",
-                value: `[${bot.ownerName}](https://universe-list.xyz/users/${bot.owner})`,
-                inline: true,
-            })
-            .addFields({
-                name: "Reviewer",
-                value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
-                inline: true,
-            })
-            .addFields({
-                name: "Date",
-                value: `${date.toLocaleString()}`,
-                inline: true,
-            })
-            .setFooter({
-                text: "Approve Logs - Universe List",
-                iconURL: `${global.client.user.displayAvatarURL()}`,
-            });
+    const approveEmbed = new EmbedBuilder()
+      .setTitle("Bot Approved")
+      .setDescription(
+        "<:yes:946581450852016198> " +
+          bot.tag +
+          " has been approved on Universe List."
+      )
+      .setColor("Green")
+      .addFields({
+        name: "Bot",
+        value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+        inline: true,
+      })
+      .addFields({
+        name: "Owner",
+        value: `[${bot.ownerName}](https://universe-list.xyz/users/${bot.owner})`,
+        inline: true,
+      })
+      .addFields({
+        name: "Reviewer",
+        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        inline: true,
+      })
+      .addFields({
+        name: "Date",
+        value: `${date.toLocaleString()}`,
+        inline: true,
+      })
+      .setFooter({
+        text: "Approve Logs - Universe List",
+        iconURL: `${global.client.user.displayAvatarURL()}`,
+      });
 
     logs.send({
       content: `<@${bot.owner}>`,
@@ -2109,25 +2107,25 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
 //-Other Pages-//
 
 app.get("/discord", (_req, res) =>
-    res.redirect("https://discord.gg/PXdJjTF6yS")
+  res.redirect("https://discord.gg/PXdJjTF6yS")
 );
 
 app.get("/analytics", (_req, res) =>
-    res.redirect(
-        "https://analytics.umami.is/share/GgNV4PtXH3fBmJB7/Universe%20List"
-    )
+  res.redirect(
+    "https://analytics.umami.is/share/GgNV4PtXH3fBmJB7/Universe%20List"
+  )
 );
 
 app.get("/bot-reviewer", (_req, res) =>
-    res.redirect("https://ishaantek.typeform.com/bot-reviewer")
+  res.redirect("https://ishaantek.typeform.com/bot-reviewer")
 );
 
 app.get("/github", (_req, res) =>
-    res.redirect("https://github.com/ishaantek/UniverseList")
+  res.redirect("https://github.com/ishaantek/UniverseList")
 );
 
 app.get("/newbot", (_req, res) =>
-    res.redirect("https://universe-list.xyz/bots/new")
+  res.redirect("https://universe-list.xyz/bots/new")
 );
 
 app.get("/delete", async (req, res) => {
@@ -2192,55 +2190,55 @@ app.get("/403", async (req, res) => {
 
 //-Error Pages-//
 app.all("*", (req, res) => {
-    res.status(404);
-    res.render("errors/404.ejs", {
-        bot: req.bot,
-        user: req.user || null,
-    });
+  res.status(404);
+  res.render("errors/404.ejs", {
+    bot: req.bot,
+    user: req.user || null,
+  });
 });
 
 app.all("*", (req, res) => {
-    res.status(401);
-    res.render("errors/401.ejs", {
-        bot: req.bot,
-        user: req.user || null,
-    });
+  res.status(401);
+  res.render("errors/401.ejs", {
+    bot: req.bot,
+    user: req.user || null,
+  });
 });
 
 app.all("*", (req, res) => {
-    res.status(403);
-    res.render("errors/403.ejs", {
-        bot: req.bot,
-        user: req.user || null,
-    });
+  res.status(403);
+  res.render("errors/403.ejs", {
+    bot: req.bot,
+    user: req.user || null,
+  });
 });
 
 app.listen(config.port, () => {
-    logger.system(`Running on port ${config.port}.`);
+  logger.system(`Running on port ${config.port}.`);
 });
 
 //-Functions-//
 
 function checkAuth(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.redirect(`/auth/login?from=${req.originalUrl}`);
+  if (req.isAuthenticated()) return next();
+  res.redirect(`/auth/login?from=${req.originalUrl}`);
 }
 
 function checkStaff(req, res, next) {
-    const config = global.config;
-    const guild = global.client.guilds.cache.get(config.guilds.main);
-    const member = guild.members.cache.get(req.user.id);
+  const config = global.config;
+  const guild = global.client.guilds.cache.get("941896554736934933");
+  const member = guild.members.cache.get(req.user.id);
 
-    if (
-        member.roles.cache.some((role) => role.id === config.roles.mod) ||
-        member.roles.cache.some((role) => role.id === config.roles.admin)
-    ) {
-        return next();
-    } else {
-        return res.render("errors/403.ejs", {
-            user: req.user || null,
-        });
-    }
+  if (
+    member.roles.cache.some((role) => role.id === config.roles.mod) ||
+    member.roles.cache.some((role) => role.id === config.roles.admin)
+  ) {
+    return next();
+  } else {
+    return res.render("errors/403.ejs", {
+      user: req.user || null,
+    });
+  }
 }
 
 function canUserVote(x) {

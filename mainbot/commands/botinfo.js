@@ -1,6 +1,14 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const axios = require('axios');
+const {
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require("discord.js");
 const model = require("../../src/models/bot.js");
+const japiRestPkg = require("japi.rest");
+const japiRest = new japiRestPkg(
+  "JAPI.ODc0NzEzMTM4OTkzODgzNDUw.BUb.K2ggLd3lH7D6ka9QsS0GO"
+);
 
 module.exports = {
   name: "botinfo",
@@ -12,9 +20,9 @@ module.exports = {
     let data = await model.findOne({ id: bot.id });
     if (!data) return message.reply("That's not a bot on Universe List.");
     const botOwner = await client.users.fetch(data.owner);
-    
-		const response = await axios.get(`https://alprim.rest/api/v1/discord/application/${data.id}`);
-    
+
+    const japidata = await japiRest.discord.getApplication(data.id);
+
     let embed = new EmbedBuilder()
       .setAuthor({
         name: `${bot.tag}`,
@@ -36,7 +44,7 @@ module.exports = {
       })
       .addFields({
         name: "Servers:",
-        value: `${response || "N/A"}`,
+        value: `${japidata.data.bot.approximate_guild_count || "N/A"}`,
         inline: true,
       })
       .addFields({
