@@ -236,8 +236,8 @@ app.get("/", async (req, res) => {
 	for (let i = 0; i < bots.length; i++) {
 		const BotRaw = await client.users.fetch(bots[i].id);
     console.log(bots[i].id);
-		// const response = await axios.get(`https://alprim.rest/api/v1/discord/application/${bots[i].id}`);
-		// bots[i].servers = response.data.bot.approximate_guild_count;
+		const response = await axios.get(`https://alprim.rest/api/v1/discord/application/${bots[i].id}`);
+		bots[i].servers = response.data.bot.approximate_guild_count;
 		bots[i].name = BotRaw.username;
 		bots[i].avatar = BotRaw.avatar;
 		bots[i].name = bots[i].name.replace(
