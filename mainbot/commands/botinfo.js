@@ -44,7 +44,8 @@ module.exports = {
       })
       .addFields({
         name: "Servers:",
-        value: `${japidata.data.bot.approximate_guild_count || "N/A"}`,
+        // value: `${japidata.data.bot.approximate_guild_count || "N/A"}`,
+        value: "N/A",
         inline: true,
       })
       .addFields({
