@@ -78,9 +78,8 @@
           <td style="color: #D9E4EC;">
             <a target="__blank" style="border-radius: 5px;" href="https://discordapp.com/oauth2/authorize?client_id=<%= inprogress[i].id %>&scope=bot&permissions=0&guild_id=<%= global.config.guilds.testing %>" class="btn btn-primary">Invite</a>
             <a href="/bots/<%= inprogress[i].id%>" type="button" style="border-radius: 5px;" class="btn btn-warning">View</a>
-            <a target="__blank" href="/bots/<%= inprogress[i].id %>/approve" style="border-radius: 5px;" class="btn btn-success">Approve</a>
-
-            <a target="__blank" href="/bots/<%= inprogress[i].id %>/deny" class="btn btn-danger" style="border-radius: 5px;">Deny</a>
+            <a href="/bots/<%= inprogress[i].id %>/approve" style="border-radius: 5px;" class="btn btn-success">Approve</a>
+            <a href="/bots/<%= inprogress[i].id %>/deny" class="btn btn-danger" style="border-radius: 5px;">Deny</a>
           </td>
           <td>
             <%- inprogress[i].reviewer %>

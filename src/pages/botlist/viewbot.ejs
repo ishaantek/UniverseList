@@ -60,13 +60,13 @@
           <% } %>
           <% if (user) { %>
             <% if (!bot.owner.includes(user.id)) { %>
-              <a target="blank" href="/bots/<%= bot.id %>/review" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Review</a>
+              <a href="/bots/<%= bot.id %>/review" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Review</a>
               <% } %>
           <% if (bot.owner.includes(user.id) || member.roles.cache.some((role) => role.id === config.roles.bottester)) { %>
-          <a target="blank" href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+          <a href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
           <% } %>
           <% if (bot.owner.includes(user.id)) { %>
-            <a target="blank" href="/bots/<%= bot.id %>/certify" type="button" style=" background-color: #ff5f5f; border-radius: 5px;"
+            <a href="/bots/<%= bot.id %>/certify" type="button" style=" background-color: #ff5f5f; border-radius: 5px;"
               class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-square-check"></i> Certify</a>
             <% } %>
           <% } %>
