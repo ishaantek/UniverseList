@@ -239,7 +239,9 @@ app.get("/", async (req, res) => {
 
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
-    const tejas404_data = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
+    const tejas404_data_raw = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
+    const tejas404_data = await tejas404_data_raw.json();
+   
      bots[i].servers = tejas404_data.message.bot.approximate_guild_count;
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
@@ -265,7 +267,8 @@ app.get("/bots", async (req, res) => {
 
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
-   const tejas404_data = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
+    const tejas404_data_raw = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
+    const tejas404_data = await tejas404_data_raw.json();
      bots[i].servers = tejas404_data.message.bot.approximate_guild_count;
 
     bots[i].name = BotRaw.username;
@@ -929,7 +932,8 @@ app.get("/bots/:id", async (req, res) => {
   const desc = marked.parse(bot.desc);
   const BotRaw = (await client.users.fetch(id)) || null;
   const OwnerRaw = (await client.users.fetch(bot.owner)) || null;
-  const tejas404_data = await fetch(`https://api.tejas404.xyz/utility/application?id=${id}`);
+   const tejas404_data_raw = await fetch(`https://api.tejas404.xyz/utility/application?id=${id}`);
+    const tejas404_data = await tejas404_data_raw.json();
    bot.servers = tejas404_data.message.bot.approximate_guild_count;
   bot.name = BotRaw.username;
   bot.avatar = BotRaw.avatar;
@@ -1680,7 +1684,8 @@ app.get("/users/:id", async (req, res) => {
   });
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await global.client.users.fetch(bots[i].id);
-    const tejas404_data = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
+     const tejas404_data_raw = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
+    const tejas404_data = await tejas404_data_raw.json();
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].tags = bots[i].tags.join(", ");
