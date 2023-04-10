@@ -5,10 +5,8 @@ const {
   ButtonStyle,
 } = require("discord.js");
 const model = require("../../src/models/bot.js");
-const japiRestPkg = require("japi.rest");
-const japiRest = new japiRestPkg(
-  "JAPI.ODc0NzEzMTM4OTkzODgzNDUw.BUb.K2ggLd3lH7D6ka9QsS0GO"
-);
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 module.exports = {
   name: "botinfo",
@@ -21,8 +19,8 @@ module.exports = {
     if (!data) return message.reply("That's not a bot on Universe List.");
     const botOwner = await client.users.fetch(data.owner);
 
-    const japidata = await japiRest.discord.getApplication(data.id);
-
+    const tejas404_data_raw = await fetch(`https://api.tejas404.xyz/utility/application?id=${bot.id}`);
+    const tejas404_data = await tejas404_data_raw.json();
     let embed = new EmbedBuilder()
       .setAuthor({
         name: `${bot.tag}`,
@@ -44,8 +42,8 @@ module.exports = {
       })
       .addFields({
         name: "Servers:",
-        // value: `${japidata.data.bot.approximate_guild_count || "N/A"}`,
-        value: "N/A",
+         value: !tejas404_data.error ? tejas404_data.message.bot.approximate_guild_count : "API Error",
+        //value: "N/A",
         inline: true,
       })
       .addFields({
@@ -72,7 +70,8 @@ module.exports = {
       .setFooter({
         text: "Universe List - Bot Info command",
         iconURL: global.client.user.displayAvatarURL(),
-      });
+      })
+    .setImage(`https://api.tejas404.xyz/image/profileimage?key=${proccess.env.tejas404key}&userid=${bot.id}&customBackground=https%3A%2F%2Fcdn.discordapp.com%2Favatars%2F1018001748020961311%2F05065c21b49163f46da86fc03f8c14ef.png&badgesFrame=true&borderColor=FFFFFF`);
     let row = new ActionRowBuilder();
 
     if (data.invite)
