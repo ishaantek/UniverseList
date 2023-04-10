@@ -239,10 +239,8 @@ app.get("/", async (req, res) => {
 
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
-    const japidata = await japiRest.discord.getApplication(
-      "1018001748020961311"
-    );
-    // bots[i].servers = japidata.data.bot.approximate_guild_count;
+    const tejas404_data = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
+     bots[i].servers = tejas404_data.message.bot.approximate_guild_count;
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].name = bots[i].name.replace(
@@ -267,8 +265,8 @@ app.get("/bots", async (req, res) => {
 
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
-    const japidata = await japiRest.discord.getApplication(bots[i].id);
-    // bots[i].servers = japidata.data.bot.approximate_guild_count;
+   const tejas404_data = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
+     bots[i].servers = tejas404_data.message.bot.approximate_guild_count;
 
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
@@ -283,7 +281,7 @@ app.get("/bots", async (req, res) => {
     bot: req.bot,
     bots: bots.shuffle(),
     user: req.user || null,
-    // appInfo: japiData,
+     appInfo: tejas404_data,
   });
 }); //Removing end point
 app.get("/explore", async (req, res) => {
@@ -931,8 +929,8 @@ app.get("/bots/:id", async (req, res) => {
   const desc = marked.parse(bot.desc);
   const BotRaw = (await client.users.fetch(id)) || null;
   const OwnerRaw = (await client.users.fetch(bot.owner)) || null;
-  const japidata = await japiRest.discord.getApplication(bot.id);
-  // bot.servers = japidata.data.bot.approximate_guild_count;
+  const tejas404_data = await fetch(`https://api.tejas404.xyz/utility/application?id=${id}`);
+   bot.servers = tejas404_data.message.bot.approximate_guild_count;
   bot.name = BotRaw.username;
   bot.avatar = BotRaw.avatar;
   bot.discriminator = BotRaw.discriminator;
@@ -1682,7 +1680,7 @@ app.get("/users/:id", async (req, res) => {
   });
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await global.client.users.fetch(bots[i].id);
-    const japidata = await japiRest.discord.getApplication(bots[i].id);
+    const tejas404_data = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].tags = bots[i].tags.join(", ");
