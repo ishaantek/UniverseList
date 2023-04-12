@@ -21,6 +21,10 @@ module.exports = {
 
     const tejas404_data_raw = await fetch(`https://api.tejas404.xyz/utility/application?id=${bot.id}`);
     const tejas404_data = await tejas404_data_raw.json();
+    let guild_count;
+    if(!tejas404_data.error) {
+      guild_count = tejas404_data.message.bot.approximate_guild_count 
+    } else guild_count = "API Error"
     let embed = new EmbedBuilder()
       .setAuthor({
         name: `${bot.tag}`,
@@ -42,7 +46,7 @@ module.exports = {
       })
       .addFields({
         name: "Servers:",
-         value: !tejas404_data.error ? tejas404_data.message.bot.approximate_guild_count : "API Error",
+         value: guild_count,
         //value: "N/A",
         inline: true,
       })
