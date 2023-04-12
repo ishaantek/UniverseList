@@ -1,8 +1,3 @@
-const japiRestPkg = require("japi.rest");
-const japiRest = new japiRestPkg(
-  "JAPI.ODc0NzEzMTM4OTkzODgzNDUw.BUb.K2ggLd3lH7D6ka9QsS0GO"
-);
-
 const logger = require("../functions/logger");
 const {
   EmbedBuilder,
@@ -240,9 +235,9 @@ app.get("/", async (req, res) => {
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
     const tejas404_data_raw = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
-    const tejas404_data = await tejas404_data_raw.json();
+    const tejas404_data = await tejas404_data_raw.json()
    
-     bots[i].servers = tejas404_data.message.bot.approximate_guild_count;
+    bots[i].servers = tejas404_data.message.bot.approximate_guild_count;
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].name = bots[i].name.replace(
@@ -283,8 +278,7 @@ app.get("/bots", async (req, res) => {
   res.render("botlist/bots.ejs", {
     bot: req.bot,
     bots: bots.shuffle(),
-    user: req.user || null,
-     appInfo: tejas404_data,
+    user: req.user || null
   });
 }); //Removing end point
 app.get("/explore", async (req, res) => {
@@ -1684,8 +1678,7 @@ app.get("/users/:id", async (req, res) => {
   });
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await global.client.users.fetch(bots[i].id);
-     const tejas404_data_raw = await fetch(`https://api.tejas404.xyz/utility/application?id=${bots[i].id}`);
-    const tejas404_data = await tejas404_data_raw.json();
+   
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].tags = bots[i].tags.join(", ");
