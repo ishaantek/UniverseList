@@ -62,7 +62,6 @@ const poster = new Poster(lists, {
 });
 
 poster.startAutoPost();
-poster.stopAutoPost();
 
 
 //-Events-//
