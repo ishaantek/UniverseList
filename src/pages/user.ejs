@@ -39,7 +39,7 @@
         </hr>
         <% if (user) { %>
         <% if (fetched_user.id === user.id) { %>
-        <a target="blank" href="/users/<%= fetched_user.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
+        <a href="/users/<%= fetched_user.id %>/edit" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
         <% } %>
         <% } %>
         <a target="blank" href="https://discord.com/users/<%= fetched_user.id %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Discord</a>
