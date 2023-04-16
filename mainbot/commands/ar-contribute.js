@@ -4,11 +4,9 @@ module.exports = {
   async run(client, message, args) {
     const embed = new EmbedBuilder()
       .setColor("7289da")
-      .setTitle(
-        "<:ul_logo_oval:1051334687647354880> Contributors"
-      )
+      .setTitle("<:ul_logo_oval:1051334687647354880> Contributors")
       .setDescription(
-        `Contributors are not considered staff and there is no age requirement. Contributors help out by fixing things in the source code.\nTo find a list of features that you could add, check <#1044782256805392444>`
+        `Contributors play a vital role in improving the source code by identifying and fixing issues. Being a contributor does not require staff status nor is there any age requirement. \n\nWe value and appreciate the efforts of our contributors, and recognize their contributions as key to the success of our project. If you're looking for ideas on features to add, please refer to <#1044782256805392444>`
       );
     return message.channel.send({ embeds: [embed] });
   },
