@@ -220,11 +220,8 @@ app.get("/info", async (req, res) => {
 
 app.get("/auth/logout", function (req, res) {
   req.logout(() => {
-    res.redirect("/");
+    res.redirect(req.query.from || "/");
   });
-  if (req.session.returnTo) {
-    delete req.session.returnTo;
-  }
 });
 
 //-bot-//
