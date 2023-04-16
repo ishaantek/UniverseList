@@ -61,7 +61,7 @@ const poster = new Poster(lists, {
   voiceConnectionCount: () => 0,
 });
 
-poster.startAutoPost();
+poster.postStatistics();
 
 
 //-Events-//
