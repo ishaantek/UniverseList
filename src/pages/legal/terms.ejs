@@ -1,16 +1,26 @@
-
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
   <title>Terms - Universe List</title>
   <%- include ("../parts/head.ejs") %>
 </head>
 <%- include ("../parts/navbar.ejs") %>
 <br><br><br><br>
 <div class="page-container">
-  <div class="content-wrap">
+  <div class="container">
+    <div class="md" id="md">
+      <h2 class="heading"><b>Universe List Terms</h2><br><br>
+      <p>This is not a bug! Ishaan is just lazy<p>
+    </div>
   </div>
 </div>
 <br><br><br><br><br><br>
+
+<style>
+  .heading {
+    text-align: center;
+  }
+</style>
 <%- include("../parts/footer.ejs") %>
