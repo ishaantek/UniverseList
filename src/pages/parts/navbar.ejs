@@ -157,11 +157,9 @@
       confirmButtonText: "Yes",
       denyButtonText: `No`,
     }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.replace("/auth/login/joinSupport");
-      } else if (result.isDenied) {
-        window.location.replace("/auth/login");
-      }
+      const from = window.location.pathname;
+      const path = result.isConfirmed ? "/auth/login/joinSupport" : "/auth/login";
+      window.location.replace(`${path}?from=${from}`);
     });
   }
 </script>

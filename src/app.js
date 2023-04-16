@@ -153,26 +153,24 @@ let normalScopes = ["identify"];
 
 app.get(
   "/auth/login",
-  passport.authenticate("discord", {
-    scope: normalScopes,
-    prompt: prompt,
-    callbackURL: config.bot.redirect,
-  }),
-  (req, res) => {
-    if (req.query.from) req.session.returnTo = req.query.from;
-  }
+  (req, res, next) =>
+    passport.authenticate("discord", {
+      scope: normalScopes,
+      prompt: prompt,
+      callbackURL: config.bot.redirect,
+      state: req.query.from || '/',
+    })(req, res, next)
 );
 
 app.get(
   "/auth/login/joinSupport",
-  passport.authenticate("discord", {
-    scope: scopes,
-    prompt: prompt,
-    callbackURL: `${config.bot.redirect}/joinSupport`,
-  }),
-  (req, res) => {
-    if (req.query.from) req.session.returnTo = req.query.from;
-  }
+  (req, res, next) => 
+    passport.authenticate("discord", {
+      scope: scopes,
+      prompt: prompt,
+      callbackURL: `${config.bot.redirect}/joinSupport`,
+      state: req.query.from || '/',
+    })(req, res, next)
 );
 
 app.get(
@@ -181,7 +179,7 @@ app.get(
     failureRedirect: "/",
   }),
   function (req, res) {
-    res.redirect(req.session.returnTo || "/");
+    res.redirect(req.query.state || "/");
   }
 );
 
@@ -212,7 +210,7 @@ app.get(
       );
     } catch {}
 
-    res.redirect(req.session.returnTo || "/");
+    res.redirect(req.query.state || "/");
   }
 );
 
