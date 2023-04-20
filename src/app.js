@@ -1076,7 +1076,7 @@ app.get("/api/bots/:id", async (req, res) => {
   );
   const BotRaw = await global.client.users.fetch(rs.id).catch(() => null);
   const OwnerRaw = await global.client.users.fetch(rs.owner).catch(() => null);
-  const serverApi = await japiRest.discord.getApplication(rs.id);
+  // const serverApi = await japiRest.discord.getApplication(rs.id);
   return res.json({
     // This doesn't need to be in another object (i.e: 'final_data')
     id: rs.id,
@@ -1096,7 +1096,7 @@ app.get("/api/bots/:id", async (req, res) => {
 
     // Counts
     shards: +rs.shards,
-    servers: serverApi.data.bot.approximate_guild_count,
+    servers: +rs.servers,
     votes: rs.votes,
     views: rs.views,
 
