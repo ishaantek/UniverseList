@@ -2,6 +2,7 @@ const japiRestPkg = require("japi.rest");
 const japiRest = new japiRestPkg(
   "JAPI.ODc0NzEzMTM4OTkzODgzNDUw.BUb.K2ggLd3lH7D6ka9QsS0GO"
 );
+
 const logger = require("../functions/logger");
 const {
   EmbedBuilder,
@@ -22,6 +23,7 @@ const express = require("express"),
   Strategy = require("passport-discord").Strategy;
 const SQLiteStore = require("connect-sqlite3")(session);
 const helmet = require("helmet");
+
 // const rateLimit = require('express-rate-limit')
 Array.prototype.shuffle = function () {
   // Define this once
@@ -33,20 +35,27 @@ Array.prototype.shuffle = function () {
   );
 };
 require("https").globalAgent.options.rejectUnauthorized = false;
+
 //-Database Login-//
+
 mongoose.set("strictQuery", true);
+
 try {
   mongoose.connect(config.mongo).then(logger.system("Mongoose connected."));
 } catch (error) {
   logger.error(error);
 }
+
 //-Webserver-//
+
 const app = express();
+
 /* const limiter = rateLimit({
    windowMs: 15 * 60 * 1000,
    max: 100,
    standardHeaders: true,
  }) */
+
 // Apply the rate limiting middleware to all requests
 //app.use(limiter)
 app.use(express.json());
@@ -64,6 +73,7 @@ app.use(
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/static"));
 app.set("views", path.join(__dirname, "pages"));
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://localhost");
   res.header("Access-Control-Allow-Headers", "*");
@@ -74,7 +84,9 @@ app.use((req, res, next) => {
     next();
   }
 });
+
 //-Alaways use protection!-//
+
 var minifyHTML = require("express-minify-html-terser");
 app.use(
   minifyHTML({
@@ -90,15 +102,20 @@ app.use(
     },
   })
 );
+
 //-Passport Discord-//
+
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
+
 passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
+
 var scopes = ["identify", "guilds.join"];
 var prompt = "consent";
+
 passport.use(
   new Strategy(
     {
@@ -118,6 +135,7 @@ passport.use(
     }
   )
 );
+
 app.use(
   session({
     store: new SQLiteStore(),
@@ -126,9 +144,31 @@ app.use(
     saveUninitialized: false,
   })
 );
+
 app.use(passport.initialize());
+
 app.use(passport.session());
+
 let normalScopes = ["identify"];
+
+app.get("/auth/login", (req, res, next) =>
+  passport.authenticate("discord", {
+    scope: normalScopes,
+    prompt: prompt,
+    callbackURL: config.bot.redirect,
+    state: req.query.from || "/",
+  })(req, res, next)
+);
+
+app.get("/auth/login/joinSupport", (req, res, next) =>
+  passport.authenticate("discord", {
+    scope: scopes,
+    prompt: prompt,
+    callbackURL: `${config.bot.redirect}/joinSupport`,
+    state: req.query.from || "/",
+  })(req, res, next)
+);
+
 app.get(
   "/auth/callback",
   passport.authenticate("discord", {
@@ -138,6 +178,7 @@ app.get(
     res.redirect(req.query.state || "/");
   }
 );
+
 app.get(
   "/auth/callback/joinSupport",
   passport.authenticate("discord", {
@@ -148,6 +189,7 @@ app.get(
   }),
   function (req, res) {
     const client = global.client;
+
     try {
       fetch(
         `https://discord.com/api/v10/guilds/${config.guilds.main}/members/${req.user.id}`,
@@ -163,23 +205,29 @@ app.get(
         }
       );
     } catch {}
+
     res.redirect(req.query.state || "/");
   }
 );
+
 app.get("/info", async (req, res) => {
   return res.json(req.user);
 });
+
 app.get("/auth/logout", function (req, res) {
   req.logout(() => {
     res.redirect(req.query.from || "/");
   });
 });
+
 //-bot-//
+
 app.get("/", async (req, res) => {
   const client = global.client;
   let bots = await global.botModel.find({
     approved: true,
   });
+
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
     const japidata = await japiRest.discord.getApplication(
@@ -194,21 +242,25 @@ app.get("/", async (req, res) => {
     );
     bots[i].tags = bots[i].tags.join(", ");
   }
+
   res.render("index.ejs", {
     bot: req.bot,
     bots: bots.shuffle(),
     user: req.user || null,
   });
 });
+
 app.get("/bots", async (req, res) => {
   const client = global.client;
   let bots = await global.botModel.find({
     approved: true,
   });
+
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
     const japidata = await japiRest.discord.getApplication(bots[i].id);
     // bots[i].servers = japidata.data.bot.approximate_guild_count;
+
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].name = bots[i].name.replace(
@@ -217,6 +269,7 @@ app.get("/bots", async (req, res) => {
     );
     bots[i].tags = bots[i].tags.join(", ");
   }
+
   res.render("botlist/bots.ejs", {
     bot: req.bot,
     bots: bots.shuffle(),
@@ -227,6 +280,7 @@ app.get("/bots", async (req, res) => {
 app.get("/explore", async (req, res) => {
   res.redirect("/");
 });
+
 app.get("/bots/new", checkAuth, async (req, res) => {
   res.render("botlist/add.ejs", {
     bot: global.client,
@@ -234,11 +288,14 @@ app.get("/bots/new", checkAuth, async (req, res) => {
     user: req.user || null,
   });
 });
+
 app.post("/bots/new", checkAuth, async (req, res) => {
   const client = global.client;
   const logs = client.channels.cache.get(config.channels.weblogs);
   let data = req.body;
+
   if (!data) return res.redirect("/");
+
   if (
     await global.botModel.findOne({
       id: data.id,
@@ -247,6 +304,7 @@ app.post("/bots/new", checkAuth, async (req, res) => {
     return res.status(409).json({
       message: "This application has already been added to our site.",
     });
+
   try {
     await client.users.fetch(data.id);
   } catch (err) {
@@ -254,13 +312,16 @@ app.post("/bots/new", checkAuth, async (req, res) => {
       message: "This is not a real application on Discord.",
     });
   }
+
   const bot = await client.users.fetch(data.id);
+
   if (bot.bot === false) {
     return res.status(400).json({
       message:
         "You tried to add a user account to the site, you need to add a BOT ID.",
     });
   }
+
   await global.botModel.create({
     id: data.id,
     prefix: data.prefix,
@@ -276,6 +337,7 @@ app.post("/bots/new", checkAuth, async (req, res) => {
     website: data.website || null,
     donate: data.donate || null,
   });
+
   const date = new Date();
   const addEmbed = new EmbedBuilder()
     .setTitle("Bot Added")
@@ -308,33 +370,41 @@ app.post("/bots/new", checkAuth, async (req, res) => {
     content: `<@${req.user.id}> | <@&941896554736934934>`,
     embeds: [addEmbed],
   });
+
   return res.redirect(
     `/bots/${data.id}?success=true&body=Your bot was added successfully.`
   );
 });
+
 app.get("/bots/:id/invite", async (req, res) => {
   const id = req.params.id;
   const bot = await global.botModel.findOne({
     id: id,
   });
   if (!bot) return res.status(404).redirect("/404");
+
   if (!bot.invite) {
     return res.redirect(
       `https://discord.com/oauth2/authorize?client_id=${id}&scope=bot%20applications.commands&permissions=0&response_type=code`
     );
   }
+
   return res.redirect(bot.invite);
 });
+
 app.get("/bots/:id/edit", checkAuth, async (req, res) => {
   const client = global.client;
   const config = global.config;
   const id = req.params.id;
+
   const bot = await global.botModel.findOne({
     id: id,
   });
   if (!bot) return res.redirect("/404");
+
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
   const member = guild.members.cache.get(req.user.id);
+
   if (
     bot.owner.includes(req.user.id) ||
     member.roles.cache.some((role) => role.id === config.roles.bottester)
@@ -342,8 +412,10 @@ app.get("/bots/:id/edit", checkAuth, async (req, res) => {
     const BotRaw = (await client.users.fetch(id)) || null;
     bot.name = BotRaw.username;
     bot.avatar = BotRaw.avatar;
+
     const guild = global.client.guilds.cache.get(global.config.guilds.main);
     const member = guild.members.cache.get(req.user.id);
+
     res.render("botlist/edit.ejs", {
       bot: bot,
       tags: global.config.tags,
@@ -354,6 +426,7 @@ app.get("/bots/:id/edit", checkAuth, async (req, res) => {
     return res.redirect("/403");
   }
 });
+
 app.post("/bots/:id/edit", checkAuth, async (req, res) => {
   const client = global.client;
   const config = global.config;
@@ -363,8 +436,10 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
   });
   let data = req.body;
   if (!data) return res.redirect("/");
+
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
   const member = guild.members.cache.get(req.user.id);
+
   if (
     botm.owner.includes(req.user.id) ||
     member.roles.cache.some((role) => role.id === config.roles.bottester)
@@ -386,6 +461,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
     botm.donate = data.donate || null;
     botm.webhook = data.webhook || null;
     await botm.save();
+
     const date = new Date();
     const editEmbed = new EmbedBuilder()
       .setTitle("Bot Edited")
@@ -416,6 +492,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
       content: `<@${req.user.id}>`,
       embeds: [editEmbed],
     });
+
     return res.redirect(
       `/bots/${req.params.id}?success=true&body=You have successfully edited your bot.`
     );
@@ -423,20 +500,26 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
     return res.redirect("/403");
   }
 });
+
 app.get("/bots/:id/certify", checkAuth, async (req, res) => {
   const client = global.client;
   const config = global.config;
   const id = req.params.id;
+
   const bot = await global.botModel.findOne({ id: id });
   if (!bot) return res.redirect("/404");
+
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
   const member = guild.members.cache.get(req.user.id);
+
   if (bot.owner.includes(req.user.id)) {
     const BotRaw = (await client.users.fetch(id)) || null;
     bot.name = BotRaw.username;
     bot.avatar = BotRaw.avatar;
+
     const guild = global.client.guilds.cache.get(global.config.guilds.main);
     const member = guild.members.cache.get(req.user.id);
+
     res.render("botlist/certify.ejs", {
       bot: bot,
       user: req.user || null,
@@ -446,6 +529,7 @@ app.get("/bots/:id/certify", checkAuth, async (req, res) => {
     return res.redirect("/403");
   }
 });
+
 app.post("/bots/:id/certify", checkAuth, async (req, res) => {
   const client = global.client;
   const config = global.config;
@@ -455,8 +539,10 @@ app.post("/bots/:id/certify", checkAuth, async (req, res) => {
   });
   let data = req.body;
   if (!data) return res.redirect("/");
+
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
   const member = guild.members.cache.get(req.user.id);
+
   if (
     botm.owner.includes(req.user.id) ||
     member.roles.cache.some((role) => role.id === config.roles.bottester)
@@ -466,6 +552,7 @@ app.post("/bots/:id/certify", checkAuth, async (req, res) => {
       return res.status(400).json({
         message: "This is not a real application on Discord.",
       });
+
     const date = new Date();
     const editEmbed = new EmbedBuilder()
       .setTitle("Certification Requested")
@@ -498,6 +585,7 @@ app.post("/bots/:id/certify", checkAuth, async (req, res) => {
       content: `<@${req.user.id}>`,
       embeds: [editEmbed],
     });
+
     return res.redirect(
       `/bots/${req.params.id}?success=true&body=You have successfully applied for certification.`
     );
@@ -505,16 +593,20 @@ app.post("/bots/:id/certify", checkAuth, async (req, res) => {
     return res.redirect("/403");
   }
 });
+
 app.get("/bots/:id/delete", checkAuth, async (req, res) => {
   const client = global.client;
   const config = global.config;
   const id = req.params.id;
+
   const bot = await global.botModel.findOne({
     id: id,
   });
   if (!bot) return res.redirect("/404");
+
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
   const member = guild.members.cache.get(req.user.id);
+
   if (
     bot.owner.includes(req.user.id) ||
     member.roles.cache.some((role) => role.id === config.roles.bottester)
@@ -522,11 +614,11 @@ app.get("/bots/:id/delete", checkAuth, async (req, res) => {
     const BotRaw = (await client.users.fetch(id)) || null;
     bot.name = BotRaw.username;
     bot.avatar = BotRaw.avatar;
+
     const guild = global.client.guilds.cache.get(global.config.guilds.main);
     const member = guild.members.cache.get(req.user.id);
+
     res.render("botlist/delete.ejs", {
-      tags: global.config.tags,
-      member: member,
       bot: req.bot,
       id: req.params.id,
       config: config,
@@ -536,6 +628,7 @@ app.get("/bots/:id/delete", checkAuth, async (req, res) => {
     return res.redirect("/403");
   }
 });
+
 app.post("/bots/:id/delete", checkAuth, async (req, res) => {
   const client = global.client;
   const config = global.config;
@@ -545,8 +638,10 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
   });
   let data = req.body;
   if (!data) return res.redirect("/");
+
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
   const member = guild.members.cache.get(req.user.id);
+
   if (
     botm.owner.includes(req.user.id) ||
     member.roles.cache.some((role) => role.id === config.roles.bottester)
@@ -559,10 +654,12 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       return res.status(400).json({
         message: "This is not a real application on Discord.",
       });
+
     let guild = client.guilds.cache.get(global.config.guilds.main);
     const kickBot = guild.members.cache.get(bot.id);
     kickBot.kick("Deleted from Universe List.");
     await botm.delete();
+
     const date = new Date();
     bot2.reason = req.body.reason;
     const editEmbed = new EmbedBuilder()
@@ -601,6 +698,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       content: `<@${req.user.id}>`,
       embeds: [editEmbed],
     });
+
     return res.redirect(
       `/bots/${req.params.id}?success=true&body=You have successfully deleted your bot.`
     );
@@ -608,6 +706,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
     return res.redirect("/403");
   }
 });
+
 app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
   let id = req.params.id;
   let bot = await global.botModel.findOne({
@@ -615,7 +714,9 @@ app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
   });
   if (!bot) return res.redirect("/");
   if (req.user.id !== bot.owner) return res.redirect("/");
+
   let data = req.body;
+
   function genApiKey(options = {}) {
     let length = options.length || 5;
     let string =
@@ -635,6 +736,7 @@ app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
     `https://universe-list.xyz/bots/${id}/edit?success=true&body=You have successfully generated a new token.`
   );
 });
+
 app.post("/bots/:id/vote", checkAuth, async (req, res) => {
   let bot = await global.botModel.findOne({
     id: req.params.id,
@@ -655,6 +757,7 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
       );
     await x.remove().catch(() => null);
   }
+
   await global.voteModel.create({
     bot: req.params.id,
     user: req.user.id,
@@ -679,6 +782,7 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
   bot.name = BotRaw.username;
   bot.discriminator = BotRaw.discriminator;
   bot.avatar = BotRaw.avatar;
+
   const logs = global.client.channels.resolve(global.config.channels.weblogs);
   const date = new Date();
   const votedEmbed = new EmbedBuilder()
@@ -714,10 +818,12 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
         embeds: [votedEmbed],
       })
       .catch(() => null);
+
   return res.redirect(
     `/bots/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
   );
 });
+
 app.get("/bots/:id/vote", checkAuth, async (req, res) => {
   let bot = await global.botModel.findOne({
     id: req.params.id,
@@ -733,38 +839,46 @@ app.get("/bots/:id/vote", checkAuth, async (req, res) => {
     await global.userModel.create({
       id: req.user.id,
     });
+
   const BotRaw = (await global.client.users.fetch(bot.id)) || null;
   bot.name = BotRaw.username;
   bot.discriminator = BotRaw.discriminator;
   bot.avatar = BotRaw.avatar;
+
   res.render("botlist/vote.ejs", {
     bot: bot,
     user: req.user || null,
   });
 });
+
 app.get("/bots/:id/review", checkAuth, async (req, res) => {
   let id = req.params.id;
   const bot = await global.botModel.findOne({
     id: id,
   });
+
   if (!bot)
     return res.status(404).json({
       message: "This bot could not be found in our site.",
     });
+
   if (bot.owner === req.user.id)
     return res.status(400).json({
       message: "You cannot review your own bot.",
     });
+
   const BotRaw = (await global.client.users.fetch(bot.id)) || null;
   bot.name = BotRaw.username;
   bot.discriminator = BotRaw.discriminator;
   bot.avatar = BotRaw.avatar;
+
   res.render("botlist/review.ejs", {
     bot: bot,
     config: global.config,
     user: req.user || null,
   });
 });
+
 app.post("/bots/:id/review", checkAuth, async (req, res) => {
   let id = req.params.id;
   const bot = await global.botModel.findOne({
@@ -779,6 +893,7 @@ app.post("/bots/:id/review", checkAuth, async (req, res) => {
       message: "You cannot review your own bot.",
     });
   const data = req.body;
+
   if (
     await global.reviewModel.findOne({
       reviewer: req.user.id,
@@ -795,10 +910,12 @@ app.post("/bots/:id/review", checkAuth, async (req, res) => {
     body: data.body,
     date: new Date().toLocaleString(),
   });
+
   return res.redirect(
     `https://universe-list.xyz/bots/${id}?success=true&body=Your review was successfully added.`
   );
 });
+
 app.get("/bots/:id", async (req, res) => {
   let id = req.params.id;
   const client = global.client;
@@ -825,16 +942,20 @@ app.get("/bots/:id", async (req, res) => {
   bot.tags = bot.tags.join(", ");
   bot.desc = desc;
   bot.flags = BotRaw.flags.bitfield;
+
   const reviews = await reviewsModel.find({
     botid: bot.id,
   });
+
   for (let i = 0; i < reviews.length; i++) {
     const ReviewerRaw = await client.users.fetch(reviews[i].reviewer);
     reviews[i].reviewerName = ReviewerRaw.tag;
     reviews[i].reviewerAvatar = ReviewerRaw.avatar;
   }
+
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
   let member = "";
+
   if (req.user) {
     member = guild.members.cache.get(req.user.id);
   } else {
@@ -848,23 +969,28 @@ app.get("/bots/:id", async (req, res) => {
     member: member,
   });
 });
+
 app.get("/bots/:id/widget", async (req, res) => {
   let id = req.params.id;
   const client = global.client;
   const bot = await global.botModel.findOne({
     id: id,
   });
+
   const BotRaw = (await client.users.fetch(id)) || null;
   bot.name = BotRaw.username;
   bot.avatar = BotRaw.avatar;
   bot.discriminator = BotRaw.discriminator;
   bot.tag = BotRaw.tag;
+
   res.render("botlist/widget.ejs", {
     bot: bot,
     user: req.user || null,
   });
 });
+
 //-TAGS-//
+
 app.get("/tags", async (req, res) => {
   res.render("tags.ejs", {
     bottags: global.config.tags.bots,
@@ -872,6 +998,7 @@ app.get("/tags", async (req, res) => {
     user: req.user || null,
   });
 });
+
 app.get("/bots/tags/:tag", async (req, res) => {
   const tag = req.params.tag;
   if (!global.config.tags.bots.includes(tag))
@@ -881,6 +1008,7 @@ app.get("/bots/tags/:tag", async (req, res) => {
   let data = await global.botModel.find();
   let bots = data.filter((a) => a.approved === true && a.tags.includes(tag));
   if (bots.length <= 0) return res.redirect("/");
+
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await global.client.users.fetch(bots[i].id);
     bots[i].name = BotRaw.username;
@@ -891,18 +1019,21 @@ app.get("/bots/tags/:tag", async (req, res) => {
     );
     bots[i].tags = bots[i].tags.join(", ");
   }
+
   res.render("botlist/tags.ejs", {
     bots: bots.shuffle(),
     tag: tag,
     user: req.user,
   });
 });
+
 app.get("/servers/tags/:tag", async (req, res) => {
   const tag = req.params.tag;
   if (!global.config.tags.bots.includes(tag))
     return res.status(404).json({
       message: "This tag was not found in our database.",
     });
+
   let data = await global.serverModel.find();
   let servers = data.filter(
     (a) => a.published === true && a.tags.includes(tag)
@@ -920,13 +1051,16 @@ app.get("/servers/tags/:tag", async (req, res) => {
     servers[i].boosts = ServerRaw.premiumSubscriptionCount;
     servers[i].tags = servers[i].tags.join(", ");
   }
+
   res.render("servers/tags.ejs", {
     tag: tag,
     user: req.user || null,
     servers: servers.shuffle(),
   });
 });
+
 //-API-//
+
 app.get("/api/bots/:id", async (req, res) => {
   const rs = await global.botModel.findOne({
     id: req.params.id,
@@ -964,11 +1098,13 @@ app.get("/api/bots/:id", async (req, res) => {
     shortDescription: rs.shortDesc,
     description: rs.desc,
     reviews,
+
     // Counts
     shards: +rs.shards,
     servers: +rs.servers,
     votes: rs.votes,
     views: rs.views,
+
     // Links
     reviewer: rs.reviewer,
     banner: rs.banner,
@@ -978,12 +1114,14 @@ app.get("/api/bots/:id", async (req, res) => {
     support: rs.support,
   });
 });
+
 app.post("/api/bots/:id/", async (req, res) => {
   const key = req.headers.authorization;
   if (!key)
     return res.status(401).json({
       json: "Please provides a API Key.",
     });
+
   let bot = await global.botModel.findOne({
     apikey: key,
   });
@@ -994,6 +1132,7 @@ app.post("/api/bots/:id/", async (req, res) => {
     });
   const servers = req.body.server_count || req.header("server_count");
   const shards = req.body.shard_count || req.header("shard_count");
+
   if (!servers)
     return res.status(400).json({
       message: "Please provide a server count.",
@@ -1002,6 +1141,7 @@ app.post("/api/bots/:id/", async (req, res) => {
     return res.status(400).json({
       message: "Please provide a shard count.",
     });
+
   bot.servers = servers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   bot.shards = shards.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   await bot.save().catch(() => null);
@@ -1009,6 +1149,7 @@ app.post("/api/bots/:id/", async (req, res) => {
     message: "Successfully updated.",
   });
 });
+
 app.get("/api/bots/:id/voted", async (req, res) => {
   const bot = await global.botModel.findOne({
     id: req.params.id,
@@ -1021,6 +1162,7 @@ app.get("/api/bots/:id/voted", async (req, res) => {
     return res.status(400).json({
       message: "This bot is not approved yet.",
     });
+
   const id = req.query.user;
   if (!id)
     return res.status(400).json({
@@ -1035,6 +1177,7 @@ app.get("/api/bots/:id/voted", async (req, res) => {
     return res.status(400).json({
       message: `The 'user' id you provided is a Discord bot, bots can't vote.`,
     });
+
   let x = await global.voteModel.findOne({
     bot: bot.id,
     user: user.id,
@@ -1054,6 +1197,7 @@ app.get("/api/bots/:id/voted", async (req, res) => {
     next: parseInt(x.date) + parseInt(x.time),
   });
 });
+
 app.get("/api/bots/:id/votes", async (req, res) => {
   const bot = await global.botModel.findOne({
     id: req.params.id,
@@ -1066,6 +1210,7 @@ app.get("/api/bots/:id/votes", async (req, res) => {
     return res.status(400).json({
       message: "This bot is not approved yet.",
     });
+
   let x = await global.voteModel.find({
     bot: bot.id,
   });
@@ -1082,7 +1227,9 @@ app.get("/api/bots/:id/votes", async (req, res) => {
     })),
   });
 });
+
 //-ServerList-//
+
 app.get("/servers", async (req, res) => {
   let servers = await global.serverModel.find({
     published: true,
@@ -1101,23 +1248,28 @@ app.get("/servers", async (req, res) => {
     servers[i].boosts = ServerRaw.premiumSubscriptionCount;
     servers[i].tags = servers[i].tags.join(`, `);
   }
+
   res.render("servers/index.ejs", {
     bot: req.bot,
     user: req.user || null,
     servers: servers.shuffle(),
   });
 });
+
 app.get("/servers/new", checkAuth, async (req, res) =>
   res.redirect(
     "https://discord.com/api/oauth2/authorize?client_id=1018001748020961311&permissions=19473&scope=applications.commands%20bot"
   )
 );
+
 app.get("/servers/:id", async (req, res) => {
   const id = req.params.id;
+
   const server = await global.serverModel.findOne({
     id: id,
   });
   if (!server) return res.redirect("/404");
+
   if (server.published === false) {
     if (!req.user) return res.redirect("/404?error=503");
     const member = await global.sclient.guilds
@@ -1130,11 +1282,14 @@ app.get("/servers/:id", async (req, res) => {
     )
       return res.redirect("/404?error=503");
   }
+
   server.views = parseInt(server.views) + 1;
   await server.save();
+
   //-Cleaning Server Desc-//
   const marked = require("marked");
   const desc = marked.parse(server.desc);
+
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
   (server.name = ServerRaw.name),
@@ -1154,6 +1309,7 @@ app.get("/servers/:id", async (req, res) => {
     user: req.user,
   });
 });
+
 app.get("/api/servers/:id", async (req, res) => {
   const server = await global.serverModel.findOne({
     id: req.params.id,
@@ -1178,6 +1334,7 @@ app.get("/api/servers/:id", async (req, res) => {
     icon: guild.iconURL({
       dynamic: true,
     }),
+
     invite: server.invite,
     submittedOn: server.date,
     website: server.website,
@@ -1188,14 +1345,17 @@ app.get("/api/servers/:id", async (req, res) => {
       }))
     ).tag,
     tags: server.tags,
+
     bump: server.bump,
     bumps: server.bumps,
     views: server.views,
     votes: server.votes,
+
     shortDesc: server.shortDesc,
     description: server.desc,
   });
 });
+
 app.get("/servers/:id/join", async (req, res) => {
   const server = await global.serverModel.findOne({
     id: req.params.id,
@@ -1211,12 +1371,15 @@ app.get("/servers/:id/join", async (req, res) => {
     );
   return res.redirect(server.invite);
 });
+
 app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const id = req.params.id;
+
   const server = await global.serverModel.findOne({
     id: id,
   });
   if (!server) return res.redirect("/404");
+
   const member = await global.sclient.guilds
     .fetch(server.id)
     .then((guild) => guild.members.fetch(req.user.id));
@@ -1225,10 +1388,13 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
     (!member.permissions.has("ADMINISTRATOR") && req.user.id !== server.owner)
   )
     return res.redirect("/403");
+
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
+
   (server.name = ServerRaw.name),
     (server.icon = ServerRaw.iconURL()),
     (server.memberCount = ServerRaw.memberCount);
+
   res.render("servers/editserver.ejs", {
     bot: req.bot,
     server: server,
@@ -1236,6 +1402,7 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
     user: req.user,
   });
 });
+
 app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   const id = req.params.id;
   const data = req.body;
@@ -1243,7 +1410,9 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
     id: id,
   });
   if (!server) return res.redirect("/404");
+
   if (req.user.id !== server.owner) return res.redirect("/403");
+
   server.shortDesc = data.short_description;
   server.desc = data.long_description;
   server.tags = data.tags;
@@ -1251,8 +1420,11 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   server.donate = data.donate || null;
   server.published = true;
   await server.save();
+
   const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
+
   server.name = ServerRaw.name;
+
   if (server.published === false) {
     const logs = global.sclient.channels.cache.get(
       global.config.channels.weblogs
@@ -1331,6 +1503,7 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
     );
   }
 });
+
 app.post("/servers/:id/vote", checkAuth, async (req, res) => {
   let server = await global.serverModel.findOne({
     id: req.params.id,
@@ -1354,6 +1527,7 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
       });
     await x.remove().catch(() => null);
   }
+
   await global.serverVoteModel.create({
     server: req.params.id,
     user: req.user.id,
@@ -1370,9 +1544,11 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
       },
     }
   );
+
   const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
   server.name = ServerRaw.name;
   server.icon = ServerRaw.iconURL();
+
   const logs = global.sclient.channels.resolve(global.config.channels.weblogs);
   const date = new Date();
   const votedEmbed = new EmbedBuilder()
@@ -1408,10 +1584,12 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
         embeds: [votedEmbed],
       })
       .catch(() => null);
+
   return res.redirect(
     `/servers/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
   );
 });
+
 app.get("/servers/:id/vote", checkAuth, async (req, res) => {
   let server = await global.serverModel.findOne({
     id: req.params.id,
@@ -1423,20 +1601,25 @@ app.get("/servers/:id/vote", checkAuth, async (req, res) => {
   let user = await global.userModel.findOne({
     id: req.user.id,
   });
+
   if (!user) {
     await global.userModel.create({
       id: req.user.id,
     });
   }
+
   const ServerRaw = (await global.sclient.guilds.fetch(server.id)) || null;
   server.name = ServerRaw.name;
   server.icon = ServerRaw.iconURL();
+
   res.render("servers/vote.ejs", {
     server: server,
     user: req.user || null,
   });
 });
+
 //-User Pages-//
+
 app.get("/me", checkAuth, async (req, res) => {
   const user = req.user || null;
   //const response = await fetch(`https://japi.rest/discord/v1/user/${req.user.id}`)
@@ -1462,6 +1645,7 @@ app.get("/me", checkAuth, async (req, res) => {
     servers[i].boosts = ServerRaw.premiumSubscriptionCount;
     servers[i].tags = servers[i].tags.join(", ");
   }
+
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await global.client.users.fetch(bots[i].id);
     bots[i].name = BotRaw.username;
@@ -1477,6 +1661,7 @@ app.get("/me", checkAuth, async (req, res) => {
     user: user || null,
   });
 });
+
 app.get("/users/:id", async (req, res) => {
   let client = global.client;
   let user = (await client.users.fetch(req.params.id)) || null;
@@ -1516,6 +1701,7 @@ app.get("/users/:id", async (req, res) => {
     servers[i].boosts = ServerRaw.premiumSubscriptionCount;
     servers[i].tags = servers[i].tags.join(", ");
   }
+
   res.render("user.ejs", {
     bot: req.bot,
     fetched_user: user,
@@ -1525,6 +1711,7 @@ app.get("/users/:id", async (req, res) => {
     user: req.user || null,
   });
 });
+
 app.get("/users/:id/edit", checkAuth, async (req, res) => {
   const guild = await global.client.guilds.fetch(global.config.guilds.main);
   let user = (await guild.members.fetch(req.params.id)) || null;
@@ -1536,6 +1723,7 @@ app.get("/users/:id/edit", checkAuth, async (req, res) => {
     });
   }
   if (req.user.id !== user.id) return res.redirect("/403");
+
   let userm = await global.userModel.findOne({
     id: req.params.id,
   });
@@ -1543,38 +1731,47 @@ app.get("/users/:id/edit", checkAuth, async (req, res) => {
   user.website = userm?.website;
   user.github = userm?.github;
   user.twitter = userm?.twitter;
+
   res.render("edituser.ejs", {
     bot: req.bot,
     fetched_user: user,
     user: req.user || null,
   });
 });
+
 app.post("/users/:id/edit", checkAuth, async (req, res) => {
   const client = global.client;
   const userm = await global.userModel.findOne({
     id: req.params.id,
   });
   let data = req.body;
+
   if (!data) {
     return res.redirect("/");
   }
+
   if (req.user.id !== userm.id) return res.redirect("/403");
+
   const user = await client.users.fetch(req.params.id).catch(() => null);
   if (!user) {
     return res.status(400).json({
       message: "This is not a real person on Discord.",
     });
   }
+
   userm.bio = data.bio || null;
   userm.github = data.github || null;
   userm.website = data.website || null;
   userm.twitter = data.twitter || null;
   await userm.save();
+
   return res.redirect(
     `/users/${req.params.id}?success=true&body=You have successfully edited your profile.`
   );
 });
+
 //-Admin Pages-//
+
 app.get("/queue", checkAuth, checkStaff, async (req, res) => {
   const client = global.client;
   let bots = await global.botModel.find({
@@ -1591,9 +1788,11 @@ app.get("/queue", checkAuth, checkStaff, async (req, res) => {
     );
     bots[i].tags = bots[i].tags.join(", ");
   }
+
   let inprogress = await global.botModel.find({
     inprogress: true,
   });
+
   for (let i = 0; i < inprogress.length; i++) {
     const IPRaw = await client.users.fetch(inprogress[i].id);
     const ReviewerRaw = await client.users.fetch(inprogress[i].reviewer);
@@ -1603,6 +1802,7 @@ app.get("/queue", checkAuth, checkStaff, async (req, res) => {
     inprogress[i].reviewer = ReviewerRaw.tag;
     inprogress[i].tags = inprogress[i].tags.join(", ");
   }
+
   res.render("queue/index.ejs", {
     bot: req.bot,
     bots: bots.shuffle(),
@@ -1611,6 +1811,7 @@ app.get("/queue", checkAuth, checkStaff, async (req, res) => {
     inprogress: inprogress,
   });
 });
+
 app.get("/bots/:id/approve", checkAuth, checkStaff, async (req, res) => {
   const config = global.config;
   let bot = await global.botModel.findOne({
@@ -1620,6 +1821,7 @@ app.get("/bots/:id/approve", checkAuth, checkStaff, async (req, res) => {
     return res.status(404).json({
       message: "This application could not be found in our site.",
     });
+
   res.render("queue/approve.ejs", {
     bot: req.bot,
     id: req.params.id,
@@ -1627,6 +1829,7 @@ app.get("/bots/:id/approve", checkAuth, checkStaff, async (req, res) => {
     user: req.user || null,
   });
 });
+
 app.get("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
   let bot = await global.botModel.findOne({
     id: req.params.id,
@@ -1635,6 +1838,7 @@ app.get("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
     return res.status(404).json({
       message: "This application could not be found in our site.",
     });
+
   res.render("queue/deny.ejs", {
     bot: req.bot,
     id: req.params.id,
@@ -1642,6 +1846,7 @@ app.get("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
     user: req.user || null,
   });
 });
+
 app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
   const config = global.config;
   const logs = global.client.channels.cache.get(config.channels.weblogs);
@@ -1649,21 +1854,26 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
   let bot = await global.botModel.findOne({
     id: req.params.id,
   });
+
   if (!bot)
     return res.status(404).json({
       message: "This application could not be found in our site.",
     });
+
   if (bot.approved === true) {
     return res.status(400).json({
       message: "This bot is already approved on Universe List.",
     });
   }
+
   if (bot.denied === true) {
     return res.status(400).json({
       message: "This bot is already denied on Universe List.",
     });
   }
+
   const OwnerRaw = (await global.client.users.fetch(bot.owner)) || null;
+
   bot.tag = BotRaw.tag;
   bot.denied = true;
   bot.tested = true;
@@ -1672,7 +1882,9 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
   bot.reason = req.body.reason;
   bot.deniedOn = Date.now();
   const date = new Date();
+
   await bot.delete();
+
   const denyEmbed = new EmbedBuilder()
     .setTitle("Bot Denied")
     .setDescription(
@@ -1740,11 +1952,13 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
     `/queue?success=true&body=The bot was successfully denied.`
   );
 });
+
 app.post("/bots/:id/testing", checkAuth, checkStaff, async (req, res) => {
   let bot = await global.botModel.findOne({
     id: req.params.id,
   });
   let client = global.client;
+
   if (!bot)
     return res.status(404).json({
       message: "This application could not be found in our site.",
@@ -1754,6 +1968,7 @@ app.post("/bots/:id/testing", checkAuth, checkStaff, async (req, res) => {
   bot.tested = true;
   bot.reviewer = req.user.id;
   await bot.save();
+
   res.redirect(
     `https://discord.com/oauth2/authorize?client_id=${bot.id}&scope=bot&permissions=0&guild_id=${global.config.guilds.testing}`
   );
@@ -1795,21 +2010,26 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
   let bot = await global.botModel.findOne({
     id: req.params.id,
   });
+
   if (!bot)
     return res.status(404).json({
       message: "This application could not be found in our site.",
     });
+
   if (bot.approved === true) {
     return res.status(400).json({
       message: "This bot is already approved on Universe List.",
     });
   }
+
   if (bot.denied === true) {
     return res.status(400).json({
       message: "This bot is already denied on Universe List.",
     });
   }
+
   const OwnerRaw = await client.users.fetch(bot.owner);
+
   if (req.method === "POST") {
     bot.tag = BotRaw.tag;
     bot.approved = true;
@@ -1819,6 +2039,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     bot.tested = true;
     await bot.save();
     const date = new Date();
+
     const approveEmbed = new EmbedBuilder()
       .setTitle("Bot Approved")
       .setDescription(
@@ -1851,6 +2072,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
         text: "Approve Logs - Universe List",
         iconURL: `${global.client.user.displayAvatarURL()}`,
       });
+
     logs.send({
       content: `<@${bot.owner}>`,
       embeds: [approveEmbed],
@@ -1883,24 +2105,31 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     );
   }
 });
+
 //-Other Pages-//
+
 app.get("/discord", (_req, res) =>
   res.redirect("https://discord.gg/PXdJjTF6yS")
 );
+
 app.get("/analytics", (_req, res) =>
   res.redirect(
     "https://analytics.umami.is/share/GgNV4PtXH3fBmJB7/Universe%20List"
   )
 );
+
 app.get("/bot-reviewer", (_req, res) =>
   res.redirect("https://ishaantek.typeform.com/bot-reviewer")
 );
+
 app.get("/github", (_req, res) =>
   res.redirect("https://github.com/ishaantek/UniverseList")
 );
+
 app.get("/newbot", (_req, res) =>
   res.redirect("https://universe-list.xyz/bots/new")
 );
+
 app.get("/delete", async (req, res) => {
   res.render("botlist/delete.ejs", {
     tags: global.config.tags,
@@ -1911,51 +2140,61 @@ app.get("/delete", async (req, res) => {
     user: req.user || null,
   });
 });
+
 app.get("/partners", async (req, res) => {
   res.render("partners.ejs", {
     user: req.user || null,
   });
 });
+
 app.get("/team", async (req, res) => {
   res.render("team.ejs", {
     user: req.user || null,
   });
 });
+
 app.get("/docs", async (req, res) => {
   res.render("apidocs.ejs", {
     user: req.user,
   });
 });
+
 app.get("/terms", async (req, res) => {
   res.render("legal/terms.ejs", {
     user: req.user,
   });
 });
+
 app.get("/privacy", async (req, res) => {
   res.render("legal/privacy.ejs", {
     user: req.user,
   });
 });
+
 app.get("/bot-requirements", async (req, res) => {
   res.render("legal/bot-requirements.ejs", {
     user: req.user,
   });
 });
+
 app.get("/certification", async (req, res) => {
   res.render("legal/certification.ejs", {
     user: req.user,
   });
 });
+
 app.get("/invite", async (req, res) => {
   res.render("invite.ejs", {
     user: req.user,
   });
 });
+
 app.get("/403", async (req, res) => {
   res.render("errors/403.ejs", {
     user: req.user,
   });
 });
+
 //-Error Pages-//
 app.all("*", (req, res) => {
   res.status(404);
@@ -1964,6 +2203,7 @@ app.all("*", (req, res) => {
     user: req.user || null,
   });
 });
+
 app.all("*", (req, res) => {
   res.status(401);
   res.render("errors/401.ejs", {
@@ -1971,6 +2211,7 @@ app.all("*", (req, res) => {
     user: req.user || null,
   });
 });
+
 app.all("*", (req, res) => {
   res.status(403);
   res.render("errors/403.ejs", {
@@ -1978,18 +2219,23 @@ app.all("*", (req, res) => {
     user: req.user || null,
   });
 });
+
 app.listen(config.port, () => {
   logger.system(`Running on port ${config.port}.`);
 });
+
 //-Functions-//
+
 function checkAuth(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect(`/auth/login?from=${req.originalUrl}`);
 }
+
 function checkStaff(req, res, next) {
   const config = global.config;
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
   const member = guild.members.cache.get(req.user.id);
+
   if (
     member.roles.cache.some((role) => role.id === config.roles.mod) ||
     member.roles.cache.some((role) => role.id === config.roles.admin)
@@ -2001,6 +2247,7 @@ function checkStaff(req, res, next) {
     });
   }
 }
+
 function canUserVote(x) {
   const left = x.time - (Date.now() - x.date),
     formatted = ms(left, {
@@ -2016,6 +2263,7 @@ function canUserVote(x) {
     formatted,
   };
 }
+
 /* function checkKey(req, res, next) {
   const key = req.headers.authorization
   if (!key) return res.status(401).json({ json: "Please provides a API Key" });
