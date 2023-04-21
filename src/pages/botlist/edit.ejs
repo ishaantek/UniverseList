@@ -102,7 +102,7 @@
       <p style="color: #555;">By clicking submit, you agree to our <a style="color: #094cdb" target="_blank" href="https://universe-list.xyz/terms">TOS</a> and the <a style="color: #094cdb" target="_blank" href="https://discord.com/developers/docs/policies-and-agreements/terms-of-service">Discord Developer TOS</a></p>
        <button type="submit" class="bluebtn"><i class="fa-solid fa-paper-plane"></i> Submit</button>
     </form>
-    <form class="deleteForm" method="POST" action="/bots/<%= bot.id %>/delete">
+    <form class="deleteForm" method="GET" action="/bots/<%= bot.id %>/delete">
       <input type="hidden" name="_method" value="delete" />
       <button type="submit" style="border-radius: 5px;" class="btn btn-danger pr-3 pl-3 mr-1" onclick="return confirm('Are you sure you want to delete <%= bot.name %>? - this cannot be undone!');"><i class="fa-solid fa-trash"></i> Delete</a>
     </form>
