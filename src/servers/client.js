@@ -6,6 +6,8 @@ const fs = require("fs");
 const { REST } = require("@discordjs/rest");
 const { join } = require("path");
 const { Collection, Routes } = require("discord.js");
+const { Poster, Lists } = require("@maclary/lists");
+require("dotenv").config();
 
 sclient.on("guildCreate", async (guild) => {
   const clientId = "1018001748020961311";
@@ -46,6 +48,21 @@ for (const file of commandFiles) {
   const command = require(filePath);
   sclient.commands.set(command.data.name, command);
 }
+
+// Universe List Server Count
+const clientId = "1018001748020961311";
+
+const lists = [new Lists.UniverseList(clientId, process.env.universekey)];
+
+const poster = new Poster(lists, {
+  shardCount: () => sclient.shard?.count ?? 1,
+  guildCount: () => sclient.guilds.cache.size,
+  userCount: () => sclient.guilds.cache.reduce((a, b) => a + b.memberCount, 0),
+  voiceConnectionCount: () => 0,
+});
+
+poster.postStatistics();
+
 
 //-Events-//
 

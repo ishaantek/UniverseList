@@ -87,6 +87,10 @@ module.exports = {
       "Welcomer",
       "Reaction-Roles",
       "24-7",
+      "Social",
+      "Ticket",
+      "Youtube",
+      "Twitch",
     ],
   },
 }; 

@@ -153,26 +153,24 @@ let normalScopes = ["identify"];
 
 app.get(
   "/auth/login",
-  passport.authenticate("discord", {
-    scope: normalScopes,
-    prompt: prompt,
-    callbackURL: config.bot.redirect,
-  }),
-  (req, res) => {
-    if (req.query.from) req.session.returnTo = req.query.from;
-  }
+  (req, res, next) =>
+    passport.authenticate("discord", {
+      scope: normalScopes,
+      prompt: prompt,
+      callbackURL: config.bot.redirect,
+      state: req.query.from || '/',
+    })(req, res, next)
 );
 
 app.get(
   "/auth/login/joinSupport",
-  passport.authenticate("discord", {
-    scope: scopes,
-    prompt: prompt,
-    callbackURL: `${config.bot.redirect}/joinSupport`,
-  }),
-  (req, res) => {
-    if (req.query.from) req.session.returnTo = req.query.from;
-  }
+  (req, res, next) => 
+    passport.authenticate("discord", {
+      scope: scopes,
+      prompt: prompt,
+      callbackURL: `${config.bot.redirect}/joinSupport`,
+      state: req.query.from || '/',
+    })(req, res, next)
 );
 
 app.get(
@@ -181,7 +179,7 @@ app.get(
     failureRedirect: "/",
   }),
   function (req, res) {
-    res.redirect(req.session.returnTo || "/");
+    res.redirect(req.query.state || "/");
   }
 );
 
@@ -212,7 +210,7 @@ app.get(
       );
     } catch {}
 
-    res.redirect(req.session.returnTo || "/");
+    res.redirect(req.query.state || "/");
   }
 );
 
@@ -222,11 +220,8 @@ app.get("/info", async (req, res) => {
 
 app.get("/auth/logout", function (req, res) {
   req.logout(() => {
-    res.redirect("/");
+    res.redirect(req.query.from || "/");
   });
-  if (req.session.returnTo) {
-    delete req.session.returnTo;
-  }
 });
 
 //-bot-//
@@ -1081,7 +1076,7 @@ app.get("/api/bots/:id", async (req, res) => {
   );
   const BotRaw = await global.client.users.fetch(rs.id).catch(() => null);
   const OwnerRaw = await global.client.users.fetch(rs.owner).catch(() => null);
-  const serverApi = await japiRest.discord.getApplication(rs.id);
+  // const serverApi = await japiRest.discord.getApplication(rs.id);
   return res.json({
     // This doesn't need to be in another object (i.e: 'final_data')
     id: rs.id,
@@ -1101,7 +1096,7 @@ app.get("/api/bots/:id", async (req, res) => {
 
     // Counts
     shards: +rs.shards,
-    servers: serverApi.data.bot.approximate_guild_count,
+    servers: +rs.servers,
     votes: rs.votes,
     views: rs.views,
 

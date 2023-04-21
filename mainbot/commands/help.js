@@ -11,6 +11,7 @@ module.exports = {
           c.name !== "upto" &&
           c.name !== "declinedbot" &&
           c.name !== "apps" &&
+          c.name !== "contribute" &&
           c.name !== "notified"
       )
       .map((c) => `**!${c.name}** - ${c.description}`);

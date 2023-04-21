@@ -116,7 +116,7 @@
           <a class="dropdown-item" href="/servers/new"
             ><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Server</a
           >
-          <a class="dropdown-item" href="/auth/logout"
+          <a class="dropdown-item" onclick="logout()" style="cursor: pointer;"
             ><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;Logout</a
           >
           <% if(config.staff.includes(user.id)) { %>
@@ -157,11 +157,14 @@
       confirmButtonText: "Yes",
       denyButtonText: `No`,
     }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.replace("/auth/login/joinSupport");
-      } else if (result.isDenied) {
-        window.location.replace("/auth/login");
-      }
+      const from = window.location.pathname;
+      const path = result.isConfirmed ? "/auth/login/joinSupport" : "/auth/login";
+      window.location.replace(`${path}?from=${from}`);
     });
+  }
+  function logout() {
+    const from = window.location.pathname;
+      const path = "/auth/logout";
+      window.location.replace(`${path}?from=${from}`);
   }
 </script>
