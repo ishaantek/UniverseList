@@ -7,7 +7,6 @@ const { REST } = require("@discordjs/rest");
 const universeList = require("universe-list.js");
 const { join } = require("path");
 const { Collection, Routes } = require("discord.js");
-// const { Poster, Lists } = require("@maclary/lists");
 require("dotenv").config();
 
 sclient.on("ready", () => {

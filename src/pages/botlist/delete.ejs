@@ -1,33 +1,30 @@
+<!-- do stuff 
+create a fourm and post to /bots/:id/deny
+-->
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bot Deleted - Universe List</title>
+  <title>Delete Bot - Universe List</title>
   <%- include("../parts/head.ejs") %>
 </head>
 <%- include("../parts/navbar.ejs") %>
-<br><br><br>
-<center>
-  <h4 style="font-size: 50;margin-top: 75px;"><b>Bot Deleted</b></h4>
-  <p>Your bot has been deleted from our site.</p>
-  <a href="/">
-    <button style="margin:5px" class="errorhome"><i class="fa-solid fa-house-chimney"></i> Home</button>
-    </div></a>
-  <a target="_blank" href="/discord">
-    <button class="errordiscord"><i class="fa-brands fa-discord"></i> Discord</button></a>
-  </div></a>
-</center>
-
-<style>
-  .four_zero_four_bg {
-
-    background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
-    height: 400px;
-    border-radius: 50px;
-    background-repeat: no-repeat;
-    background-position: center;
-
-  }
-</style>
+<br><br><br><br><br>
+<div class="container">
+  <center>
+    <h2 class="title"><b><i class="fa-solid fa-trash"></i> Delete Bot</b></h2>
+    <p>Fill out the reason below in order to delete the bot.</p>
+  </center>
+  <form action="/bots/<%- id %>/delete" method="POST">
+    <div class="form-group required">
+      <label for="reason">Reason</label>
+      <input type="text" class="form-control" id="reason" name="reason" placeholder="This bot is stupid." autocomplete="off">
+    </div>
+    <button type="submit" class="bluebtn"><i class="fa-solid fa-trash"></i>&nbsp&nbspDelete</button>
+  </form>
+</div>
+</div>
+</q>
+</div>
+</html>
