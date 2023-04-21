@@ -129,25 +129,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 let normalScopes = ["identify"];
-app.get(
-  "/auth/login",
-  (req, res, next) =>
-    passport.authenticate("discord", {
-      scope: normalScopes,
-      prompt: prompt,
-      callbackURL: config.bot.redirect,
-      state: req.query.from || '/',
-    })(req, res, next)
-);
-app.get(
-  "/auth/login/joinSupport",
-  (req, res, next) => 
-    passport.authenticate("discord", {
-      scope: scopes,
-      prompt: prompt,
-      callbackURL: `${config.bot.redirect}/joinSupport`,
-      state: req.query.from || '/',
-    })(req, res, next)
 );
 app.get(
   "/auth/callback",

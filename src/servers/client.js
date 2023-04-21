@@ -4,9 +4,20 @@ const fss = require("node:fs");
 const path = require("node:path");
 const fs = require("fs");
 const { REST } = require("@discordjs/rest");
+const universeList = require("universe-list.js");
 const { join } = require("path");
 const { Collection, Routes } = require("discord.js");
 require("dotenv").config();
+
+sclient.on("ready", () => {
+  setInterval(async () => {
+    try {
+      await universeList.postStats(sclient, process.env.universekey, true);
+    } catch (error) {
+      console.error(`Failed to post stats: ${error}`);
+    }
+  }, 5 * 60 * 1000); // Five minutes in milliseconds
+});
 
 sclient.on("guildCreate", async (guild) => {
   const clientId = "1018001748020961311";
@@ -47,7 +58,6 @@ for (const file of commandFiles) {
   const command = require(filePath);
   sclient.commands.set(command.data.name, command);
 }
-
 
 //-Events-//
 
