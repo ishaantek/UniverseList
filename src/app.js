@@ -129,7 +129,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 let normalScopes = ["identify"];
-);
 app.get(
   "/auth/callback",
   passport.authenticate("discord", {
