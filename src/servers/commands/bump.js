@@ -17,7 +17,7 @@ module.exports = {
     let server = await global.serverModel.findOne({ id: interaction.guild.id });
     if (!server)
       return interaction
-        .editReply("This server was not found on Universe Servers.")
+        .editReply("This server was not found on Universe Servers.\nRun the /help command for more info.")
         .catch(() => null);
     if (!server.published)
       return interaction

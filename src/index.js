@@ -8,12 +8,9 @@ const {
   Partials,
   Collection,
 } = require("discord.js");
-
 //-Other Files-//
 require("./app.js");
-
 //-Main Client-//
-
 const client = new Client({
   allowedMentions: {
     parse: ["users", "roles"],
@@ -30,13 +27,10 @@ const client = new Client({
 });
 client.commands = new Collection();
 client.aliases = new Collection();
-
 client.login(config.bot.token);
 global.client = client;
 require("../mainbot/client.js");
-
 //-ServerList Client-//
-
 const sclient = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -48,7 +42,6 @@ const sclient = new Client({
 sclient.login(config.servers.token);
 global.sclient = sclient;
 require("./servers/client.js");
-
 //Globals
 global.voteModel = require("./models/vote.js");
 global.serverVoteModel = require("./models/serverVote.js");
@@ -56,7 +49,6 @@ global.serverModel = require("./models/server.js");
 global.userModel = require("./models/user.js");
 global.botModel = require("./models/bot.js");
 global.reviewModel = require("./models/review.js");
-
 //Updater
 cron.schedule("*/30 * * * *", () => {
   global.voteModel = require("./models/vote.js");
@@ -66,7 +58,6 @@ cron.schedule("*/30 * * * *", () => {
   global.botModel = require("./models/bot.js");
   global.reviewModel = require("./models/review.js");
 });
-
 cron.schedule("* * */ 10 * *", async () => {
   let dbots = await global.botModel.find({ denied: true });
   if (!dbots.length) return;
