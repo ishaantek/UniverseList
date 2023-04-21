@@ -4,10 +4,21 @@ const fss = require("node:fs");
 const path = require("node:path");
 const fs = require("fs");
 const { REST } = require("@discordjs/rest");
+const universeList = require("universe-list.js");
 const { join } = require("path");
 const { Collection, Routes } = require("discord.js");
-const { Poster, Lists } = require("@maclary/lists");
+// const { Poster, Lists } = require("@maclary/lists");
 require("dotenv").config();
+
+sclient.on("ready", () => {
+  setInterval(async () => {
+    try {
+      await universeList.postStats(sclient, process.env.universekey, true);
+    } catch (error) {
+      console.error(`Failed to post stats: ${error}`);
+    }
+  }, 5 * 60 * 1000); // Five minutes in milliseconds
+});
 
 sclient.on("guildCreate", async (guild) => {
   const clientId = "1018001748020961311";
@@ -48,21 +59,6 @@ for (const file of commandFiles) {
   const command = require(filePath);
   sclient.commands.set(command.data.name, command);
 }
-
-// Universe List Server Count
-const clientId = "1018001748020961311";
-
-const lists = [new Lists.UniverseList(clientId, process.env.universekey)];
-
-const poster = new Poster(lists, {
-  shardCount: () => sclient.shard?.count ?? 1,
-  guildCount: () => sclient.guilds.cache.size,
-  userCount: () => sclient.guilds.cache.reduce((a, b) => a + b.memberCount, 0),
-  voiceConnectionCount: () => 0,
-});
-
-poster.postStatistics();
-
 
 //-Events-//
 
