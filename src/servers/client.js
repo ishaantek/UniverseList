@@ -12,7 +12,7 @@ require("dotenv").config();
 sclient.on("ready", () => {
   setInterval(async () => {
     try {
-      await universeList.postStats(sclient, process.env.universekey, true);
+      await universeList.postStats(sclient, process.env.universeKey, true);
     } catch (error) {
       console.error(`Failed to post stats: ${error}`);
     }
@@ -20,7 +20,7 @@ sclient.on("ready", () => {
 });
 
 sclient.on("guildCreate", async (guild) => {
-  const clientId = "1018001748020961311";
+  const clientId = config.servers.id;
   const guildId = guild.id;
 
   const commands = [];

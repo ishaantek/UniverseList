@@ -23,6 +23,7 @@ module.exports = {
     token: process.env.token,
   },
   servers: {
+    id: "1018001748020961311",
     prefix: "-",
     apikey: process.env.apikey,
     token: process.env.stoken,
