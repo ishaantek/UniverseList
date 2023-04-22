@@ -5,10 +5,6 @@ const {
   ButtonStyle,
 } = require("discord.js");
 const model = require("../../src/models/bot.js");
-const japiRestPkg = require("japi.rest");
-const japiRest = new japiRestPkg(
-  "JAPI.ODc0NzEzMTM4OTkzODgzNDUw.BUb.K2ggLd3lH7D6ka9QsS0GO"
-);
 
 module.exports = {
   name: "botinfo",

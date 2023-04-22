@@ -1,4 +1,4 @@
-const dotenv = require('dotenv')
+const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
@@ -48,7 +48,7 @@ module.exports = {
   },
   channels: {
     weblogs: "941896555567398982",
-    levelup: "941896555718410285",
+    levelup: "1099445585016274954",
     modlogs: "941896555567398981",
     leaderboardC: "1044425171047546980",
     leaderboardM: "1044434735331553370",
@@ -94,4 +94,4 @@ module.exports = {
       "Twitch",
     ],
   },
-}; 
+};

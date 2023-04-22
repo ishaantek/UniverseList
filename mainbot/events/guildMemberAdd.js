@@ -4,6 +4,7 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require("discord.js");
+const config = global.config;
 
 module.exports = {
   async run(client, member) {
@@ -16,12 +17,11 @@ module.exports = {
     } else {
       if (id !== global.config.guilds.main) return;
       client.channels
-        .resolve("941896555718410285")
+        .resolve(config.channels.levelup)
         .send(
           `<:awesome:1043642149100601435> \`${member.user.username}\` has joined the server!`
         )
         .catch(() => null);
-      member.roles.add("1045107993563373578").catch(() => null);
       const embed = new EmbedBuilder()
         .setAuthor({
           name: member.user.tag,
@@ -56,7 +56,7 @@ module.exports = {
           )
           .setFooter({
             text: `© Universe List 2023, All Rights Reserved.`,
-            iconURL: `https://universe-list.xyz/img/icon.png`,
+            iconURL: `${global.client.user.displayAvatarURL()}`,
           });
 
         let row = new ActionRowBuilder();
