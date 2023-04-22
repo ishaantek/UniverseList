@@ -12,7 +12,7 @@ require("dotenv").config();
 sclient.on("ready", () => {
   setInterval(async () => {
     try {
-      await universeList.postStats(sclient, process.env.universeKey, true);
+      await universeList.postStats(sclient, process.env.universeKey);
     } catch (error) {
       console.error(`Failed to post stats: ${error}`);
     }
