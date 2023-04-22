@@ -17,7 +17,7 @@ module.exports = {
     } else {
       if (id !== global.config.guilds.main) return;
       client.channels
-        .resolve(config.channels.levelup)
+        .resolve(config.channels.generalChat)
         .send(
           `<:awesome:1043642149100601435> \`${member.user.username}\` has joined the server!`
         )
