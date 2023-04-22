@@ -1131,8 +1131,8 @@ app.post("/api/bots/:id/", async (req, res) => {
       message: "Please provide a shard count.",
     });
 
-  // bot.servers = servers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  // bot.shards = shards.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  bot.servers = servers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  bot.shards = shards.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   await bot.save().catch(() => null);
   return res.json({
     message: "Successfully updated.",
