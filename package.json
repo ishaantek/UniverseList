@@ -29,7 +29,6 @@
     "helmet": "^6.0.0",
     "html-minifier": "^4.0.0",
     "ipware": "^2.0.0",
-    "japi.rest": "^1.0.1",
     "marked": "^4.2.2",
     "mongoose": "^6.3.2",
     "ms": "^2.1.3",

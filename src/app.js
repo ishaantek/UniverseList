@@ -1,8 +1,3 @@
-const japiRestPkg = require("japi.rest");
-const japiRest = new japiRestPkg(
-  "JAPI.ODc0NzEzMTM4OTkzODgzNDUw.BUb.K2ggLd3lH7D6ka9QsS0GO"
-);
-
 const logger = require("../functions/logger");
 const {
   EmbedBuilder,
@@ -230,10 +225,7 @@ app.get("/", async (req, res) => {
 
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
-    const japidata = await japiRest.discord.getApplication(
-      "1018001748020961311"
-    );
-    // bots[i].servers = japidata.data.bot.approximate_guild_count;
+    bots[i].servers = BotRaw.servers;
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].name = bots[i].name.replace(
@@ -258,9 +250,8 @@ app.get("/bots", async (req, res) => {
 
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
-    const japidata = await japiRest.discord.getApplication(bots[i].id);
-    // bots[i].servers = japidata.data.bot.approximate_guild_count;
-
+    
+    bots[i].servers = BotRaw.servers;
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].name = bots[i].name.replace(
@@ -274,7 +265,6 @@ app.get("/bots", async (req, res) => {
     bot: req.bot,
     bots: bots.shuffle(),
     user: req.user || null,
-    // appInfo: japiData,
   });
 }); //Removing end point
 app.get("/explore", async (req, res) => {
@@ -931,9 +921,9 @@ app.get("/bots/:id", async (req, res) => {
   const desc = marked.parse(bot.desc);
   const BotRaw = (await client.users.fetch(id)) || null;
   const OwnerRaw = (await client.users.fetch(bot.owner)) || null;
-  const japidata = await japiRest.discord.getApplication(bot.id);
-  // bot.servers = japidata.data.bot.approximate_guild_count;
+
   bot.name = BotRaw.username;
+  bot.servers = BotRaw.servers;
   bot.avatar = BotRaw.avatar;
   bot.discriminator = BotRaw.discriminator;
   bot.tag = BotRaw.tag;
@@ -1081,7 +1071,6 @@ app.get("/api/bots/:id", async (req, res) => {
   );
   const BotRaw = await global.client.users.fetch(rs.id).catch(() => null);
   const OwnerRaw = await global.client.users.fetch(rs.owner).catch(() => null);
-  // const serverApi = await japiRest.discord.getApplication(rs.id);
   return res.json({
     // This doesn't need to be in another object (i.e: 'final_data')
     id: rs.id,
@@ -1142,8 +1131,8 @@ app.post("/api/bots/:id/", async (req, res) => {
       message: "Please provide a shard count.",
     });
 
-  bot.servers = servers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  bot.shards = shards.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  // bot.servers = servers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  // bot.shards = shards.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   await bot.save().catch(() => null);
   return res.json({
     message: "Successfully updated.",
@@ -1622,7 +1611,6 @@ app.get("/servers/:id/vote", checkAuth, async (req, res) => {
 
 app.get("/me", checkAuth, async (req, res) => {
   const user = req.user || null;
-  //const response = await fetch(`https://japi.rest/discord/v1/user/${req.user.id}`)
   let userm = await global.userModel.findOne({
     id: req.user.id,
   });
@@ -1682,7 +1670,6 @@ app.get("/users/:id", async (req, res) => {
   });
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await global.client.users.fetch(bots[i].id);
-    const japidata = await japiRest.discord.getApplication(bots[i].id);
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
     bots[i].tags = bots[i].tags.join(", ");
