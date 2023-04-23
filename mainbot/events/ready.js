@@ -22,7 +22,7 @@ setInterval(async () => {
 
     
     const list = users.map((user, i) => `${i + 1}. **${user.username}** | **Level:** ${user.level} | **XP:** ${user.xp}`).join("\n");
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(`Top 10 Leaderboard`)
       .setDescription(`${list}`)
       .setColor("#5565f3")
