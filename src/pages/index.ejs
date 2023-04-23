@@ -53,7 +53,7 @@
         <h3><b><i class="fa-solid fa-chart-line"></i> Top Bots</b></h3>
   <p>These are the bots with the highest server count.</p>
   <% let allbots = bots %>
-  <% let servers = allbots.sort((a,b) => b.servers - a.servers) %>
+  <% let servers = allbots.sort((a,b) => parseInt(b.servers.replace(/,/g, '')) - parseInt(a.servers.replace(/,/g, ''))) %>
   <% for(let i = 0; i < servers.length; i++){ %>
   <%  if (i === 9) break; %>
   <div class="card" style="border-radius:10px;">
