@@ -230,9 +230,6 @@ app.get("/", async (req, res) => {
 
   for (let i = 0; i < bots.length; i++) {
     const BotRaw = await client.users.fetch(bots[i].id);
-    const japidata = await japiRest.discord.getApplication(
-      "1018001748020961311"
-    );
     // bots[i].servers = japidata.data.bot.approximate_guild_count;
     bots[i].name = BotRaw.username;
     bots[i].avatar = BotRaw.avatar;
