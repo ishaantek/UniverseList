@@ -3,7 +3,6 @@ dotenv.config();
 
 module.exports = {
   port: 55558,
-  japikey: process.env.japikey,
   staff: [
     "998763334264442912",
     "536538183555481601",
@@ -11,7 +10,7 @@ module.exports = {
     "271285474516140033",
   ],
   owners: ["998763334264442912"],
-  developers: ["998763334264442912", "502406420453654529"],
+  developers: ["998763334264442912"],
   betatesters: ["998763334264442912"],
   designers: ["642085851429339157"],
   mongo: process.env.mongo,

@@ -17,8 +17,6 @@ module.exports = {
     if (!data) return message.reply("That's not a bot on Universe List.");
     const botOwner = await client.users.fetch(data.owner);
 
-    const japidata = await japiRest.discord.getApplication(data.id);
-
     let embed = new EmbedBuilder()
       .setAuthor({
         name: `${bot.tag}`,
@@ -40,8 +38,7 @@ module.exports = {
       })
       .addFields({
         name: "Servers:",
-        // value: `${japidata.data.bot.approximate_guild_count || "N/A"}`,
-        value: "N/A",
+        value: `${data.servers}`,
         inline: true,
       })
       .addFields({
