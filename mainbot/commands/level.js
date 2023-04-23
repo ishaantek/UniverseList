@@ -6,34 +6,39 @@ module.exports = {
   aliases: ["rank", "lvl"],
   description: "Rank command for users to check their level.",
   async run(_, message) {
-let user = await model.findOne({ id: message.author.id });
-if (!user) {
+    const user = message.mentions.users.first() || message.author
+let user_data = await model.findOne({ id: user.id });
+if (!user_data) {
   user = new model({
-    id: message.author.id,
+    id: user.id,
     xp: 0,
     level: 0,
   });
   user.save();
 }
-const img = message.author.displayAvatarURL();
-let level = user.level + 1;
-let flitered = await model.find({}).sort({ xp: -1 });
-let rank = flitered.findIndex((x) => x.id === user.id) + 1;
+const img = user.displayAvatarURL();
+let level = user_data.level + 1;
+const leaderboard = await model
+  .find({ xp: { $gt: 0 } })
+  .sort({ level: -1, xp: -1 })
+const rankIndex = leaderboard.findIndex(
+  (u) => u.id === user.id
+) + 1;
 let background = "https://cdn.discordapp.com/attachments/941896555718410285/1054106088171110480/image.png";
 //let rankIndex = rank.includes(user.xp) ? rank.indexOf(user.xp) + 1 : "Not ranked";
 const userrank = new canvacord.Rank()
   .setAvatar(img)
-  .setCurrentXP(user.xp)
+  .setCurrentXP(user_data.xp)
   .setRequiredXP(level * 50)
   .setStatus("online")
   .setBackground("IMAGE", background)
-  .setLevel(user.level)
-  .setRank(rank)
+  .setLevel(level)
+  .setRank(rankIndex)
   .setProgressBar("#FFFFFF", "COLOR")
-  .setUsername(message.author.username)
-  .setDiscriminator(message.author.discriminator);
+  .setUsername(user.username)
+  .setDiscriminator(user.discriminator);
 userrank.build().then((data) => {
-  const attachment = new AttachmentBuilder(data, { name: "RankCard.png" });
+  const attachment = new AttachmentBuilder(data, { name: "RankCard.png" }).setDescription(`Rank Image`);
   message.reply({ files: [attachment] });
 });
 
