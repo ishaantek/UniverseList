@@ -1278,11 +1278,13 @@ app.get("/servers/:id", async (req, res) => {
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
+  let allowed = false
+  if(req.user) {
   const guild_member = await global.sclient.guilds
     .fetch(server.id)
     .then((guild) => guild.members.fetch(req.user.id));
-  const allowed =
-    guild_member?.permissions.has(PermissionFlagsBits.Administrator) || false;
+  allowed = guild_member?.permissions.has(PermissionFlagsBits.Administrator) || false;
+  } 
   server.name = ServerRaw.name;
   server.icon = ServerRaw.iconURL({
     dynamic: true,
