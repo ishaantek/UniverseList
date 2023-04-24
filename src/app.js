@@ -1277,7 +1277,9 @@ app.get("/servers/:id", async (req, res) => {
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
-  const guild_member = ServerRaw?.members.cache.get(req?.user.id)
+  const guild_member = await global.sclient.guilds
+    .fetch(server.id)
+    .then((guild) => guild.members.fetch(req.user.id));
   (server.name = ServerRaw.name),
     (server.icon = ServerRaw.iconURL({
       dynamic: true,
@@ -1372,7 +1374,7 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
     .then((guild) => guild.members.fetch(req.user.id));
   if (
     !member ||
-    (!member.permissions.has("ADMINISTRATOR") && req.user.id !== server.owner)
+    (!member.permissions.has("8n") && req.user.id !== server.owner)
   )
     return res.redirect("/403");
 
