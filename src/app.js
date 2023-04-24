@@ -4,6 +4,7 @@ const {
   ButtonBuilder,
   ActionRowBuilder,
   ButtonStyle,
+  PermissionFlagsBits
 } = require("discord.js");
 const ms = require("ms");
 const fetch = (...args) =>
@@ -1277,6 +1278,10 @@ app.get("/servers/:id", async (req, res) => {
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
+  const guild_member = await global.sclient.guilds
+    .fetch(server.id)
+    .then((guild) => guild.members.fetch(req.user.id));
+  const allowed = guild_member?.permissions.has(PermissionFlagsBits.Administrator) || false
   (server.name = ServerRaw.name),
     (server.icon = ServerRaw.iconURL({
       dynamic: true,
@@ -1292,6 +1297,7 @@ app.get("/servers/:id", async (req, res) => {
     bot: global.client,
     server: server,
     user: req.user,
+    allowed: allowed
   });
 });
 
@@ -1370,7 +1376,7 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
     .then((guild) => guild.members.fetch(req.user.id));
   if (
     !member ||
-    (!member.permissions.has("ADMINISTRATOR") && req.user.id !== server.owner)
+    (!member.permissions.has(PermissionFlagsBits.Administrator) && req.user.id !== server.owner)
   )
     return res.redirect("/403");
 
