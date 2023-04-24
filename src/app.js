@@ -1277,6 +1277,7 @@ app.get("/servers/:id", async (req, res) => {
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
+  const guild_member = ServerRaw?.members.cache.get(req?.user.id)
   (server.name = ServerRaw.name),
     (server.icon = ServerRaw.iconURL({
       dynamic: true,
@@ -1292,6 +1293,7 @@ app.get("/servers/:id", async (req, res) => {
     bot: global.client,
     server: server,
     user: req.user,
+    guild_member: guild_member
   });
 });
 
