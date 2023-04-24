@@ -1278,13 +1278,14 @@ app.get("/servers/:id", async (req, res) => {
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
-  let allowed = false
-  if(req.user) {
-  const guild_member = await global.sclient.guilds
-    .fetch(server.id)
-    .then((guild) => guild.members.fetch(req.user.id));
-  allowed = guild_member?.permissions.has(PermissionFlagsBits.Administrator) || false;
-  } 
+  let allowed = false;
+  if (req.user) {
+    const guild_member = await global.sclient.guilds
+      .fetch(server.id)
+      .then((guild) => guild.members.fetch(req.user.id));
+    allowed =
+      guild_member?.permissions.has(PermissionFlagsBits.Administrator) || false;
+  }
   server.name = ServerRaw.name;
   server.icon = ServerRaw.iconURL({
     dynamic: true,
@@ -1407,8 +1408,9 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   if (!server) return res.redirect("/404");
 
   if (
-    (!member.permissions.has(PermissionFlagsBits.Administrator) ||
-      req.user.id !== server.owner)
+    !member ||
+    !member.permissions.has(PermissionFlagsBits.Administrator) ||
+    req.user.id !== server.owner
   )
     return res.redirect("/403");
 
