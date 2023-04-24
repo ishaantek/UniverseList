@@ -1404,7 +1404,12 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   });
   if (!server) return res.redirect("/404");
 
-  if (req.user.id !== server.owner) return res.redirect("/403");
+  if (
+    !member ||
+    (!member.permissions.has(PermissionFlagsBits.Administrator) &&
+      req.user.id !== server.owner)
+  )
+    return res.redirect("/403");
 
   server.shortDesc = data.short_description;
   server.desc = data.long_description;
