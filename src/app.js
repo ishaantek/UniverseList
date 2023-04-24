@@ -1281,7 +1281,7 @@ app.get("/servers/:id", async (req, res) => {
   const guild_member = await global.sclient.guilds
     .fetch(server.id)
     .then((guild) => guild.members.fetch(req.user.id));
-  const allowed = guild_member?.permissions.has(Discord.PermissionFlagsBits.Administrator)
+  const allowed = guild_member?.permissions.has(Discord.PermissionFlagsBits.Administrator) || false
   (server.name = ServerRaw.name),
     (server.icon = ServerRaw.iconURL({
       dynamic: true,
