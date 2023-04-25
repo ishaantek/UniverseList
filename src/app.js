@@ -1377,12 +1377,14 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const member = await global.sclient.guilds
     .fetch(server.id)
     .then((guild) => guild.members.fetch(req.user.id));
-  if (
-    !member ||
-    (!member.permissions.has(PermissionFlagsBits.Administrator) &&
-      req.user.id !== server.owner)
-  )
-    return res.redirect("/403");
+ if (
+  !member ||
+  (!member.permissions.has(PermissionFlagsBits.Administrator) ||
+    req.user.id !== server.owner)
+) {
+  return res.redirect("/403");
+}
+
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
 
@@ -1406,10 +1408,16 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   });
   if (!server) return res.redirect("/404");
 
-  if (
-    req.user.id !== server.owner
-  )
-    return res.redirect("/403");
+   const member = await global.sclient.guilds
+    .fetch(server.id)
+    .then((guild) => guild.members.fetch(req.user.id));
+ if (
+  !member ||
+  (!member.permissions.has(PermissionFlagsBits.Administrator) ||
+    req.user.id !== server.owner)
+) {
+  return res.redirect("/403");
+}
 
   server.shortDesc = data.short_description;
   server.desc = data.long_description;
