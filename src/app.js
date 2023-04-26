@@ -1261,10 +1261,7 @@ app.get("/servers/:id", async (req, res) => {
     const member = await global.sclient.guilds
       .fetch(server.id)
       .then((guild) => guild.members.fetch(req.user.id));
-    if (
-      !member ||
-      (!member.permissions.has(PermissionFlagsBits.Administrator))
-    )
+    if (!member || !member.permissions.has(PermissionFlagsBits.Administrator))
       return res.redirect("/404?error=503");
   }
 
@@ -1277,13 +1274,14 @@ app.get("/servers/:id", async (req, res) => {
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
-  let allowed = false
-  if(req.user) {
-  const guild_member = await global.sclient.guilds
-    .fetch(server.id)
-    .then((guild) => guild.members.fetch(req.user.id));
-  allowed = guild_member?.permissions.has(PermissionFlagsBits.Administrator) || false;
-  } 
+  let allowed = false;
+  if (req.user) {
+    const guild_member = await global.sclient.guilds
+      .fetch(server.id)
+      .then((guild) => guild.members.fetch(req.user.id));
+    allowed =
+      guild_member?.permissions.has(PermissionFlagsBits.Administrator) || false;
+  }
   server.name = ServerRaw.name;
   server.icon = ServerRaw.iconURL({
     dynamic: true,
@@ -1376,13 +1374,9 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const member = await global.sclient.guilds
     .fetch(server.id)
     .then((guild) => guild.members.fetch(req.user.id));
- if (
-  !member ||
-  (!member.permissions.has(PermissionFlagsBits.Administrator))
-) {
-  return res.redirect("/403");
-}
-
+  if (!member || !member.permissions.has(PermissionFlagsBits.Administrator)) {
+    return res.redirect("/403");
+  }
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
 
@@ -1406,15 +1400,12 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   });
   if (!server) return res.redirect("/404");
 
-   const member = await global.sclient.guilds
+  const member = await global.sclient.guilds
     .fetch(server.id)
     .then((guild) => guild.members.fetch(req.user.id));
- if (
-  !member ||
-  (!member.permissions.has(PermissionFlagsBits.Administrator))
-) {
-  return res.redirect("/403");
-}
+  if (!member || !member.permissions.has(PermissionFlagsBits.Administrator)) {
+    return res.redirect("/403");
+  }
 
   server.shortDesc = data.short_description;
   server.desc = data.long_description;
