@@ -21,7 +21,7 @@ setInterval(async () => {
     const users = await userModel.find({ xp: { $gt: 0 } }).sort({ level: -1, xp: -1 }).limit(10);
 
     
-    const list = users.map((user, i) => `${i + 1}. **${user.username}** | **Level:** ${user.level} | **XP:** ${user.xp}`).join("\n");
+    const list = users.map((user, i) => `${i + 1}. **${user.username}** | **Level:** ${user.level + 1} | **XP:** ${user.xp}`).join("\n");
     const embed = new EmbedBuilder()
       .setTitle(`Top 10 Leaderboard`)
       .setDescription(`${list}`)
