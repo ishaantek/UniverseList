@@ -1263,8 +1263,7 @@ app.get("/servers/:id", async (req, res) => {
       .then((guild) => guild.members.fetch(req.user.id));
     if (
       !member ||
-      (!member.permissions.has("ADMINISTRATOR") &&
-        !server.owner.includes(req.user.id))
+      (!member.permissions.has(PermissionFlagsBits.Administrator))
     )
       return res.redirect("/404?error=503");
   }
@@ -1379,8 +1378,7 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
     .then((guild) => guild.members.fetch(req.user.id));
  if (
   !member ||
-  (!member.permissions.has(PermissionFlagsBits.Administrator) ||
-    req.user.id !== server.owner)
+  (!member.permissions.has(PermissionFlagsBits.Administrator))
 ) {
   return res.redirect("/403");
 }
@@ -1413,8 +1411,7 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
     .then((guild) => guild.members.fetch(req.user.id));
  if (
   !member ||
-  (!member.permissions.has(PermissionFlagsBits.Administrator) ||
-    req.user.id !== server.owner)
+  (!member.permissions.has(PermissionFlagsBits.Administrator))
 ) {
   return res.redirect("/403");
 }
