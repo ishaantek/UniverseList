@@ -1282,7 +1282,7 @@ app.get("/servers/:id", async (req, res) => {
   if(req.user) {
   const guild_member = await global.sclient.guilds
     .fetch(server.id)
-    .then((guild) => guild.members.fetch({req.user.id, force: true}));
+    .then((guild) => guild.members.fetch({req.user.id}));
   allowed = guild_member?.permissions.has(PermissionFlagsBits.Administrator) || false;
   } 
   server.name = ServerRaw.name;
@@ -1376,7 +1376,7 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
 
   const member = await global.sclient.guilds
     .fetch(server.id)
-    .then((guild) => guild.members.fetch({req.user.id, force: true}));
+    .then((guild) => guild.members.fetch({req.user.id}));
  if (
   !member ||
   (!member.permissions.has(PermissionFlagsBits.Administrator) ||
