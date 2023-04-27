@@ -695,9 +695,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
           embeds: [editEmbed],
         });
       } catch (e) {
-        logs.send({
-          content: `Could not DM the user.`,
-        });
+        console.log("Could not DM the user.");
       }
 
     return res.redirect(
@@ -1948,9 +1946,7 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
       embeds: [denyEmbed],
     });
   } catch (e) {
-    logs.send({
-      content: `Could not DM the user.`,
-    });
+    console.log("Could not DM the user.");
   }
   const channelName = `${BotRaw.username}-${BotRaw.discriminator}`;
   let guild = global.client.guilds.cache.get(global.config.guilds.testing);
@@ -2099,9 +2095,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
         embeds: [approveEmbed],
       });
     } catch (e) {
-      logs.send({
-        content: `Could not DM the user.`,
-      });
+      console.log("Could not DM the user.");
     }
     const mainGuild = client.guilds.cache.get(global.config.guilds.main);
     const ownerRaw = mainGuild.members.cache.get(bot.owner);
