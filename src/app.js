@@ -926,7 +926,8 @@ app.get("/bots/:id", async (req, res) => {
   });
   if (!bot)
     return res.status(404).json({
-      message: "This bot was not found on our list.",
+      message:
+        "We could not find this bot on our list, or it may have been deleted.",
     });
   const marked = require("marked");
   const desc = marked.parse(bot.desc);
