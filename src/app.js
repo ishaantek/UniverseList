@@ -687,6 +687,18 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       content: `<@${req.user.id}>`,
       embeds: [editEmbed],
     });
+      const owner = global.client.guilds.cache
+        .get(global.config.guilds.main)
+        .members.cache.get(bot.owner);
+      try {
+        owner.send({
+          embeds: [denyEmbed],
+        });
+      } catch (e) {
+        logs.send({
+          content: `Could not DM the user.`,
+        });
+      }
 
     return res.redirect(
       `/bots/${req.params.id}?success=true&body=You have successfully deleted your bot.`
