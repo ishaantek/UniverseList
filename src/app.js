@@ -692,7 +692,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
         .members.cache.get(bot.owner);
       try {
         owner.send({
-          embeds: [denyEmbed],
+          embeds: [editEmbed],
         });
       } catch (e) {
         logs.send({
