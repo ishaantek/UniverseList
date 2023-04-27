@@ -9,7 +9,7 @@ module.exports = {
         (role) => role.id === global.config.roles.admin
       )
     )
-      return message.channel.send(
+      return message.reply(
         "<:no:946581450600370298> Only admins can run this command."
       );
 
