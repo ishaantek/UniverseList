@@ -636,11 +636,14 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
     member.roles.cache.some((role) => role.id === config.roles.bottester)
   ) {
     const bot = await client.users.fetch(req.params.id).catch(() => null);
-    const OwnerRaw = await client.users.fetch(bot.owner);
+
     bot.ownerName = OwnerRaw.tag;
     let bot2 = await global.botModel.findOne({
       id: req.params.id,
     });
+
+    const OwnerRaw = await client.users.fetch(bot2.owner);
+
     if (!bot)
       return res.status(400).json({
         message: "This is not a real application on Discord.",
@@ -689,16 +692,16 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       content: `<@${bot.owner}>`,
       embeds: [editEmbed],
     });
-      const owner = global.client.guilds.cache
-        .get(global.config.guilds.main)
-        .members.cache.get(bot.owner);
-      try {
-        owner.send({
-          embeds: [editEmbed],
-        });
-      } catch (e) {
-        console.log("Could not DM the user.");
-      }
+    const owner = global.client.guilds.cache
+      .get(global.config.guilds.main)
+      .members.cache.get(bot.owner);
+    try {
+      owner.send({
+        embeds: [editEmbed],
+      });
+    } catch (e) {
+      console.log("Could not DM the user.");
+    }
 
     return res.redirect(
       `/bots/${req.params.id}?success=true&body=You have successfully deleted the bot.`
@@ -1274,10 +1277,7 @@ app.get("/servers/:id", async (req, res) => {
     const member = await global.sclient.guilds
       .fetch(server.id)
       .then((guild) => guild.members.fetch(req.user.id));
-    if (
-      !member ||
-      (!member.permissions.has(PermissionFlagsBits.Administrator))
-    )
+    if (!member || !member.permissions.has(PermissionFlagsBits.Administrator))
       return res.redirect("/404?error=503");
   }
 
@@ -1290,13 +1290,14 @@ app.get("/servers/:id", async (req, res) => {
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
   const OwnerRaw = await global.sclient.users.fetch(server.owner);
-  let allowed = false
-  if(req.user) {
-  const guild_member = await global.sclient.guilds
-    .fetch(server.id)
-    .then((guild) => guild.members.fetch(req.user.id));
-  allowed = guild_member?.permissions.has(PermissionFlagsBits.Administrator) || false;
-  } 
+  let allowed = false;
+  if (req.user) {
+    const guild_member = await global.sclient.guilds
+      .fetch(server.id)
+      .then((guild) => guild.members.fetch(req.user.id));
+    allowed =
+      guild_member?.permissions.has(PermissionFlagsBits.Administrator) || false;
+  }
   server.name = ServerRaw.name;
   server.icon = ServerRaw.iconURL({
     dynamic: true,
@@ -1389,13 +1390,9 @@ app.get("/servers/:id/edit", checkAuth, async (req, res) => {
   const member = await global.sclient.guilds
     .fetch(server.id)
     .then((guild) => guild.members.fetch(req.user.id));
- if (
-  !member ||
-  (!member.permissions.has(PermissionFlagsBits.Administrator))
-) {
-  return res.redirect("/403");
-}
-
+  if (!member || !member.permissions.has(PermissionFlagsBits.Administrator)) {
+    return res.redirect("/403");
+  }
 
   const ServerRaw = (await global.sclient.guilds.fetch(id)) || null;
 
@@ -1419,15 +1416,12 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
   });
   if (!server) return res.redirect("/404");
 
-   const member = await global.sclient.guilds
+  const member = await global.sclient.guilds
     .fetch(server.id)
     .then((guild) => guild.members.fetch(req.user.id));
- if (
-  !member ||
-  (!member.permissions.has(PermissionFlagsBits.Administrator))
-) {
-  return res.redirect("/403");
-}
+  if (!member || !member.permissions.has(PermissionFlagsBits.Administrator)) {
+    return res.redirect("/403");
+  }
 
   server.shortDesc = data.short_description;
   server.desc = data.long_description;
