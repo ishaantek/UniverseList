@@ -636,6 +636,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
     member.roles.cache.some((role) => role.id === config.roles.bottester)
   ) {
     const bot = await client.users.fetch(req.params.id).catch(() => null);
+    bot.ownerName = OwnerRaw.tag;
     let bot2 = await global.botModel.findOne({
       id: req.params.id,
     });
@@ -665,8 +666,8 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
         inline: true,
       })
       .addFields({
-        name: "Editor",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        name: "Owner",
+        value: `[${bot.ownerName}](https://universe-list.xyz/users/${bot.owner})`,
         inline: true,
       })
       .addFields({
@@ -684,7 +685,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
         iconURL: `${global.client.user.displayAvatarURL()}`,
       });
     logs.send({
-      content: `<@${req.user.id}>`,
+      content: `<@${bot.owner}>`,
       embeds: [editEmbed],
     });
       const owner = global.client.guilds.cache
@@ -699,7 +700,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       }
 
     return res.redirect(
-      `/bots/${req.params.id}?success=true&body=You have successfully deleted your bot.`
+      `/bots/${req.params.id}?success=true&body=You have successfully deleted the bot.`
     );
   } else {
     return res.redirect("/403");
