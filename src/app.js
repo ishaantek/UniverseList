@@ -636,6 +636,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
     member.roles.cache.some((role) => role.id === config.roles.bottester)
   ) {
     const bot = await client.users.fetch(req.params.id).catch(() => null);
+    const OwnerRaw = await client.users.fetch(bot.owner);
     bot.ownerName = OwnerRaw.tag;
     let bot2 = await global.botModel.findOne({
       id: req.params.id,
