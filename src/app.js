@@ -694,7 +694,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
     });
     const owner = global.client.guilds.cache
       .get(global.config.guilds.main)
-      .members.cache.get(bot.owner);
+      .members.cache.get(bot2.owner);
     try {
       owner.send({
         embeds: [editEmbed],
