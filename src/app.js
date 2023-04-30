@@ -637,12 +637,12 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
   ) {
     const bot = await client.users.fetch(req.params.id).catch(() => null);
 
-    bot.ownerName = OwnerRaw.tag;
     let bot2 = await global.botModel.findOne({
       id: req.params.id,
     });
 
     const OwnerRaw = await client.users.fetch(bot2.owner);
+    bot.ownerName = OwnerRaw.tag;
 
     if (!bot)
       return res.status(400).json({
