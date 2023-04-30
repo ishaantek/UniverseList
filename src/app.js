@@ -671,7 +671,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       })
       .addFields({
         name: "Owner",
-        value: `[${bot.ownerName}](https://universe-list.xyz/users/${bot.owner})`,
+        value: `[${bot.ownerName}](https://universe-list.xyz/users/${bot2.owner})`,
         inline: true,
       })
       .addFields({
@@ -689,7 +689,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
         iconURL: `${global.client.user.displayAvatarURL()}`,
       });
     logs.send({
-      content: `<@${bot.owner}>`,
+      content: `<@${bot2.owner}>`,
       embeds: [editEmbed],
     });
     const owner = global.client.guilds.cache
