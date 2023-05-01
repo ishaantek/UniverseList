@@ -636,9 +636,14 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
     member.roles.cache.some((role) => role.id === config.roles.bottester)
   ) {
     const bot = await client.users.fetch(req.params.id).catch(() => null);
+
     let bot2 = await global.botModel.findOne({
       id: req.params.id,
     });
+
+    const OwnerRaw = await client.users.fetch(bot2.owner);
+    bot.ownerName = OwnerRaw.tag;
+
     if (!bot)
       return res.status(400).json({
         message: "This is not a real application on Discord.",
@@ -665,8 +670,8 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
         inline: true,
       })
       .addFields({
-        name: "Editor",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        name: "Owner",
+        value: `[${bot.ownerName}](https://universe-list.xyz/users/${bot2.owner})`,
         inline: true,
       })
       .addFields({
@@ -684,12 +689,22 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
         iconURL: `${global.client.user.displayAvatarURL()}`,
       });
     logs.send({
-      content: `<@${req.user.id}>`,
+      content: `<@${bot2.owner}>`,
       embeds: [editEmbed],
     });
+    const owner = global.client.guilds.cache
+      .get(global.config.guilds.main)
+      .members.cache.get(bot2.owner);
+    try {
+      owner.send({
+        embeds: [editEmbed],
+      });
+    } catch (e) {
+      console.log("Could not DM the user.");
+    }
 
     return res.redirect(
-      `/bots/${req.params.id}?success=true&body=You have successfully deleted your bot.`
+      `/bots/${req.params.id}?success=true&body=You have successfully deleted the bot.`
     );
   } else {
     return res.redirect("/403");
@@ -914,7 +929,8 @@ app.get("/bots/:id", async (req, res) => {
   });
   if (!bot)
     return res.status(404).json({
-      message: "This bot was not found on our list.",
+      message:
+        "We could not find this bot on our list, or it may have been deleted.",
     });
   const marked = require("marked");
   const desc = marked.parse(bot.desc);
@@ -1926,9 +1942,7 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
       embeds: [denyEmbed],
     });
   } catch (e) {
-    logs.send({
-      content: `Could not DM the user.`,
-    });
+    console.log("Could not DM the user.");
   }
   const channelName = `${BotRaw.username}-${BotRaw.discriminator}`;
   let guild = global.client.guilds.cache.get(global.config.guilds.testing);
@@ -2077,9 +2091,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
         embeds: [approveEmbed],
       });
     } catch (e) {
-      logs.send({
-        content: `Could not DM the user.`,
-      });
+      console.log("Could not DM the user.");
     }
     const mainGuild = client.guilds.cache.get(global.config.guilds.main);
     const ownerRaw = mainGuild.members.cache.get(bot.owner);

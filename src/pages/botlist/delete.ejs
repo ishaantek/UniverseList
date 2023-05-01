@@ -21,7 +21,7 @@ create a fourm and post to /bots/:id/deny
       <label for="reason">Reason</label>
       <input type="text" class="form-control" id="reason" name="reason" placeholder="This bot is stupid." autocomplete="off">
     </div>
-    <button type="submit" class="bluebtn"><i class="fa-solid fa-trash"></i>&nbsp&nbspDelete</button>
+    <button type="submit" class="bluebtn" onclick="return confirm('Are you sure you want to delete this bot? - this cannot be undone!');"><i class="fa-solid fa-trash"></i>&nbsp&nbspDelete</button>
   </form>
 </div>
 </div>
