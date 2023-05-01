@@ -2,9 +2,40 @@ const { EmbedBuilder } = require("@discordjs/builders");
 
 module.exports = {
   async run(client, member) {
-    const id = member.guild.id;
-    if (id !== global.config.guilds.main) return;
+    if (member.guild.id !== global.config.guilds.main) return;
+    try {
 
+      const bots = await Bot.find({ owner: member.id });
+  
+      if (bots.length > 0) {
+        const bot_kick = new EmbedBuilder()
+          .setAuthor({
+            name: member.user.tag,
+            iconURL: member.user.displayAvatarURL({ dyncamic: true }),
+          })
+          .setThumbnail(member.user.displayAvatarURL({ dyncamic: true }))
+          .setTitle("Bot Kicked")
+          .setDescription(`${member.user} (${member.user.tag}) has left the server as a result of their **${bots.length} bots** being removed from the list and kicked from the server.`)
+
+        for (const bot of bots) {
+         
+          const guild = client.guilds.cache.get(member.guild.id);
+          const botMember = await guild.members.cache.fetch(bot.id);
+          if (botMember) {
+            bot_kick.addFields({
+              name: botMember.user.tag,
+              value: `<@${botMember.id}> has been kicked as a result of their owner leaving the server`,
+              inline: true,
+            })
+            await botMember.kick();
+          }
+          await Bot.deleteOne({ id: bot.id });
+          client.channels.resolve(global.config.channels.modlogs).send({ embeds: [bot_kick] });
+        }
+      }
+    } catch (err) {
+      console.log(`Error occurred while trying to remove a bot owned by ${member.id}: ${err}`);
+    }
     const embed = new EmbedBuilder()
       .setAuthor({
         name: member.user.tag,
