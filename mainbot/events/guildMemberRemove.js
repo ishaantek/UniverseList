@@ -2,8 +2,7 @@ const { EmbedBuilder } = require("@discordjs/builders");
 
 module.exports = {
   async run(client, member) {
-    const id = member.guild.id;
-    if (id !== global.config.guilds.main) return;
+    if (member.guild.id !== global.config.guilds.main) return;
 
     const embed = new EmbedBuilder()
       .setAuthor({
