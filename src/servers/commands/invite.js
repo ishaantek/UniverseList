@@ -62,7 +62,9 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setURL(`https://universe-list.xyz/servers/${interaction.guild.id}/edit`)
+        .setURL(
+          `https://universe-list.xyz/servers/${interaction.guild.id}/edit`
+        )
         .setLabel("Edit Server")
         .setStyle(ButtonStyle.Link)
     );

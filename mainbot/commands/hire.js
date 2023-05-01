@@ -22,9 +22,10 @@ module.exports = {
     const guild = client.guilds.cache.get(global.config.guilds.main);
     const user =
       message.mentions.users.first() || client.users.cache.get(args[0]);
-    if (!user) return message.reply(
-      `<:no:946581450600370298> Please provide a user to hire.`
-    );
+    if (!user)
+      return message.reply(
+        `<:no:946581450600370298> Please provide a user to hire.`
+      );
     const member = guild.members.cache.get(user.id);
 
     member.roles.add(global.config.roles.bottester);

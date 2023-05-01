@@ -20,7 +20,7 @@ let app = mongoose.Schema({
   date: {
     type: String,
     required: false,
-  }
+  },
 });
 
 module.exports = mongoose.model("review", app);
