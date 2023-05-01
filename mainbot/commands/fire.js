@@ -21,10 +21,9 @@ module.exports = {
     const guild = client.guilds.cache.get(global.config.guilds.main);
     const user =
       message.mentions.users.first() || client.users.cache.get(args[0]);
-    if (!user)
-      return message.reply(
-        `<:no:946581450600370298> Please provide a user to fire.`
-      );
+    if (!user) return message.reply(
+      `<:no:946581450600370298> Please provide a user to fire.`
+    );
     const reason = args.splice(1).join(" ");
     if (!reason)
       return message.reply(

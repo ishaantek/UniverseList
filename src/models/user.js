@@ -37,7 +37,7 @@ let app = mongoose.Schema({
   },
   twitter: {
     type: String,
-    required: false,
-  },
+    required: false
+  }
 });
 module.exports = mongoose.model("users", app);

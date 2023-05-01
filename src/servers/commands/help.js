@@ -6,9 +6,9 @@ const {
   ButtonStyle,
 } = require("discord.js");
 
-module.exports = {
+module.exports = { 
   data: new SlashCommandBuilder()
-    .setName("help")
+    .setName("help") 
     .setDescription(
       "Replies with information about Universe List, as well as how to add your server."
     ),

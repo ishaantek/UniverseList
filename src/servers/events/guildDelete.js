@@ -25,3 +25,4 @@ module.exports = {
     return logs.send({ embeds: [embed] });
   },
 };
+

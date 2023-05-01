@@ -11,9 +11,7 @@ module.exports = {
         (role) => role.id === global.config.roles.mod
       )
     )
-      return message.channel.send(
-        "<:no:946581450600370298> This command is for moderators only."
-      );
+      return message.channel.send("<:no:946581450600370298> This command is for moderators only.");
 
     let x = await global.botModel.find();
     let bots = x.filter((x) => x.tested === false);

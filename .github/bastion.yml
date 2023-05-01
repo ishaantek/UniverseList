@@ -8,6 +8,7 @@
 
 inviteContributors: true
 
+
 ## Issue Welcome Comments ##
 
 # Comment to send on a user's first issue in the repository.
@@ -19,6 +20,7 @@ firstIssueWelcomeComment: |
 issueWelcomeComment: |
   Thank you for opening this issue. A maintainer will get by as soon as possible to address this issue.
   In the mean time, please check out our contributing guidelines to explore other ways you can get involved.
+
 
 ## Pull Request Welcome Comments ##
 
