@@ -1,10 +1,10 @@
 const { EmbedBuilder } = require("@discordjs/builders");
-const Bot = global.botModel
+const Bot = require("../src/models/bot")
 module.exports = {
   async run(client, member) {
     if (member.guild.id !== global.config.guilds.main) return;
     try {
-      const bots = await Bot.find({ owner: member.id });
+      const bots = await Bot.findOne({ owner: member.id });
 
       if (bots.length > 0) {
         const bot_kick = new EmbedBuilder()
@@ -28,8 +28,9 @@ module.exports = {
               inline: true,
             });
             await botMember.kick();
+            await Bot.deleteOne({ id: bot.id });
           }
-          await Bot.deleteOne({ id: bot.id });
+          
           client.channels
             .resolve(global.config.channels.modlogs)
             .send({ embeds: [bot_kick] });
