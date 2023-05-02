@@ -5,6 +5,7 @@ module.exports = {
     if (member.guild.id !== global.config.guilds.main) return;
     try {
       const bots = await global.botModel.findOne({ owner: member.id });
+      console.log(bots.length)
       if (bots.length > 0) {
         const bot_kick = new EmbedBuilder()
           .setAuthor({
@@ -28,7 +29,6 @@ module.exports = {
             });
             await Bot.deleteOne({ id: bot.id });
             await botMember.kick();
-            await Bot.deleteOne({ id: bot.id });
           }
           
           client.channels
