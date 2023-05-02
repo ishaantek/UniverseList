@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("@discordjs/builders");
-const Bot = require("../src/models/bot")
+const Bot = global.botModel
 module.exports = {
   async run(client, member) {
     if (member.guild.id !== global.config.guilds.main) return;
