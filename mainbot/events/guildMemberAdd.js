@@ -49,13 +49,13 @@ module.exports = {
 
       try {
         const embed = new EmbedBuilder()
-          .setTitle("Welcome to Universe List! <:ul_logo_oval:1051334687647354880>")
+          .setTitle("Welcome to Universe List!")
           .setColor("7289da")
           .setDescription(
             `Welcome to Universe List, one of the leading search and discovery platforms for Discord! We are thrilled to have you join our community.\n\n If you have any questions or concerns, please don't hesitate to contact one of our friendly staff members. We hope you have a wonderful day!\n\n Best regards,\nThe Universe List Team`
           )
           .setFooter({
-            text: `© Universe List 2023, All Rights Reserved.`,
+            text: `© Universe List ${new Date().getFullYear()}, All Rights Reserved.`,
             iconURL: `${global.client.user.displayAvatarURL()}`,
           });
 
