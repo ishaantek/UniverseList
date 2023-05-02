@@ -5,14 +5,13 @@ module.exports = {
     if (member.guild.id !== global.config.guilds.main) return;
     try {
       const bots = await global.botModel.findOne({ owner: member.id });
-
       if (bots.length > 0) {
         const bot_kick = new EmbedBuilder()
           .setAuthor({
             name: member.user.tag,
-            iconURL: member.user.displayAvatarURL({ dyncamic: true }),
+            iconURL: member.user.displayAvatarURL({ dynamic: true }),
           })
-          .setThumbnail(member.user.displayAvatarURL({ dyncamic: true }))
+          .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
           .setTitle("Bot Kicked")
           .setDescription(
             `${member.user} (${member.user.tag}) has left the server as a result of their **${bots.length} bots** being removed from the list and kicked from the server.`
@@ -29,6 +28,7 @@ module.exports = {
             });
             await Bot.deleteOne({ id: bot.id });
             await botMember.kick();
+            await Bot.deleteOne({ id: bot.id });
           }
           
           client.channels
@@ -44,9 +44,9 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setAuthor({
         name: member.user.tag,
-        iconURL: member.user.displayAvatarURL({ dyncamic: true }),
+        iconURL: member.user.displayAvatarURL({ dynamic: true }),
       })
-      .setThumbnail(member.user.displayAvatarURL({ dyncamic: true }))
+      .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
       .setTitle("Member Left")
       .setDescription(`${member.user} has left the server.`)
       .addFields({
