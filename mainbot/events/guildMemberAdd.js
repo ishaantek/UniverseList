@@ -19,7 +19,7 @@ module.exports = {
       client.channels
         .resolve(config.channels.generalChat)
         .send(
-          `<:awesome:1043642149100601435> \`${member.user.username}\` has joined the server!`
+          `Welcome to Universe List, ${member}! Please read <#${config.channels.rules}> and <#${config.channels.info}>. If you have any questions, feel free to ask in <#${config.channels.support}>. Enjoy your stay!`
         )
         .catch(() => null);
       const embed = new EmbedBuilder()
