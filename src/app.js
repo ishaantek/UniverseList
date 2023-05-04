@@ -343,7 +343,7 @@ app.post("/bots/new", checkAuth, async (req, res) => {
     })
     .addFields({
       name: "Owner",
-      value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+      value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
       inline: true,
     })
     .addFields({
@@ -465,7 +465,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
       })
       .addFields({
         name: "Editor",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -558,7 +558,7 @@ app.post("/bots/:id/certify", checkAuth, async (req, res) => {
       })
       .addFields({
         name: "Owner",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -780,11 +780,9 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
   );
   const BotRaw = await global.client.users.fetch(bot.id).catch(() => ({
     username: "Unknown Bot",
-    discriminator: "0000",
     avatar: "",
   }));
   bot.name = BotRaw.username;
-  bot.discriminator = BotRaw.discriminator;
   bot.avatar = BotRaw.avatar;
 
   const logs = global.client.channels.resolve(global.config.channels.weblogs);
@@ -792,18 +790,18 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
   const votedEmbed = new EmbedBuilder()
     .setTitle("Bot Voted")
     .setDescription(
-      `<:vote:1043639183991898203> ${bot.name}#${bot.discriminator} has been voted on Universe List.`
+      `<:vote:1043639183991898203> ${bot.name} has been voted on Universe List.`
     )
     .setColor("#7289da")
     .addFields(
       {
         name: "Bot",
-        value: `[${bot.name}#${bot.discriminator}](https://universe-list.xyz/bots/${bot.id})`,
+        value: `[${bot.name}](https://universe-list.xyz/bots/${bot.id})`,
         inline: true,
       },
       {
         name: "Voter",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       },
       {
@@ -846,7 +844,6 @@ app.get("/bots/:id/vote", checkAuth, async (req, res) => {
 
   const BotRaw = (await global.client.users.fetch(bot.id)) || null;
   bot.name = BotRaw.username;
-  bot.discriminator = BotRaw.discriminator;
   bot.avatar = BotRaw.avatar;
 
   res.render("botlist/vote.ejs", {
@@ -873,7 +870,6 @@ app.get("/bots/:id/review", checkAuth, async (req, res) => {
 
   const BotRaw = (await global.client.users.fetch(bot.id)) || null;
   bot.name = BotRaw.username;
-  bot.discriminator = BotRaw.discriminator;
   bot.avatar = BotRaw.avatar;
 
   res.render("botlist/review.ejs", {
@@ -938,7 +934,6 @@ app.get("/bots/:id", async (req, res) => {
   const OwnerRaw = (await client.users.fetch(bot.owner)) || null;
   bot.name = BotRaw.username;
   bot.avatar = BotRaw.avatar;
-  bot.discriminator = BotRaw.discriminator;
   bot.tag = BotRaw.tag;
   bot.ownerTag = OwnerRaw.tag;
   bot.ownerAvatar = OwnerRaw.avatar;
@@ -983,7 +978,6 @@ app.get("/bots/:id/widget", async (req, res) => {
   const BotRaw = (await client.users.fetch(id)) || null;
   bot.name = BotRaw.username;
   bot.avatar = BotRaw.avatar;
-  bot.discriminator = BotRaw.discriminator;
   bot.tag = BotRaw.tag;
 
   res.render("botlist/widget.ejs", {
@@ -1088,7 +1082,6 @@ app.get("/api/bots/:id", async (req, res) => {
     // This doesn't need to be in another object (i.e: 'final_data')
     id: rs.id,
     username: BotRaw.username,
-    discriminator: BotRaw.discriminator,
     avatar: `https://cdn.discordapp.com/avatars/${rs.id}/${BotRaw.avatar}.png`,
     prefix: rs.prefix,
     owner: rs.owner,
@@ -1455,7 +1448,7 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
       })
       .addFields({
         name: "Owner",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -1492,7 +1485,7 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
       })
       .addFields({
         name: "Owner",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -1575,7 +1568,7 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
       },
       {
         name: "Voter",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       },
       {
@@ -1913,7 +1906,7 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
     })
     .addFields({
       name: "Reviewer",
-      value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+      value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
       inline: true,
     })
     .addFields({
@@ -1944,7 +1937,7 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
   } catch (e) {
     console.log("Could not DM the user.");
   }
-  const channelName = `${BotRaw.username}-${BotRaw.discriminator}`;
+  const channelName = `${BotRaw.username}`;
   let guild = global.client.guilds.cache.get(global.config.guilds.testing);
   const kickBot = guild.members.cache.get(bot.id);
   kickBot.kick({
@@ -1980,7 +1973,7 @@ app.post("/bots/:id/testing", checkAuth, checkStaff, async (req, res) => {
   );
   let guild = client.guilds.cache.get(global.config.guilds.testing);
   let channel = await guild.channels.create({
-    name: `${LogRaw.username}-${LogRaw.discriminator}`,
+    name: `${LogRaw.username}`,
     reason: `Testing channel for ${LogRaw.tag}.`,
     parent: global.config.channels.testingcategory,
   });
@@ -2066,7 +2059,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
       })
       .addFields({
         name: "Reviewer",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -2096,7 +2089,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     const mainGuild = client.guilds.cache.get(global.config.guilds.main);
     const ownerRaw = mainGuild.members.cache.get(bot.owner);
     ownerRaw.roles.add(global.config.roles.developer);
-    const channelName = `${BotRaw.username}-${BotRaw.discriminator}`;
+    const channelName = `${BotRaw.username}`;
     let guild = client.guilds.cache.get(global.config.guilds.testing);
     const kickBot = guild.members.cache.get(bot.id);
     kickBot.kick("Approved on Universe List.");

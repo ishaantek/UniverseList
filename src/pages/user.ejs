@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%- fetched_user.username %> - Universe List</title>
   <meta property="og:author" content="universe-list.xyz">
-  <meta property="og:title" content="<%= fetched_user.username %>#<%= fetched_user.discriminator %>">
+  <meta property="og:title" content="<%= fetched_user.username %>">
   <meta property="og:url" content="https://universe-list.xyz">
   <meta property="og:description" content="<%= fetched_user.bio %>">
   <meta property="og:image" content="https://cdn.discordapp.com/avatars/<%= fetched_user.id %>/<%= fetched_user.avatar %>.png">
@@ -20,7 +20,7 @@
 
       </div>
       <div class="col-sm">
-        <h3><%= fetched_user.username %><small class="text-muted">#<%= fetched_user.discriminator %></small></h3>
+        <h3><%= fetched_user.username %></h3>
         <% if (config.owners.includes(fetched_user.id)) { %>
           <i class="fa fa-crown" style="color:#FFDB51; bottom: -5px; font-size: 20px;" title="Universe List Owner"></i>
          <% } %>
