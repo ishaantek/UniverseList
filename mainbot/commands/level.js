@@ -36,6 +36,7 @@ const userrank = new canvacord.Rank()
   .setRank(rankIndex)
   .setProgressBar("#FFFFFF", "COLOR")
   .setUsername(user.username)
+  .setDiscriminator(user.discriminator);
 userrank.build().then((data) => {
   const attachment = new AttachmentBuilder(data, { name: "RankCard.png" }).setDescription(`Rank Image`);
   message.reply({ files: [attachment] });
