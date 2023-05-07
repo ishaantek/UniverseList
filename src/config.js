@@ -101,7 +101,7 @@ module.exports = {
   webhooks: {
     error_logs: {
       enabled: true,
-      webhook: "process.env.errorLogs",
+      webhook: process.env.errorLogs,
     },
   },
 };
