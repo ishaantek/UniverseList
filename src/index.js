@@ -71,7 +71,7 @@ cron.schedule("* * */ 10 * *", async () => {
   }
 });
 if (global.config.webhooks.error_logs.enabled) {
-  const logs_hook = new WebhookClient(global.config.webhooks.error_logs.webhook);
+  const logs_hook = new WebhookClient({url: global.config.webhooks.error_logs.webhook});
   const embed = new EmbedBuilder()
   .setTimestamp();
   process.on('uncaughtExceptionMonitor', (err, origin) => {
