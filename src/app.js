@@ -5,6 +5,7 @@ const {
   ActionRowBuilder,
   ButtonStyle,
   PermissionFlagsBits,
+  formatEmoji,
 } = require("discord.js");
 const ms = require("ms");
 const fetch = (...args) =>
@@ -330,11 +331,7 @@ app.post("/bots/new", checkAuth, async (req, res) => {
   const date = new Date();
   const addEmbed = new EmbedBuilder()
     .setTitle("Bot Added")
-    .setDescription(
-      "<:add:946594917596164136> " +
-        bot.tag +
-        " has been submitted to Universe List."
-    )
+    .setDescription(`${formatEmoji('946594917596164136', false)} ${bot.tag} has been submitted to Universe List.`)
     .setColor("Blue")
     .addFields({
       name: "Bot",
@@ -348,7 +345,7 @@ app.post("/bots/new", checkAuth, async (req, res) => {
     })
     .addFields({
       name: "Date",
-      value: `${date.toLocaleString()}`,
+      value: `${date.toLocaleDateString("en-US")} ${date.toLocaleTimeString("en-US")}`,
       inline: true,
     })
     .setFooter({
@@ -356,7 +353,7 @@ app.post("/bots/new", checkAuth, async (req, res) => {
       iconURL: `${global.client.user.displayAvatarURL()}`,
     });
   logs.send({
-    content: `<@${req.user.id}> | <@&941896554736934934>`,
+    content: `<@${req.user.id}> | <@&${global.roles.bottester}>`,
     embeds: [addEmbed],
   });
 
@@ -454,9 +451,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
     const date = new Date();
     const editEmbed = new EmbedBuilder()
       .setTitle("Bot Edited")
-      .setDescription(
-        ":pencil: " + bot.tag + " has been edited on Universe List."
-      )
+      .setDescription(`:pencil: ${bot.tag} has been edited on Universe List.`)
       .setColor("Yellow")
       .addFields({
         name: "Bot",
@@ -470,7 +465,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
       })
       .addFields({
         name: "Date",
-        value: `${date.toLocaleString()}`,
+        value: `${date.toLocaleDateString("en-US")} ${date.toLocaleTimeString("en-US")}`,
         inline: true,
       })
       .setFooter({
@@ -546,11 +541,7 @@ app.post("/bots/:id/certify", checkAuth, async (req, res) => {
     const editEmbed = new EmbedBuilder()
       .setTitle("Certification Requested")
       .setColor("Blue")
-      .setDescription(
-        "<:add:946594917596164136> " +
-          bot.tag +
-          " has been applied for a certification on Universe List."
-      )
+      .setDescription(`${formatEmoji('946594917596164136', false)} ${bot.tag} has been requested for certification.`)
       .addFields({
         name: "Bot",
         value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
