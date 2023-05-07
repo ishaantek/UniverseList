@@ -98,4 +98,10 @@ module.exports = {
       "Emoji",
     ],
   },
+  webhooks: {
+    error_logs: {
+      enabled: true,
+      webhook: process.env.errorLogs,
+    },
+  },
 };
