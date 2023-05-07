@@ -5,7 +5,6 @@ const {
   ActionRowBuilder,
   ButtonStyle,
   PermissionFlagsBits,
-  formatEmoji,
 } = require("discord.js");
 const ms = require("ms");
 const fetch = (...args) =>
@@ -331,7 +330,11 @@ app.post("/bots/new", checkAuth, async (req, res) => {
   const date = new Date();
   const addEmbed = new EmbedBuilder()
     .setTitle("Bot Added")
-    .setDescription(`${formatEmoji('946594917596164136', false)} ${bot.tag} has been submitted to Universe List.`)
+    .setDescription(
+      "<:add:946594917596164136> " +
+        bot.tag +
+        " has been submitted to Universe List."
+    )
     .setColor("Blue")
     .addFields({
       name: "Bot",
@@ -345,7 +348,7 @@ app.post("/bots/new", checkAuth, async (req, res) => {
     })
     .addFields({
       name: "Date",
-      value: `${date.toLocaleDateString("en-US")} ${date.toLocaleTimeString("en-US")}`,
+      value: `${date.toLocaleString()}`,
       inline: true,
     })
     .setFooter({
@@ -451,7 +454,9 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
     const date = new Date();
     const editEmbed = new EmbedBuilder()
       .setTitle("Bot Edited")
-      .setDescription(`:pencil: ${bot.tag} has been edited on Universe List.`)
+      .setDescription(
+        ":pencil: " + bot.tag + " has been edited on Universe List."
+      )
       .setColor("Yellow")
       .addFields({
         name: "Bot",
@@ -465,7 +470,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
       })
       .addFields({
         name: "Date",
-        value: `${date.toLocaleDateString("en-US")} ${date.toLocaleTimeString("en-US")}`,
+        value: `${date.toLocaleString()}`,
         inline: true,
       })
       .setFooter({
@@ -541,7 +546,11 @@ app.post("/bots/:id/certify", checkAuth, async (req, res) => {
     const editEmbed = new EmbedBuilder()
       .setTitle("Certification Requested")
       .setColor("Blue")
-      .setDescription(`${formatEmoji('946594917596164136', false)} ${bot.tag} has been requested for certification.`)
+      .setDescription(
+        "<:add:946594917596164136> " +
+          bot.tag +
+          " has been applied for a certification on Universe List."
+      )
       .addFields({
         name: "Bot",
         value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
