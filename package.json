@@ -26,7 +26,7 @@
     "express-rate-limit": "^6.6.0",
     "express-session": "^1.17.2",
     "express-subdomain": "^1.0.5",
-    "helmet": "^6.0.0",
+    "helmet": "^7.0.0",
     "html-minifier": "^4.0.0",
     "ipware": "^2.0.0",
     "japi.rest": "^1.0.1",
