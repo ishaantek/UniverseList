@@ -3,7 +3,7 @@
     ><img
       draggable="false"
       src="/img/icon.png"
-      style="height: 50px; width: 50px"
+      style="height: 50px; width: 50px; border-radius: 50%; margin-left: 150px"
   /></a>
   <button
     class="navbar-toggler"
@@ -37,7 +37,6 @@
           ><i class="fa-solid fa-server"></i>&nbsp;Servers</a
         >
       </li>
-
       <li class="nav-item">
         <a class="nav-link" href="/tags"
           ><i class="fa-solid fa-hashtag"></i>&nbsp;Tags</a
@@ -55,48 +54,72 @@
         >
         <div
           class="dropdown-menu"
-          style="border-radius: 5px; background-color: #003060"
+          style="
+            background-image: radial-gradient(
+              circle 325px at 19.2% 64.8%,
+              #003060 9.7%,
+              rgba(12, 33, 90, 0.964) 91.3%
+            );
+            border-radius: 8px;
+          "
         >
           <div class="btn-group-vertical">
-            <a class="dropdown-item" href="/team"
-              ><i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;Our Team</a
-            >
-          <div class="btn-group-vertical">
-            <a class="dropdown-item" href="/bot-requirements"
-              ><i class="fa-solid fa-robot"></i>&nbsp;&nbsp;Bot Requirements</a
-            >
-            <a class="dropdown-item" href="/partners"
-              ><i class="fa-solid fa-handshake"></i>&nbsp;&nbsp;Partners</a
-            >
-            <a class="dropdown-item" href="/docs"
-              ><i class="fa-solid fa-book-open"></i>&nbsp;&nbsp;API Docs</a
-            >
-            <a class="dropdown-item" target="blank" href="https://status.universe-list.xyz/"
-              ><i class="fa-solid fa-signal"></i>&nbsp;&nbsp;Status Page</a
-            >
-            <a target="_blank" class="dropdown-item" href="/discord"
-              ><i class="fa-brands fa-discord"></i>&nbsp;&nbsp;Discord</a
-            >
+            <a class="dropdown-item" href="/team" style="color: white">
+              <i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;Our Team
+            </a>
+            <div class="btn-group-vertical">
+              <a
+                class="dropdown-item"
+                href="/bot-requirements"
+                style="color: white"
+              >
+                <i class="fa-solid fa-robot"></i>&nbsp;&nbsp;Bot Requirements
+              </a>
+              <a class="dropdown-item" href="/partners" style="color: white">
+                <i class="fa-solid fa-handshake"></i>&nbsp;&nbsp;Partners
+              </a>
+              <a class="dropdown-item" href="/docs" style="color: white">
+                <i class="fa-solid fa-book-open"></i>&nbsp;&nbsp;API Docs
+              </a>
+              <a
+                class="dropdown-item"
+                target="blank"
+                href="https://status.universe-list.xyz/"
+                style="color: white"
+              >
+                <i class="fa-solid fa-signal"></i>&nbsp;&nbsp;Status Page
+              </a>
+              <a
+                target="_blank"
+                class="dropdown-item"
+                href="/discord"
+                style="color: white"
+              >
+                <i class="fa-brands fa-discord"></i>&nbsp;&nbsp;Discord
+              </a>
+            </div>
           </div>
         </div>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <% if (user) { %>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" style="margin-right: 150px">
         <a
-          class="nav-link dropdown-toggle pl-3 pr-3 mr-3"
+          class="nav-link dropdown-toggle pl-3 pr-3 mr-3 btn btn-primary"
           style="
+            background-image: radial-gradient(
+              circle 325px at 19.2% 64.8%,
+              #003060 9.7%,
+              rgba(12, 33, 90, 0.964) 91.3%
+            );
             border-radius: 8px;
-            margin-top: 4px;
-            background-color: transparent;
           "
           data-toggle="dropdown"
           href="#"
           role="button"
           aria-haspopup="true"
           aria-expanded="false"
-          style="color: white !important"
           ><img
             class="right"
             draggable="false"
@@ -106,22 +129,32 @@
             style="border-radius: 100%"
           />&nbsp;&nbsp;<%= user.username %></a
         >
-        <div style="background-color: #003060" class="dropdown-menu">
-          <a class="dropdown-item" href="/users/<%= user.id %>"
-            ><i class="fa-solid fa-address-card"></i>&nbsp;&nbsp;Profile</a
-          >
-          <a class="dropdown-item" href="/bots/new"
-            ><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Bot</a
-          >
-          <a class="dropdown-item" href="/servers/new"
-            ><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Server</a
-          >
-          <a class="dropdown-item" onclick="logout()" style="cursor: pointer;"
-            ><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;Logout</a
-          >
+        <div
+          class="dropdown-menu"
+          style="
+            background-image: radial-gradient(
+              circle 325px at 19.2% 64.8%,
+              #003060 9.7%,
+              rgba(12, 33, 90, 0.964) 91.3%
+            );
+            border-radius: 8px;
+          "
+        >
+          <a class="dropdown-item" href="/users/<%= user.id %>" style="color: white;">
+            <i class="fa-solid fa-address-card"></i>&nbsp;&nbsp;Profile
+          </a>
+          <a class="dropdown-item" href="/bots/new" style="color: white;">
+            <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Bot
+          </a>
+          <a class="dropdown-item" href="/servers/new" style="color: white;">
+            <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Server
+          </a>
+          <a class="dropdown-item" onclick="logout()" style="cursor: pointer; color: white;">
+            <i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;Logout
+          </a>
           <% if(config.staff.includes(user.id)) { %>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/queue"
+          <a style="color: white" class="dropdown-item" href="/queue"
             ><i class="fa fa-bars mr-1"></i>Queue</a
           >
           <% } %>
@@ -140,6 +173,7 @@
       <% } %>
     </ul>
   </div>
+  <hr />
 </nav>
 
 <script>
@@ -158,13 +192,15 @@
       denyButtonText: `No`,
     }).then((result) => {
       const from = window.location.pathname;
-      const path = result.isConfirmed ? "/auth/login/joinSupport" : "/auth/login";
+      const path = result.isConfirmed
+        ? "/auth/login/joinSupport"
+        : "/auth/login";
       window.location.replace(`${path}?from=${from}`);
     });
   }
   function logout() {
     const from = window.location.pathname;
-      const path = "/auth/logout";
-      window.location.replace(`${path}?from=${from}`);
+    const path = "/auth/logout";
+    window.location.replace(`${path}?from=${from}`);
   }
 </script>
