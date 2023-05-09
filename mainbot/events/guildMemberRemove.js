@@ -4,9 +4,9 @@ module.exports = {
   async run(client, member) {
     if (member.guild.id !== global.config.guilds.main) return;
     try {
-      const bots = await global.botModel.findOne({ owner: member.id });
-      console.log(bots.length)
-      if (bots.length > 0) {
+      const bots = await global.botModel.find({ owner: member.id });
+      
+      if (bots) {
         const bot_kick = new EmbedBuilder()
           .setAuthor({
             name: member.user.tag,

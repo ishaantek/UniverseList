@@ -16,7 +16,7 @@ require("./app.js");
 const client = new Client({
   allowedMentions: {
     parse: ["users", "roles"],
-    repliedUser: false,
+    repliedUser: true,
   },
   intents: [
     GatewayIntentBits.Guilds,
