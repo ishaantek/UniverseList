@@ -651,7 +651,9 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
 
     let guild = client.guilds.cache.get(global.config.guilds.main);
     const kickBot = guild.members.cache.get(bot.id);
-    kickBot.kick("Deleted from Universe List.");
+    if (kickBot) {
+      kickBot.kick("Deleted from Universe List.");
+    }
     await botm.delete();
 
     const date = new Date();
