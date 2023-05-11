@@ -53,9 +53,6 @@ module.exports = {
     leaderboardC: "1044425171047546980",
     leaderboardM: "1044434735331553370",
     testingcategory: "1043571236757831680",
-    rules: "941896555185700880",
-    info: "1051629605947195512",
-    support: "1044786077816340601",
   },
   tags: {
     servers: [
@@ -100,7 +97,7 @@ module.exports = {
   },
   webhooks: {
     error_logs: {
-      enabled: false,
+      enabled: true,
       webhook: process.env.errorLogs,
     },
   },
