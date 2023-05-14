@@ -4,37 +4,37 @@ module.exports = {
     if (member.guild.id !== global.config.guilds.main) return;
     try {
       const bots = await global.botModel.find({ owner: member.id });
-      
+
       if (bots) {
         const bot_kick = new EmbedBuilder()
-          .setAuthor({
-            name: member.user.tag,
-            iconURL: member.user.displayAvatarURL({ dynamic: true }),
-          })
-          .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
           .setTitle("Bot Kicked")
+          .setColor("Red")
           .setDescription(
-            `${member.user} (${member.user.tag}) has left the server as a result of their **${bots.length} bots** being removed from the list and kicked from the server.`
+            "<:ul_no:946581450600370298> " +
+              member.user +
+              " has left the server, resulting in the removal of their **" +
+              bots.length +
+              " bots**."
           );
-
+          
         for (const bot of bots) {
           const guild = client.guilds.cache.get(member.guild.id);
           const botMember = await guild.members.fetch(bot.id);
           if (botMember) {
             bot_kick.addFields({
               name: botMember.user.tag,
-              value: `<@${botMember.id}> has been kicked as a result of their owner leaving the server`,
+              value: `<@${botMember.id}> has been removed.`,
               inline: true,
             });
             const botm = await global.botModel.findOne({
-              id: botMember.id
+              id: botMember.id,
             });
             await botm.delete();
             await botMember.kick();
           }
-          
+
           client.channels
-            .resolve(global.config.channels.modlogs)
+            .resolve(global.config.channels.weblogs)
             .send({ embeds: [bot_kick] });
         }
       }
