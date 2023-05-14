@@ -20,7 +20,6 @@ module.exports = {
         for (const bot of bots) {
           const guild = client.guilds.cache.get(member.guild.id);
           const botMember = await guild.members.fetch(bot.id);
-          
           if (botMember) {
             bot_kick.addFields({
               name: botMember.user.tag,
