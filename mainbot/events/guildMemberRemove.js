@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require("@discordjs/builders");
-const Bot = global.botModel
 module.exports = {
   async run(client, member) {
     if (member.guild.id !== global.config.guilds.main) return;
@@ -20,7 +19,7 @@ module.exports = {
 
         for (const bot of bots) {
           const guild = client.guilds.cache.get(member.guild.id);
-          const botMember = await guild.members.cache.fetch(bot.id);
+          const botMember = await guild.members.fetch(bot.id);
           if (botMember) {
             bot_kick.addFields({
               name: botMember.user.tag,
