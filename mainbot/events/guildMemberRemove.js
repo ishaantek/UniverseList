@@ -20,13 +20,17 @@ module.exports = {
         for (const bot of bots) {
           const guild = client.guilds.cache.get(member.guild.id);
           const botMember = await guild.members.fetch(bot.id);
+          
           if (botMember) {
             bot_kick.addFields({
               name: botMember.user.tag,
               value: `<@${botMember.id}> has been kicked as a result of their owner leaving the server`,
               inline: true,
             });
-            await Bot.deleteOne({ id: bot.id });
+            const botm = await global.botModel.findOne({
+              id: botMember.id
+            });
+            await botm.delete();
             await botMember.kick();
           }
           
