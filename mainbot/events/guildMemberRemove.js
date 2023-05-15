@@ -22,7 +22,7 @@ module.exports = {
           const botMember = await guild.members.fetch(bot.id);
           if (botMember) {
             bot_kick.addFields({
-              name: botMember.user.tag,
+              name: String(botMember.user.tag),
               value: `<@${botMember.id}> has been removed.`,
               inline: true,
             });
