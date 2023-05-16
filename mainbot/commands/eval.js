@@ -19,7 +19,7 @@ module.exports = {
       //get the evaled content
       evaled = await eval(args);
       //make string out of the evaluation
-      let string = inspect(evaled);
+      let string = cleanCode(inspect(evaled));
       //if the token is included return error
       if (string.includes(client.token))
         return message.reply({ content: `No token grabbing for you!` });
