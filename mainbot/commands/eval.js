@@ -15,7 +15,9 @@ module.exports = {
             });
         const code = args.join(" ");
         if (args.includes(`token`))
-        return message.reply({ content: `No token grabbing for you!` });
+        return message.reply({
+          content: `Apologies, but you won't be able to acquire the bot token using the eval command. Access to such information is restricted for security reasons.`,
+        });
       //get the evaled content
         try {
       let evaled;
@@ -24,7 +26,9 @@ module.exports = {
       let string = cleanCode(inspect(evaled));
       //if the token is included return error
       if (string.includes(client.token))
-        return message.reply({ content: `No token grabbing for you!` });
+        return message.reply({
+          content: `Apologies, but you won't be able to acquire the bot token using the eval command. Access to such information is restricted for security reasons.`,
+        });
       //define queueembed
       let evalEmbed = new EmbedBuilder()
         .setTitle(`${client.user.username} | Evaluation`)
