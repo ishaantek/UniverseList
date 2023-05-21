@@ -17,7 +17,9 @@ module.exports = {
         if (args.includes(`token`))
         return message.reply({ content: `No token grabbing for you!` });
       //get the evaled content
-      evaled = await eval(args);
+        try {
+      let evaled;
+      evaled = await eval(code);
       //make string out of the evaluation
       let string = cleanCode(inspect(evaled));
       //if the token is included return error
@@ -45,5 +47,13 @@ module.exports = {
         
         message.channel.send({embeds: [evalEmbed]});
         });
+           } catch (e) {
+     return message.channel.send({embeds: [
+       new EmbedBuilder()
+         .setColor("ffc0cb")
+         .setTitle(`:x: ERROR | An error occurred`)
+         .setDescription(`\`\`\`${e}\`\`\``)]
+     });
+     }
     },
 };
