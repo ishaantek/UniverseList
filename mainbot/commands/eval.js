@@ -26,7 +26,7 @@ module.exports = {
       //define queueembed
       let evalEmbed = new EmbedBuilder()
         .setTitle(`${client.user.username} | Evaluation`)
-        .setColor("ffc0cb");
+        .setColor("7289da");
            
       //split the description
       const splitDescription = splitMessageRegex(string, {
