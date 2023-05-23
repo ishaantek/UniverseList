@@ -52,11 +52,15 @@ module.exports = {
         message.channel.send({embeds: [evalEmbed]});
         });
            } catch (e) {
-     return message.channel.send({embeds: [
-       new EmbedBuilder()
-         .setColor("ffc0cb")
-         .setTitle(`:x: ERROR | An error occurred`)
-         .setDescription(`\`\`\`${e}\`\`\``)]
+     return message.channel.send({
+       embeds: [
+         new EmbedBuilder()
+           .setColor("ffc0cb")
+           .setTitle(
+             `<:ul_no:946581450600370298> Error | An error occurred`
+           )
+           .setDescription(`\`\`\`${e}\`\`\``),
+       ],
      });
      }
     },
