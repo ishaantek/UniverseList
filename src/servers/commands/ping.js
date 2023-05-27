@@ -6,7 +6,7 @@ module.exports = {
     .setDescription("Check if the bot is up and running."),
   async execute(interaction) {
     return interaction
-      .reply(`<:pong:1016422519214964766> Ping: \`${sclient.ws.ping}ms\``)
+      .reply(`<:pong:1016422519214964766> Ping: \`${interaction.client.ws.ping}ms\``)
       .catch(() => null);
   },
 };

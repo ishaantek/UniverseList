@@ -1,19 +1,23 @@
 const { EmbedBuilder } = require("discord.js");
+
 module.exports = {
-  name: "auto-responses",
-  aliases: ["ar"],
-  description: "Get a list of auto responses related to Universe List.",
-  async run(client, message, args) {
+  data: {
+    name: "auto-responses",
+    description: "Get a list of auto responses related to Universe List.",
+    aliases: ["ar"]
+  },
+  async execute(interaction) {
     const embed = new EmbedBuilder()
       .setTitle("Universe List Auto Responses")
       .setColor("7289da")
       .setDescription(
-        "**!apps** - Information on volunteer applications.\n**!declinedbot** - Information on declined bots.\n**!upto** - Information on the bot reviewment process.\n**!htmldesc** - Information on making your bot's page.\n**!wrongserver** - Information on how to find a bot's support server.\n**!notified** - Information on how to check if your bot was reviewed.\n**!servercount** - Instructions to display bot's server count."
+        "**/apps** - Information on volunteer applications.\n**/declinedbot** - Information on declined bots.\n**/upto** - Information on the bot review process.\n**/htmldesc** - Information on creating your bot's page.\n**/wrongserver** - Information on finding a bot's support server.\n**/notified** - Information on how to check if your bot was reviewed.\n**/servercount** - Instructions to display your bot's server count."
       )
       .setFooter({
-        text: `${message.guild.name} - Guides Command`,
-        iconURL: message.guild.iconURL(),
+        text: `${interaction.guild.name} - Guides Command`,
+        iconURL: interaction.guild.iconURL(),
       });
-    return message.channel.send({ embeds: [embed] });
+
+    await interaction.reply({ embeds: [embed] });
   },
 };
