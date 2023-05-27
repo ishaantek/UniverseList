@@ -1,4 +1,11 @@
-const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  ButtonBuilder,
+  ActionRowBuilder,
+  ButtonStyle,
+  PermissionsBitField,
+} = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -7,7 +14,7 @@ module.exports = {
     .addChannelOption((option) =>
       option
         .setName("channel")
-        .setDescription("The channel to which the invite will be made.")
+        .setDescription("The channel to whitch the invite will be made.")
         .setRequired(true)
     ),
   async execute(interaction) {
@@ -18,23 +25,39 @@ module.exports = {
     await interaction.deferReply({ ephemeral: true }).catch(() => null);
     const errorEmbed = new EmbedBuilder()
       .setTitle("Missing Permissions")
-      .setDescription("The command you are trying to run can only be run by administrators.")
+      .setDescription(
+        "The command you are trying to run can only be run by administrators."
+      )
       .setFooter(footer);
-    if (!interaction.member.permissions.has(PermissionsBitField.FLAGS.ADMINISTRATOR))
+    if (
+      !interaction.member.permissions.has(
+        PermissionsBitField.Flags.Administrator
+      )
+    )
       return interaction.editReply({ embeds: [errorEmbed] }).catch(() => null);
 
-    const server = await global.serverModel.findOne({ id: interaction.guild.id });
+    const server = await global.serverModel.findOne({
+      id: interaction.guild.id,
+    });
     if (!server)
-      return interaction.editReply("This server is not on Universe Servers.").catch(() => null);
+      return interaction
+        .editReply("This server is not on Universe Servers.")
+        .catch(() => null);
     const channel = interaction.options.getChannel("channel");
-    const inviteCode = await interaction.guild.invites.create(channel.id, { maxAge: 0 }).catch((e) => e);
-    if (inviteCode instanceof Error)
-      return await interaction.editReply(`There was an error while trying to create the invite.\n\`\`\`js\n${inviteCode}\`\`\``);
-    server.invite = inviteCode.url;
+    const invitecode = await interaction.guild.invites
+      .create(channel.id, { maxAge: 0 })
+      .catch((e) => e);
+    if (invitecode instanceof Error)
+      return await interaction.editReply(
+        `There was an error while trying to make that invite.\n\`\`\`js\n${invitecode}\`\`\``
+      );
+    server.invite = invitecode.url;
     await server.save().catch(() => null);
     const embed = new EmbedBuilder()
       .setTitle("Successfully Created Invite")
-      .setDescription(`The invite link on this server has been made in ${channel.toString()}.`)
+      .setDescription(
+        `The invite link on this server has been made in ${channel.toString()}.`
+      )
       .setFooter(footer);
 
     const row = new ActionRowBuilder().addComponents(
@@ -44,6 +67,8 @@ module.exports = {
         .setStyle(ButtonStyle.Link)
     );
 
-    return interaction.editReply({ embeds: [embed], components: [row] }).catch(() => null);
+    return interaction
+      .editReply({ embeds: [embed], components: [row] })
+      .catch(() => null);
   },
 };

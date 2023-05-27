@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "guildDelete",
@@ -8,17 +8,21 @@ module.exports = {
     if (!find) return;
     await find.remove().catch(() => null);
 
-    const modLogsChannel = sclient.channels.cache.get(global.config.channels.modlogs);
-    const guildIcon = guild.iconURL({ dynamic: true });
-
-    const embed = new MessageEmbed()
+    const logs = sclient.channels.cache.get(global.config.channels.modlogs);
+    const embed = new EmbedBuilder()
       .setTitle("Guild Removed")
-      .setColor("RED")
-      .setThumbnail(guildIcon)
-      .setDescription(`**${guild.name}** has removed Universe Servers.`)
-      .addFields({ name: "Member Count:", value: `${guild.memberCount} members` })
-      .setFooter("Universe Servers - Guild Logs", global.sclient.user.displayAvatarURL());
-
-    return modLogsChannel.send({ embeds: [embed] });
+      .setColor("Red")
+      .setThumbnail(`${guild.iconURL({ dynamic: true })}`)
+      .setDescription(`**${guild.name}** has kicked Universe Servers.`)
+      .addFields({
+        name: "Member Count:",
+        value: `${guild.memberCount} members`,
+      })
+      .setFooter({
+        text: `Universe Servers - Guild Logs`,
+        iconURL: `${global.sclient.user.displayAvatarURL()}`,
+      });
+    return logs.send({ embeds: [embed] });
   },
 };
+
