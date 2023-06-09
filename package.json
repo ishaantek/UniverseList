@@ -41,6 +41,6 @@
     "passport-discord": "^0.1.4",
     "sweetalert2": "^11.7.12",
     "universe-list.js": "^0.0.4",
-    "visa2discord": "^1.0.15"
+    "visa2discord": "^1.0.17"
   }
 }
