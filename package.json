@@ -39,7 +39,7 @@
     "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-discord": "^0.1.4",
-    "sweetalert2": "^11.7.12",
+    "sweetalert2": "^11.4.8",
     "universe-list.js": "^0.0.4",
     "visa2discord": "^1.0.15"
   }
