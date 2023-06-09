@@ -71,26 +71,27 @@ cron.schedule("* * */ 10 * *", async () => {
   }
 });
 if (global.config.webhooks.error_logs.enabled) {
-  const logs_hook = new WebhookClient({
-    url: global.config.webhooks.error_logs.webhook,
-  });
-  const embed = new EmbedBuilder().setTimestamp();
-  process.on("uncaughtExceptionMonitor", (err, origin) => {
-    embed.setTitle("Uncaught Exception Monitor");
-    embed.setDescription(`\`\`\`${err}\`\`\``);
+  const logs_hook = new WebhookClient({url: global.config.webhooks.error_logs.webhook});
+  const embed = new EmbedBuilder()
+  .setTimestamp();
+  process.on('uncaughtExceptionMonitor', (err, origin) => {
+    embed.setTitle("Uncaught Exception Monitor")
+    embed.setDescription(`\`\`\`${err}\`\`\``)
     embed.setColor(`#FF0000`);
-    logs_hook.send({ embeds: [embed] });
-  });
-  process.on("unhandledRejection", (reason, promise) => {
-    embed.setTitle("Unhandled Rejection");
-    embed.setDescription(`\`\`\`${reason}\`\`\``);
+    logs_hook.send({embeds: [embed]});
+  })
+  process.on('unhandledRejection', (reason, promise) => {
+    
+    
+    embed.setTitle("Unhandled Rejection")
+    embed.setDescription(`\`\`\`${reason}\`\`\``)
     embed.setColor(`#FF0000`);
-    logs_hook.send({ embeds: [embed] });
+    logs_hook.send({embeds: [embed]});
   });
-  process.on("uncaughtException", (err) => {
-    embed.setTitle("Uncaught Exception");
-    embed.setDescription(`\`\`\`${err}\`\`\``);
+  process.on('uncaughtException', (err) => {
+    embed.setTitle("Uncaught Exception")
+    embed.setDescription(`\`\`\`${err}\`\`\``)
     embed.setColor(`#FF0000`);
-    logs_hook.send({ embeds: [embed] });
+    logs_hook.send({embeds: [embed]});
   });
 }
