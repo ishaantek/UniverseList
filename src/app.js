@@ -490,96 +490,68 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
   }
 });
 
-app.get("/bots/:id/certify", checkAuth, async (req, res) => {
+app.get("/certify", checkAuth, async (req, res) => {
   const client = global.client;
-  const config = global.config;
-  const id = req.params.id;
 
-  const bot = await global.botModel.findOne({ id: id });
-  if (!bot) return res.redirect("/404");
+  const bots = await global.botModel.find({ owners: { $all: [req.user.id] } });
 
   const guild = global.client.guilds.cache.get(global.config.guilds.main);
-  const member = guild.members.cache.get(req.user.id);
+  const user = guild.members.cache.get(req.user.id);
 
-  if (bot.owner.includes(req.user.id)) {
-    const BotRaw = (await client.users.fetch(id)) || null;
-    bot.name = BotRaw.username;
-    bot.avatar = BotRaw.avatar;
-
-    const guild = global.client.guilds.cache.get(global.config.guilds.main);
-    const member = guild.members.cache.get(req.user.id);
-
-    res.render("botlist/certify.ejs", {
-      bot: bot,
-      user: req.user || null,
-      member: member,
-    });
-  } else {
-    return res.redirect("/403");
-  }
+  res.render("botlist/certify.ejs", {
+    user: user || null,
+    bots,
+  });
 });
 
-app.post("/bots/:id/certify", checkAuth, async (req, res) => {
-  const client = global.client;
-  const config = global.config;
-  const logs = client.channels.cache.get(config.channels.weblogs);
-  const botm = await global.botModel.findOne({
-    id: req.params.id,
-  });
-  let data = req.body;
-  if (!data) return res.redirect("/");
+app.post("/certify", checkAuth, async (req, res) => {
+  const botDb = await global.botModel.findOne({ id: req.body.bot });
+  const user = await global.userModel.findOne({ id: req.user.id });
 
-  const guild = global.client.guilds.cache.get(global.config.guilds.main);
-  const member = guild.members.cache.get(req.user.id);
+  if (!botDb) {
+    return res.status(404).render("error.ejs", {
+      user,
+      code: 404,
+      message: "Couldn't find the bot on our list.",
+    });
+  }
+
+  if (!botDb.owners.includes(req.user.id)) {
+    return res.status(403).render("error.ejs", {
+      user,
+      code: 403,
+      message: "You don't own this bot.",
+    });
+  }
 
   if (
-    botm.owner.includes(req.user.id) ||
-    member.roles.cache.some((role) => role.id === config.roles.bottester)
+    !botDb.certifyApplied &&
+    !botDb.certified &&
+    botDb.servers > 0 &&
+    botDb.monthlyVotes >= 50 &&
+    (new Date().getTime() - new Date(botDb.submittedOn).getTime()) /
+      (1000 * 60 * 60 * 24.0) >=
+      16
   ) {
-    const bot = await client.users.fetch(req.params.id).catch(() => null);
-    if (!bot)
-      return res.status(400).json({
-        message: "This is not a real application on Discord.",
-      });
+    if (botDb.certifyApplied) {
+      return res
+        .status(409)
+        .json({ message: "You already applied for certification." });
+    }
 
-    const date = new Date();
-    const editEmbed = new EmbedBuilder()
-      .setTitle("Certification Requested")
-      .setColor("Blue")
-      .setDescription(
-        "<:add:946594917596164136> " +
-          bot.tag +
-          " has been applied for a certification on Universe List."
-      )
-      .addFields({
-        name: "Bot",
-        value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
-        inline: true,
-      })
-      .addFields({
-        name: "Owner",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
-        inline: true,
-      })
-      .addFields({
-        name: "Date",
-        value: `${date.toLocaleString()}`,
-        inline: true,
-      })
-      .setFooter({
-        text: "Certify Logs - Universe List",
-        iconURL: `${global.client.user.displayAvatarURL()}`,
-      });
-    logs.send({
-      content: `<@${req.user.id}>`,
-      embeds: [editEmbed],
+    botDb.certifyApplied = true;
+    await botDb.save();
+
+    return res.status(200).json({
+      message:
+        "Applied for certification! You'll be notified once your application is looked over.",
     });
-
-    return res.redirect(
-      `/bots/${req.params.id}?success=true&body=You have successfully applied for certification.`
-    );
   } else {
-    return res.redirect("/403");
+    return res.status(400).render("error.ejs", {
+      user,
+      code: 400,
+      message: "Your bot doesn't meet the requirements for certification.",
+    });
   }
 });
 
