@@ -18,13 +18,13 @@
   <h5 style="color: white">
     <b>To certify your bot, you must meet the following requirements:</b>
   </h5>
-<ul style="color: white; list-style-type: none;">
-  <li>Your bot must follow Discord's Guidelines and TOS.</li>
-  <li>Be on the botlist for 16+ days.</li>
-  <li>Have 50 votes this current month.</li>
-  <li>Bot is 100% original and not a fork of any kind.</li>
-  <li>Must have a support server or documented GitHub page.</li>
-</ul>
+  <ul style="color: white; list-style-type: none">
+    <li>Your bot must follow Discord's Guidelines and TOS.</li>
+    <li>Be on the botlist for 16+ days.</li>
+    <li>Have 50 votes this current month.</li>
+    <li>Bot is 100% original and not a fork of any kind.</li>
+    <li>Must have a support server or documented GitHub page.</li>
+  </ul>
   <br /><br />
   <form action="/bots/certify" method="POST">
     <h5 style="color: white"><b>Please select a bot you want to certify</b></h5>
@@ -46,10 +46,9 @@
       required
     >
       <option value="" disabled selected>Select a bot</option>
-      <% for (const bot of bots) { %> <% if (!bot.certifyApplied &&
-      !bot.certified && bot?.servers> 0 && bot?.monthlyVotes >= 50 && (new
-      Date().getTime() - new Date(bot.submittedOn).getTime()) / (1000 * 60 * 60
-      * 24.0) >= 16) { %>
+      <% for (const bot of bots) { %> <% if ( !bot.certified && bot?.servers> 0
+      && bot?.monthlyVotes >= 0 && (new Date().getTime() - new
+      Date(bot.submittedOn).getTime()) / (1000 * 60 * 60 * 24.0) >= 16) { %>
       <option value="<%= bot.id %>"><%= bot.name %></option>
       <% } %> <% } %>
     </select>
