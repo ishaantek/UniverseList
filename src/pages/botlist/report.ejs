@@ -1,0 +1,27 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Bot - Universe List</title>
+  <%- include("../parts/head.ejs") %>
+</head>
+<%- include("../parts/navbar.ejs") %>
+<br><br><br><br><br>
+<div class="container">
+  <center>
+    <h2 class="title"><b><i class="fa-solid fa-flag"></i> Report Bot</b></h2>
+    <p>Fill out the reason below in order to report the bot.</p>
+  </center>
+  <form action="/bots/<%- id %>/report" method="POST">
+    <div class="form-group required">
+      <label for="reason">Reason</label>
+      <input type="text" class="form-control" id="reason" name="reason" placeholder="This bot includes spam in the description." autocomplete="off">
+    </div>
+    <button type="submit" class="bluebtn" onclick="return confirm('Are you sure you want to report this bot? - this cannot be undone!');"><i class="fa-solid fa-trash"></i>&nbsp&nbspReport</button>
+  </form>
+</div>
+</div>
+</q>
+</div>
+</html>

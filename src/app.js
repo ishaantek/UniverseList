@@ -685,6 +685,108 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
   }
 });
 
+app.get("/bots/:id/report", checkAuth, async (req, res) => {
+  const client = global.client;
+  const config = global.config;
+  const id = req.params.id;
+
+  const bot = await global.botModel.findOne({
+    id: id,
+  });
+  if (!bot) return res.redirect("/404");
+
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
+
+  if (member) {
+    const BotRaw = (await client.users.fetch(id)) || null;
+    bot.name = BotRaw.username;
+    bot.avatar = BotRaw.avatar;
+
+    res.render("botlist/report.ejs", {
+      bot: req.bot,
+      id: req.params.id,
+      config: config,
+      user: req.user || null,
+    });
+  } else {
+    return res.redirect("/403");
+  }
+});
+
+app.post("/bots/:id/report", checkAuth, async (req, res) => {
+  const client = global.client;
+  const config = global.config;
+  const logs = client.channels.cache.get(config.channels.reportlogs);
+  const botm = await global.botModel.findOne({
+    id: req.params.id,
+  });
+  let data = req.body;
+  if (!data) return res.redirect("/");
+
+  const guild = global.client.guilds.cache.get(global.config.guilds.main);
+  const member = guild.members.cache.get(req.user.id);
+
+  if (member) {
+    const bot = await client.users.fetch(req.params.id).catch(() => null);
+
+    let bot2 = await global.botModel.findOne({
+      id: req.params.id,
+    });
+
+    const OwnerRaw = await client.users.fetch(bot2.owner);
+    bot.ownerName = OwnerRaw.tag;
+
+    if (!bot)
+      return res.status(400).json({
+        message: "This is not a real application on Discord.",
+      });
+
+    const date = new Date();
+    bot2.reason = req.body.reason;
+    const reportEmbed = new EmbedBuilder()
+      .setTitle("Bot Reported")
+      .setDescription(
+        ":rotating_light: " + bot.tag + " has been reported on Universe List."
+      )
+      .setColor("fe3c3c")
+      .addFields({
+        name: "Bot",
+        value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+        inline: true,
+      })
+      .addFields({
+        name: "Reporter",
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.username})`,
+        inline: true,
+      })
+      .addFields({
+        name: "Date",
+        value: `${date.toLocaleString()}`,
+        inline: true,
+      })
+      .addFields({
+        name: "Reason",
+        value: `${bot2.reason}`,
+        inline: true,
+      })
+      .setFooter({
+        text: "Report Logs - Universe List",
+        iconURL: `${global.client.user.displayAvatarURL()}`,
+      });
+    logs.send({
+      content: `<@&${config.roles.bottester}>`,
+      embeds: [reportEmbed],
+    });
+
+    return res.redirect(
+      `/bots/${req.params.id}?success=true&body=You have successfully reported the bot.`
+    );
+  } else {
+    return res.redirect("/403");
+  }
+});
+
 app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
   let id = req.params.id;
   let bot = await global.botModel.findOne({

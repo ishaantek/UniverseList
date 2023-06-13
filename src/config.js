@@ -50,6 +50,7 @@ module.exports = {
     weblogs: "941896555567398982",
     levelup: "1099445585016274954",
     modlogs: "941896555567398981",
+    reportlogs: "1117982888818909225",
     leaderboardC: "1044425171047546980",
     leaderboardM: "1044434735331553370",
     testingcategory: "1043571236757831680",
