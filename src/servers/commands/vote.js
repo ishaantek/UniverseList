@@ -63,7 +63,7 @@ module.exports = {
       })
       .addFields({
         name: "Voter",
-        value: `[${interaction.user.tag}](https://universe-list.xyz/users/${interaction.user.id})`,
+        value: `[${interaction.user.username}](https://universe-list.xyz/users/${interaction.user.id})`,
         inline: true,
       })
       .addFields({

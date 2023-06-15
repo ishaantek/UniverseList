@@ -21,7 +21,7 @@ module.exports = {
     let InProgressBots = x.filter((x) => x.inprogress === true);
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: message.author.tag,
+        name: message.author.username,
         iconURL: message.author.displayAvatarURL(),
       })
       .setDescription(`**There are ${bots.length || "0"} bot(s) in queue.**`)

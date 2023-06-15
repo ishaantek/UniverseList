@@ -56,7 +56,7 @@ module.exports = {
         value: `${data.tags.join(", ")}`,
         inline: true,
       })
-      .addFields({ name: "Owner:", value: `${botOwner.tag}`, inline: true })
+      .addFields({ name: "Owner:", value: `${botOwner.username}`, inline: true })
       .addFields({
         name: "Short Desc:",
         value: `${data.shortDesc || "N/A"}`,

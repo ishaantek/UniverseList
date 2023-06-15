@@ -22,7 +22,7 @@ module.exports = {
           const botMember = await guild.members.fetch(bot.id);
           if (botMember) {
             bot_kick.addFields({
-              name: String(botMember.user.tag),
+              name: String(botMember.user.username),
               value: `<@${botMember.id}> has been removed.`,
               inline: true,
             });
@@ -45,7 +45,7 @@ module.exports = {
     }
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: member.user.tag,
+        name: member.user.username,
         iconURL: member.user.displayAvatarURL({ dynamic: true }),
       })
       .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))

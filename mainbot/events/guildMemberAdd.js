@@ -24,7 +24,7 @@ module.exports = {
         .catch(() => null);
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: member.user.tag,
+          name: member.user.username,
           iconURL: member.user.displayAvatarURL({ dyncamic: true }),
         })
         .setThumbnail(member.user.displayAvatarURL({ dyncamic: true }))

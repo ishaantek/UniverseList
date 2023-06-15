@@ -343,7 +343,7 @@ app.post("/bots/new", checkAuth, async (req, res) => {
     })
     .addFields({
       name: "Owner",
-      value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+      value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
       inline: true,
     })
     .addFields({
@@ -465,7 +465,7 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
       })
       .addFields({
         name: "Editor",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -614,7 +614,7 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
     });
 
     const OwnerRaw = await client.users.fetch(bot2.owner);
-    bot.ownerName = OwnerRaw.tag;
+    bot.ownerName = OwnerRaw.username;
 
     if (!bot)
       return res.status(400).json({
@@ -735,7 +735,7 @@ app.post("/bots/:id/report", checkAuth, async (req, res) => {
     });
 
     const OwnerRaw = await client.users.fetch(bot2.owner);
-    bot.ownerName = OwnerRaw.tag;
+    bot.ownerName = OwnerRaw.username;
 
     if (!bot)
       return res.status(400).json({
@@ -879,7 +879,7 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
       },
       {
         name: "Voter",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       },
       {
@@ -1016,7 +1016,7 @@ app.get("/bots/:id", async (req, res) => {
   bot.avatar = BotRaw.avatar;
   bot.discriminator = BotRaw.discriminator;
   bot.tag = BotRaw.tag;
-  bot.ownerTag = OwnerRaw.tag;
+  bot.ownerTag = OwnerRaw.username;
   bot.ownerAvatar = OwnerRaw.avatar;
   bot.tags = bot.tags.join(", ");
   bot.desc = desc;
@@ -1028,7 +1028,7 @@ app.get("/bots/:id", async (req, res) => {
 
   for (let i = 0; i < reviews.length; i++) {
     const ReviewerRaw = await client.users.fetch(reviews[i].reviewer);
-    reviews[i].reviewerName = ReviewerRaw.tag;
+    reviews[i].reviewerName = ReviewerRaw.username;
     reviews[i].reviewerAvatar = ReviewerRaw.avatar;
   }
 
@@ -1531,7 +1531,7 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
       })
       .addFields({
         name: "Owner",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -1568,7 +1568,7 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
       })
       .addFields({
         name: "Owner",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -1651,7 +1651,7 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
       },
       {
         name: "Voter",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       },
       {
@@ -1883,7 +1883,7 @@ app.get("/queue", checkAuth, checkStaff, async (req, res) => {
     inprogress[i].tag = IPRaw.tag;
     inprogress[i].name = IPRaw.username;
     inprogress[i].avatar = IPRaw.avatar;
-    inprogress[i].reviewer = ReviewerRaw.tag;
+    inprogress[i].reviewer = ReviewerRaw.username;
     inprogress[i].tags = inprogress[i].tags.join(", ");
   }
 
@@ -1962,7 +1962,7 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
   bot.denied = true;
   bot.tested = true;
   bot.inprogress = false;
-  bot.ownerName = OwnerRaw.tag;
+  bot.ownerName = OwnerRaw.username;
   bot.reason = req.body.reason;
   bot.deniedOn = Date.now();
   const date = new Date();
@@ -1989,7 +1989,7 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
     })
     .addFields({
       name: "Reviewer",
-      value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+      value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
       inline: true,
     })
     .addFields({
@@ -2116,7 +2116,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     bot.tag = BotRaw.tag;
     bot.approved = true;
     bot.inprogress = false;
-    bot.ownerName = OwnerRaw.tag;
+    bot.ownerName = OwnerRaw.username;
     bot.approvedOn = Date.now();
     bot.tested = true;
     await bot.save();
@@ -2142,7 +2142,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
       })
       .addFields({
         name: "Reviewer",
-        value: `[${req.user.username}#${req.user.discriminator}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
         inline: true,
       })
       .addFields({

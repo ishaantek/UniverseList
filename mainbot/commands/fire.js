@@ -40,7 +40,7 @@ module.exports = {
 
     try {
       kickUser.kick({
-        reason: `This user has been fired from Universe List by: ${message.author.tag}.`,
+        reason: `This user has been fired from Universe List by: ${message.author.username}.`,
       });
     } catch (err) {}
 
@@ -59,7 +59,7 @@ module.exports = {
 
     const logEmbed = new EmbedBuilder()
       .setAuthor({
-        name: member.user.tag,
+        name: member.user.username,
         iconURL: member.user.displayAvatarURL({ dyncamic: true }),
       })
       .setThumbnail(member.user.displayAvatarURL({ dyncamic: true }))
@@ -67,7 +67,7 @@ module.exports = {
       .setDescription(`${member.user} has been fired from Universe List.`)
       .addFields({
         name: "Admin Responsible",
-        value: `${message.author} (${message.author.tag})`,
+        value: `${message.author} (${message.author.username})`,
         inline: true,
       })
       .addFields({ name: "Reason Given", value: `${reason}`, inline: true })

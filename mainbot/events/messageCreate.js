@@ -8,7 +8,7 @@ module.exports = {
       if (!user)
         return await global.userModel.create({
           id: message.author.id,
-          username: message.author.tag,
+          username: message.author.username,
           xp: 1,
         });
       user.xp = 1 + user.xp;

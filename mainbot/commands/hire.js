@@ -58,7 +58,7 @@ module.exports = {
 
     const logEmbed = new EmbedBuilder()
       .setAuthor({
-        name: member.user.tag,
+        name: member.user.username,
         iconURL: member.user.displayAvatarURL({ dyncamic: true }),
       })
       .setThumbnail(member.user.displayAvatarURL({ dyncamic: true }))
@@ -76,7 +76,7 @@ module.exports = {
       })
       .addFields({
         name: "Admin Responsible",
-        value: `${message.author} (${message.author.tag})`,
+        value: `${message.author} (${message.author.username})`,
         inline: true,
       })
       .setFooter({

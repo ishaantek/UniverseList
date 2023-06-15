@@ -21,7 +21,10 @@ module.exports = {
       .setThumbnail(`${guild.iconURL({ dynamic: true })}`)
       .setDescription(`**${guild.name}** has invited Universe Servers.`)
       .addFields(
-        { name: "Guild Owner:", value: `${owner.user.tag} | \`${owner.id}\`` },
+        {
+          name: "Guild Owner:",
+          value: `${owner.user.username} | \`${owner.id}\``,
+        },
         { name: "Member Count:", value: `${guild.memberCount} members` },
         {
           name: "Date:",
