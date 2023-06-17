@@ -291,7 +291,7 @@ app.post("/bots/new", checkAuth, async (req, res) => {
     })
   )
     return res.status(409).json({
-      message: "This application has already been added to our site.",
+      json: "This application has already been added to our site.",
     });
 
   try {
