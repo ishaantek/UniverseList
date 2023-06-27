@@ -5,7 +5,7 @@ module.exports = {
     try {
       const bots = await global.botModel.find({ owner: member.id });
 
-      if (bots) {
+      if (bots.length > 0) {
         const bot_kick = new EmbedBuilder()
           .setTitle("Bot Kicked")
           .setColor("Red")
