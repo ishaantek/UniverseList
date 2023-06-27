@@ -16,7 +16,7 @@ module.exports = {
   mongo: process.env.mongo,
   bot: {
     id: "1015807573733154818",
-    prefix: "!",
+    prefix: "ul!",
     secret: process.env.secret,
     redirect: "https://universe-list.xyz/auth/callback",
     token: process.env.token,
