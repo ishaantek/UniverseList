@@ -7,23 +7,23 @@ module.exports = {
 
       if (bots.length > 0) {
         const bot_kick = new EmbedBuilder()
-          .setTitle("Bot Kicked")
+          .setTitle("Bot Deleted")
           .setColor(15548997)
           .setDescription(
-            "<:ul_no:946581450600370298> <@" +
-              member.user.id +
-              "> has left the server, resulting in the removal of their **" +
+            "<:ul_no:946581450600370298> **" +
               bots.length +
-              " bots**."
+              " bots** have been deleted because <@" +
+              member.user.id +
+              "> has left the server."
           );
-          
+
         for (const bot of bots) {
           const guild = client.guilds.cache.get(member.guild.id);
           const botMember = await guild.members.fetch(bot.id);
           if (botMember) {
             bot_kick.addFields({
-              name: String(botMember.user.username),
-              value: `<@${botMember.id}> has been removed.`,
+              name: "Bot Deleted:",
+              value: `${botMember.user.username}`,
               inline: true,
             });
             const botm = await global.botModel.findOne({
@@ -39,9 +39,7 @@ module.exports = {
         }
       }
     } catch (err) {
-      console.log(
-        err
-      );
+      console.log(err);
     }
     const embed = new EmbedBuilder()
       .setAuthor({
