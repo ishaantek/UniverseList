@@ -10,9 +10,9 @@ module.exports = {
           .setTitle("Bot Kicked")
           .setColor("Red")
           .setDescription(
-            "<:ul_no:946581450600370298> " +
-              member.user +
-              " has left the server, resulting in the removal of their **" +
+            "<:ul_no:946581450600370298> <@" +
+              member.user.id +
+              "> has left the server, resulting in the removal of their **" +
               bots.length +
               " bots**."
           );
@@ -40,7 +40,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(
-        `Error occurred while trying to remove a bot owned by ${member.id}: ${err}`
+        err
       );
     }
     const embed = new EmbedBuilder()
