@@ -8,7 +8,7 @@ module.exports = {
       if (bots.length > 0) {
         const bot_kick = new EmbedBuilder()
           .setTitle("Bot Kicked")
-          .setColor("Red")
+          .setColor(15548997)
           .setDescription(
             "<:ul_no:946581450600370298> <@" +
               member.user.id +
