@@ -5,14 +5,14 @@ module.exports = {
     try {
       const bots = await global.botModel.find({ owner: member.id });
 
-      if (bots) {
+      if (bots.length > 0) {
         const bot_kick = new EmbedBuilder()
           .setTitle("Bot Kicked")
-          .setColor("Red")
+          .setColor(15548997)
           .setDescription(
-            "<:ul_no:946581450600370298> " +
-              member.user +
-              " has left the server, resulting in the removal of their **" +
+            "<:ul_no:946581450600370298> <@" +
+              member.user.id +
+              "> has left the server, resulting in the removal of their **" +
               bots.length +
               " bots**."
           );
@@ -40,7 +40,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(
-        `Error occurred while trying to remove a bot owned by ${member.id}: ${err}`
+        err
       );
     }
     const embed = new EmbedBuilder()
