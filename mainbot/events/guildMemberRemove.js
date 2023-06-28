@@ -12,7 +12,7 @@ module.exports = {
           .setDescription(
             "<:ul_no:946581450600370298> **" +
               bots.length +
-              " bots** have been deleted because <@" +
+              " bot(s)** have been deleted because <@" +
               member.user.id +
               "> has left the server."
           );
