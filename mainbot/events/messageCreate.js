@@ -1,7 +1,7 @@
 module.exports = {
   async run(client, message) {
     if (message.author.bot || !message.guild) return;
-    if (message.guild.id !== global.config.guilds.main) return;
+    if (message.guild.id !== global.config.guilds.main && message.guild.id !== global.config.guilds.testing) return;
 
     if (!message.content.toLowerCase().startsWith(global.config.bot.prefix)) {
       let user = await global.userModel.findOne({ id: message.author.id });
