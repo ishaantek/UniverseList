@@ -13,7 +13,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
-  <title><%- bot.name %> - Universe List</title>
+  <title><%= bot.name %> - Universe List</title>
   <%- include("../parts/head.ejs") %>
 </head>
 
@@ -31,7 +31,7 @@
             <% } %>
           </h3>
 
-          <%- bot.shortDesc %><br>
+          <%= bot.shortDesc || "None" %><br>
           <!---
                         <span style="border-radius: 5px;" class="badge badge-primary" style="font-size: 20px;"><i class="fa-solid fa-server"></i> Servers: <%= bot.servers %></span>
                         <span style="border-radius: 5px;" class="badge badge-danger" style="font-size: 20px;"><i class="fa-solid fa-check-to-slot"></i> Votes: <%= bot.votes %></span>
@@ -80,7 +80,7 @@
     <hr>
     </hr>
     <p style="color: white; font-size: 16px;margin-left: 15px;"><i class="fa-solid fa-terminal"></i> Prefix: <code style="padding: 3px 8px; font-weight: bold;"><%= bot.prefix %></code></p>
-    <p style="color: white; font-size: 16px;margin-left: 15px;"><i class="fa-solid fa-crown"></i> Owner:&nbsp;&nbsp;<strong><a style="color: white;" href="/users/<%- bot.owner %>"><%= bot.ownerTag %></a></strong></p>
+    <p style="color: white; font-size: 16px;margin-left: 15px;"><i class="fa-solid fa-crown"></i> Owner:&nbsp;&nbsp;<strong><a style="color: white;" href="/users/<%= bot.owner %>"><%= bot.ownerTag %></a></strong></p>
     <!-- <% if (bot.presence && bot.presence.status === "online") { %>
     <p style="color: white; font-size: 16px;"><i class="fa-solid fa-signal %>"></i> Status: <strong>🟢Online</strong></p>
   <% } else if (bot && bot.presence && bot.presence.status === "idle") { %>

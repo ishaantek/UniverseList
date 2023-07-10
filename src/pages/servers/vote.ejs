@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vote for <%- server.name %> - Universe List</title>
+  <title>Vote for <%= server.name %> - Universe List</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/2.3.2/moment-duration-format.min.js"></script>
   <%- include("../parts/head.ejs") %>
@@ -31,7 +31,7 @@
           </div>
 
           <hr class="my-4">
-          <form action="/servers/<%- server.id %>/vote" method="POST">
+          <form action="/servers/<%= server.id %>/vote" method="POST">
             <button type="submit" style="border-radius: 7px;background-color: #480ddd;" class="btn btn-primary btn-lg btn-block" id="upvote">Click to vote</button>
           </form>
         </div>

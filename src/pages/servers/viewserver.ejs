@@ -7,7 +7,7 @@
   <meta name="keywords" content="Universe List,botlist,discord,%- server.name %>,discordbots,discordservers">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
-  <title><%- server.name %> - Universe List</title>
+  <title><%= server.name %> - Universe List</title>
   <%- include("../parts/head.ejs") %>
 </head>
 
@@ -24,7 +24,7 @@
         </div>
         <div class="col-sm">
           <h3><%= server.name %></h3>
-          <%- server.shortDesc %><br>
+          <%= server.shortDesc %><br>
           <!--
                         <span style="border-radius: 5px;" class="badge badge-primary" style="font-size: 20px;"><i class="fa-solid fa-bomb"></i> Bumps: <%= server.bumps %></span>
                         <span style="border-radius: 5px;" class="badge badge-danger" style="font-size: 20px;"><i class="fa-solid fa-check-to-slot"></i> Votes: <%= server.votes %></span>
@@ -54,7 +54,7 @@
       <p style="color: white; font-size: 16px;"><i class="fa-solid fa-user-group"></i> Members: <strong><%= server.memberCount %></strong></p>
       <p style="color: white; font-size: 16px;"><i class="fa-solid fa-face-smile"></i> Emojis: <strong><%= server.emojis %></strong></p>
       <p style="color: white; font-size: 16px;"><i class="fa-solid fa-gem"></i> Boosts: <strong><%= server.boosts %></strong></p>
-      <p style="color: white; font-size: 16px;"><i class="fa-solid fa-crown"></i> Owner:&nbsp;&nbsp;<strong><a style="color: white;" href="/users/<%- server.owner %>"><%= server.ownerTag %></a></strong></p>
+      <p style="color: white; font-size: 16px;"><i class="fa-solid fa-crown"></i> Owner:&nbsp;&nbsp;<strong><a style="color: white;" href="/users/<%= server.owner %>"><%= server.ownerTag %></a></strong></p>
       <p style="color: white; font-size: 16px;"><i class="fa-solid fa-hashtag"></i> Tags: <strong><%= server.tags %></strong></p><br>
       <h2><i class="fa-solid fa-chart-simple"></i> Statistics</h2>
       <hr>
