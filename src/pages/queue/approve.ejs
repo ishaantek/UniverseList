@@ -17,7 +17,7 @@ create a fourm and post to /bots/:id/deny
     <h2 class="title"><b><i class="fa-solid fa-square-check"></i> Approve Bot</b></h2>
     <p>Are you sure you would like to approve this bot?</p>
     <br>
-    <form action="/bots/<%- id %>/status" method="POST">
+    <form action="/bots/<%= id %>/status" method="POST">
       <button type="submit" class="bluebtn"><i class="fa-solid fa-square-check"></i>&nbsp&nbspApprove</button>
     </form>
     <a href="/queue">

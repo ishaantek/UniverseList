@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%- fetched_user.username %> - Universe List</title>
+  <title><%= fetched_user.username %> - Universe List</title>
   <meta property="og:author" content="universe-list.xyz">
   <meta property="og:title" content="<%= fetched_user.username %>">
   <meta property="og:url" content="https://universe-list.xyz">
@@ -34,7 +34,7 @@
               <i class="fa fa-vial" style="color:#2ecc71; bottom: -5px; font-size: 20px;" title="Universe List Beta Tester"></i>
                <% } %>
             <br>
-        <%- fetched_user.bio %>
+        <%= fetched_user.bio %>
         <hr>
         </hr>
         <% if (user) { %>
@@ -83,7 +83,7 @@
   <!--
         <% if (bots.length < 1) { %>
             <br><br>
-            <p style="background-color: black; background-size: 150px;">Looks like <%- fetched_user.tag %> doesn't have any bots....</p>
+            <p style="background-color: black; background-size: 150px;">Looks like <%= fetched_user.tag %> doesn't have any bots....</p>
             <% } %>
             -->
   <br><br><br><br>
@@ -116,7 +116,7 @@
   <!--
   <% if (servers.length < 1) { %>
     <br><br>
-    <p>Looks like <%- fetched_user.tag %> doesn't have any servers....</p>
+    <p>Looks like <%= fetched_user.tag %> doesn't have any servers....</p>
     <% } %>
     -->
 </div>

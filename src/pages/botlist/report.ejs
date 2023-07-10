@@ -13,7 +13,7 @@
     <h2 class="title"><b><i class="fa-solid fa-flag"></i> Report Bot</b></h2>
     <p>Fill out the reason below in order to report the bot.</p>
   </center>
-  <form action="/bots/<%- id %>/report" method="POST">
+  <form action="/bots/<%= id %>/report" method="POST">
     <div class="form-group required">
       <label for="reason">Reason</label>
       <input type="text" class="form-control" id="reason" name="reason" placeholder="This bot includes spam in the description." autocomplete="off">
