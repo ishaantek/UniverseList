@@ -50,12 +50,12 @@ module.exports = {
         .addFields(
           {
             name: "Server",
-            value: `[${interaction.guild.name}](https://universe-list.xyz/servers/${interaction.guild.id})`,
+            value: `[${interaction.guild.name}](https://universe-list.com/servers/${interaction.guild.id})`,
             inline: true,
           },
           {
             name: "Bumper",
-            value: `[${interaction.user.username}](https://universe-list.xyz/users/${interaction.user.id})`,
+            value: `[${interaction.user.username}](https://universe-list.com/users/${interaction.user.id})`,
             inline: true,
           },
           { name: "Date", value: `${date.toLocaleString()}`, inline: true }
@@ -69,7 +69,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle("Successful Bump")
         .setDescription(
-          "You have successfully bumped this server to the top of [Universe Servers](https://universe-list.xyz/servers)."
+          "You have successfully bumped this server to the top of [Universe Servers](https://universe-list.com/servers)."
         )
         .setFooter({
           text: `Universe Servers - Bump Command`,
@@ -78,7 +78,7 @@ module.exports = {
 
       const row = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-          .setURL(`https://universe-list.xyz/servers/${interaction.guild.id}`)
+          .setURL(`https://universe-list.com/servers/${interaction.guild.id}`)
           .setLabel("View Server Page")
           .setStyle(ButtonStyle.Link)
       );

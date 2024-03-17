@@ -27,7 +27,7 @@ module.exports = {
       .setDescription(
         "**[Vote for " +
           bot.tag +
-          " on Universe List](https://universe-list.xyz/bots/" +
+          " on Universe List](https://universe-list.com/bots/" +
           bot.id +
           "/vote)**."
       )

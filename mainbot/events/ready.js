@@ -26,11 +26,11 @@ setInterval(async () => {
       .setTitle(`Top 10 Leaderboard`)
       .setDescription(`${list}`)
       .setColor("#5565f3")
-      .setThumbnail("https://universe-list.xyz/img/icon.png")
+      .setThumbnail("https://universe-list.com/img/icon.png")
       .setTimestamp()
       .setFooter({
         text: lb_message.guild.name + " - Live Leaderboard | Updated",
-        iconURL: "https://universe-list.xyz/img/icon.png",
+        iconURL: "https://universe-list.com/img/icon.png",
       });
 
  

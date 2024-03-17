@@ -49,7 +49,7 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setURL(`https://universe-list.xyz/queue`)
+        .setURL(`https://universe-list.com/queue`)
         .setLabel("Bot Queue")
         .setStyle(ButtonStyle.Link)
     );

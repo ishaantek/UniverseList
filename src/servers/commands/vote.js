@@ -58,12 +58,12 @@ module.exports = {
       .setColor("#7289da")
       .addFields({
         name: "Server",
-        value: `[${interaction.guild.name}](https://universe-list.xyz/servers/${interaction.guild.id})`,
+        value: `[${interaction.guild.name}](https://universe-list.com/servers/${interaction.guild.id})`,
         inline: true,
       })
       .addFields({
         name: "Voter",
-        value: `[${interaction.user.username}](https://universe-list.xyz/users/${interaction.user.id})`,
+        value: `[${interaction.user.username}](https://universe-list.com/users/${interaction.user.id})`,
         inline: true,
       })
       .addFields({
@@ -80,7 +80,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle("Successful Vote")
       .setDescription(
-        "You have successfully voted for this server on [Universe Servers](https://universe-list.xyz/servers)."
+        "You have successfully voted for this server on [Universe Servers](https://universe-list.com/servers)."
       )
       .setFooter({
         text: `Universe Servers - Vote Command`,
@@ -89,7 +89,7 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setURL(`https://universe-list.xyz/servers/${interaction.guild.id}`)
+        .setURL(`https://universe-list.com/servers/${interaction.guild.id}`)
         .setLabel("View Server Page")
         .setStyle(ButtonStyle.Link)
     );

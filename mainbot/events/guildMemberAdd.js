@@ -63,14 +63,14 @@ module.exports = {
 
         row.addComponents(
           new ButtonBuilder()
-            .setURL("https://universe-list.xyz")
+            .setURL("https://universe-list.com")
             .setLabel("Universe List")
             .setStyle(ButtonStyle.Link)
         );
 
         row.addComponents(
           new ButtonBuilder()
-            .setURL("https://universe-list.xyz/bots/new")
+            .setURL("https://universe-list.com/bots/new")
             .setLabel("Add A Bot")
             .setStyle(ButtonStyle.Link)
         );

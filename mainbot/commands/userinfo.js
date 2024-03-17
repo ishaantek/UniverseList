@@ -22,7 +22,7 @@ module.exports = {
             (bot) =>
               `<@${bot.id}> - ${
                 bot.shortDesc || "No short description provided."
-              } - [Website Link](https://universe-list.xyz/bots/${bot.id})`
+              } - [Website Link](https://universe-list.com/bots/${bot.id})`
           )
           .join("\n\n")
       )

@@ -9,7 +9,7 @@ module.exports = {
     const sclient = global.sclient;
 
     global.logger.system(sclient.user.tag + ` is online and ready.`);
-    sclient.user.setActivity("universe-list.xyz/servers", {
+    sclient.user.setActivity("universe-list.com/servers", {
       type: ActivityType.Watching,
     });
 

@@ -34,7 +34,7 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setURL(`https://universe-list.xyz/servers/${interaction.guild.id}`)
+        .setURL(`https://universe-list.com/servers/${interaction.guild.id}`)
         .setLabel("View Server Page")
         .setStyle(ButtonStyle.Link)
     );

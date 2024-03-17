@@ -37,7 +37,7 @@ module.exports = {
                     a.id +
                     ")` Owner: <@" +
                     a.owner +
-                    "> | [Start Testing](https://universe-list.xyz/queue)"
+                    "> | [Start Testing](https://universe-list.com/queue)"
                 )
                 .join("\n") ||
               "There are no bots awaiting approval, what a shame."
@@ -54,9 +54,9 @@ module.exports = {
                   a.id +
                   ")` Owner: <@" +
                   a.owner +
-                  "> | [Approve](https://universe-list.xyz/bots/" +
+                  "> | [Approve](https://universe-list.com/bots/" +
                   a.id +
-                  "/approve) | [Deny](https://universe-list.xyz/bots/" +
+                  "/approve) | [Deny](https://universe-list.com/bots/" +
                   a.id +
                   "/deny)"
               ).join("\n") || "There are no bots in the queue, what a shame."

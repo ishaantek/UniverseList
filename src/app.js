@@ -338,12 +338,12 @@ app.post("/bots/new", checkAuth, async (req, res) => {
     .setColor("Blue")
     .addFields({
       name: "Bot",
-      value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+      value: `[${bot.tag}](https://universe-list.com/bots/${bot.id})`,
       inline: true,
     })
     .addFields({
       name: "Owner",
-      value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
+      value: `[${req.user.username}](https://universe-list.com/users/${req.user.id})`,
       inline: true,
     })
     .addFields({
@@ -460,12 +460,12 @@ app.post("/bots/:id/edit", checkAuth, async (req, res) => {
       .setColor("Yellow")
       .addFields({
         name: "Bot",
-        value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+        value: `[${bot.tag}](https://universe-list.com/bots/${bot.id})`,
         inline: true,
       })
       .addFields({
         name: "Editor",
-        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.com/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -640,12 +640,12 @@ app.post("/bots/:id/delete", checkAuth, async (req, res) => {
       .setColor("Red")
       .addFields({
         name: "Bot",
-        value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+        value: `[${bot.tag}](https://universe-list.com/bots/${bot.id})`,
         inline: true,
       })
       .addFields({
         name: "Owner",
-        value: `[${bot.ownerName}](https://universe-list.xyz/users/${bot2.owner})`,
+        value: `[${bot.ownerName}](https://universe-list.com/users/${bot2.owner})`,
         inline: true,
       })
       .addFields({
@@ -752,12 +752,12 @@ app.post("/bots/:id/report", checkAuth, async (req, res) => {
       .setColor("fe3c3c")
       .addFields({
         name: "Bot",
-        value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+        value: `[${bot.tag}](https://universe-list.com/bots/${bot.id})`,
         inline: true,
       })
       .addFields({
         name: "Reporter",
-        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.username})`,
+        value: `[${req.user.username}](https://universe-list.com/users/${req.user.username})`,
         inline: true,
       })
       .addFields({
@@ -813,7 +813,7 @@ app.post("/bots/:id/apikey", checkAuth, async (req, res) => {
   });
   await bot.save();
   return res.redirect(
-    `https://universe-list.xyz/bots/${id}/edit?success=true&body=You have successfully generated a new token.`
+    `https://universe-list.com/bots/${id}/edit?success=true&body=You have successfully generated a new token.`
   );
 });
 
@@ -874,12 +874,12 @@ app.post("/bots/:id/vote", checkAuth, async (req, res) => {
     .addFields(
       {
         name: "Bot",
-        value: `[${bot.name}#${bot.discriminator}](https://universe-list.xyz/bots/${bot.id})`,
+        value: `[${bot.name}#${bot.discriminator}](https://universe-list.com/bots/${bot.id})`,
         inline: true,
       },
       {
         name: "Voter",
-        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.com/users/${req.user.id})`,
         inline: true,
       },
       {
@@ -992,7 +992,7 @@ app.post("/bots/:id/review", checkAuth, async (req, res) => {
   });
 
   return res.redirect(
-    `https://universe-list.xyz/bots/${id}?success=true&body=Your review was successfully added.`
+    `https://universe-list.com/bots/${id}?success=true&body=Your review was successfully added.`
   );
 });
 
@@ -1546,12 +1546,12 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
       .setColor("Blue")
       .addFields({
         name: "Server",
-        value: `[${server.name}](https://universe-list.xyz/servers/${server.id})`,
+        value: `[${server.name}](https://universe-list.com/servers/${server.id})`,
         inline: true,
       })
       .addFields({
         name: "Owner",
-        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.com/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -1583,12 +1583,12 @@ app.post("/servers/:id/edit", checkAuth, async (req, res) => {
       .setColor("Yellow")
       .addFields({
         name: "Server",
-        value: `[${server.name}](https://universe-list.xyz/servers/${server.id})`,
+        value: `[${server.name}](https://universe-list.com/servers/${server.id})`,
         inline: true,
       })
       .addFields({
         name: "Owner",
-        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.com/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -1666,12 +1666,12 @@ app.post("/servers/:id/vote", checkAuth, async (req, res) => {
     .addFields(
       {
         name: "Server",
-        value: `[${server.name}](https://universe-list.xyz/servers/${server.id})`,
+        value: `[${server.name}](https://universe-list.com/servers/${server.id})`,
         inline: true,
       },
       {
         name: "Voter",
-        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.com/users/${req.user.id})`,
         inline: true,
       },
       {
@@ -1999,17 +1999,17 @@ app.post("/bots/:id/deny", checkAuth, checkStaff, async (req, res) => {
     .setColor("Red")
     .addFields({
       name: "Bot",
-      value: `[${bot.tag}](https://universe-list.xyz/)`,
+      value: `[${bot.tag}](https://universe-list.com/)`,
       inline: true,
     })
     .addFields({
       name: "Owner",
-      value: `[${bot.ownerName}](https://universe-list.xyz/users/${bot.owner})`,
+      value: `[${bot.ownerName}](https://universe-list.com/users/${bot.owner})`,
       inline: true,
     })
     .addFields({
       name: "Reviewer",
-      value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
+      value: `[${req.user.username}](https://universe-list.com/users/${req.user.id})`,
       inline: true,
     })
     .addFields({
@@ -2095,7 +2095,7 @@ app.post("/bots/:id/testing", checkAuth, checkStaff, async (req, res) => {
     });
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
-      .setURL(`https://universe-list.xyz/queue`)
+      .setURL(`https://universe-list.com/queue`)
       .setLabel("View Queue")
       .setStyle(ButtonStyle.Link)
   );
@@ -2152,17 +2152,17 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
       .setColor("Green")
       .addFields({
         name: "Bot",
-        value: `[${bot.tag}](https://universe-list.xyz/bots/${bot.id})`,
+        value: `[${bot.tag}](https://universe-list.com/bots/${bot.id})`,
         inline: true,
       })
       .addFields({
         name: "Owner",
-        value: `[${bot.ownerName}](https://universe-list.xyz/users/${bot.owner})`,
+        value: `[${bot.ownerName}](https://universe-list.com/users/${bot.owner})`,
         inline: true,
       })
       .addFields({
         name: "Reviewer",
-        value: `[${req.user.username}](https://universe-list.xyz/users/${req.user.id})`,
+        value: `[${req.user.username}](https://universe-list.com/users/${req.user.id})`,
         inline: true,
       })
       .addFields({
@@ -2227,7 +2227,7 @@ app.get("/github", (_req, res) =>
 );
 
 app.get("/newbot", (_req, res) =>
-  res.redirect("https://universe-list.xyz/bots/new")
+  res.redirect("https://universe-list.com/bots/new")
 );
 
 app.get("/delete", async (req, res) => {
