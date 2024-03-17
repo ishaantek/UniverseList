@@ -87,16 +87,39 @@
     }
   </style>
 
-  <script>
-    $('#tags').val(null).trigger('change');
-
-    $('#tags').on('change', function () {
-      if ($(this).val() && $(this).val().length > 4) {
-        $(this).val($(this).val().slice(0, 4)).trigger('change');
+ <script>
+  $(document).ready(function () {
+    const tags = [];
+    $(".custom-control-input").each(function () {
+      const value = $(this).val();
+      if (value && tags.length < 4) {
+        tags.push(value);
+        $(this).prop('checked', true);
+      }
+    });
+    $(".custom-control-input").on('change', function () {
+      const checkedTags = $(".custom-control-input:checked").length;
+      if (checkedTags > 4) {
+        this.checked = false;
       }
     });
 
-    $.each($('#tags option'), function () {
-      $(this).prop('selected', false);
+    const longDesc = $('#botLongDesc');
+    const longDescPreview = $('#botLongDescPreview');
+    longDesc.on('change keyup paste', function () {
+      const markdownRender = marked(longDesc.val());
+      const allowedTags = sanitizeHtml.defaults.allowedTags.concat(["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
+        "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
+        "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
+        "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
+        "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
+        "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
+        "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr"
+      ]);
+      const sanitizedRender = sanitizeHtml(markdownRender, {
+        allowedTags
+      });
+      longDescPreview.html(sanitizedRender);
     });
-  </script>
+  });
+</script>
