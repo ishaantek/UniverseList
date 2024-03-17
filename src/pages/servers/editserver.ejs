@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,114 +11,101 @@
   <%- include("../parts/head.ejs") %>
 </head>
 <%- include("../parts/navbar.ejs") %>
-  <div class="container">
-    <h2 style="color:white;margin-top: 175px;"><b>Edit Server</b></h2>
-    <p style="color:white;font-size: 20">Fill out the form below in order to edit your server.</p><br><br>
-    <div class="form">
-      <form action="/servers/<%= server.id %>/edit" method="POST">
-        <div class="form-group">
-          <label for="invite">Server Invite</label>
-          <input type="text" class="form-control" id="invite" value="<%= server.invite %>" aria-describedby="inviteHelp"
-            name="invite" autocomplete="off" ar readonly disabled>
-          <small id="inviteHelp" class="form-text text-muted">Invite can be created by running the /invite command in
-            your server.</small><br>
+<div class="container">
+  <h2 style="color:white;margin-top: 175px;"><b>Edit Server</b></h2>
+  <p style="color:white;font-size: 20">Fill out the form below in order to edit your server.</p><br><br>
+  <div class="form">
+    <form action="/servers/<%= server.id %>/edit" method="POST">
+      <div class="form-group">
+        <label for="invite">Server Invite</label>
+        <input type="text" class="form-control" id="invite" value="<%= server.invite %>" aria-describedby="inviteHelp" name="invite" autocomplete="off" ar readonly disabled>
+        <small id="inviteHelp" class="form-text text-muted">Invite can be created by running the /invite command in your server.</small><br>
 
-          <label for="botShortDesc">Short Description</label>
-          <input type="text" class="form-control" id="botShortDesc" aria-describedby="botShortDeschelp" minlength="50"
-            maxlength="100" name="short_description" value="<%= server.shortDesc %>"
-            placeholder="Revolutionary server with..." autocomplete="off" required>
-          <small id="botShortDeschelp" class="form-text text-muted">Short Description about the server (Min. 50 & Max.
-            100 characters)</small><br>
-          <label for="botLongDesc">Long Description</label>
-          <textarea class="form-control" id="botLongDesc" rows="3" value="<%= server.desc %>" minlength="250"
-            name="long_description" placeholder="More about the Revolution..." autocomplete="off" required>
+        <label for="botShortDesc">Short Description</label>
+        <input type="text" class="form-control" id="botShortDesc" aria-describedby="botShortDeschelp" minlength="50" maxlength="100" name="short_description" value="<%= server.shortDesc %>" placeholder="Revolutionary server with..." autocomplete="off" required>
+        <small id="botShortDeschelp" class="form-text text-muted">Short Description about the server (Min. 50 & Max. 100 characters)</small><br>
+        <label for="botLongDesc">Long Description</label>
+        <textarea class="form-control" id="botLongDesc" rows="3" value="<%= server.desc %>" minlength="250" name="long_description" placeholder="More about the Revolution..." autocomplete="off" required>
 <%= server.desc %></textarea>
-          <small id="botLongDeschelp" class="form-text text-muted">HTML & Markdown can be used (Min. 250
-            characters)</small>
-        </div>
-        <div class="botLongDescPreviewBox">
-          <label>Long Description Preview</label>
-          <div class="card mb-3">
-            <div class="card-body">
-              <div id="botLongDescPreview"></div>
-            </div>
+        <small id="botLongDeschelp" class="form-text text-muted">HTML & Markdown can be used (Min. 250 characters)</small>
+      </div>
+      <div class="botLongDescPreviewBox">
+        <label>Long Description Preview</label>
+        <div class="card mb-3">
+          <div class="card-body">
+            <div id="botLongDescPreview"></div>
           </div>
         </div>
-        <label for="botShortDesc">Server Website</label>
-        <input type="url" class="form-control" id="website" name="website" value="<%= server.website %>"
-          placeholder="https://universe-list.com/servers" autocomplete="off"><br>
+      </div>
+      <label for="botShortDesc">Server Website</label>
+      <input type="url" class="form-control" id="website" name="website" value="<%= server.website %>" placeholder="https://universe-list.xyz/servers" autocomplete="off"><br>
 
-        <div class="form-group" id="tags-box">
-          <label class="mb-0">Server Tags</label>
-          <small class="form-text text-muted mt-0 mb-2">Max. 4 tags</small>
-          <select name="tags" id="tags" class="form-control multiselect" id="tags" placeholder="Max. 4 tags" multiple
-            required>
-            <% tags.servers.map(tag=> {%>
-              <% if(tags.servers.includes(tag)) {%>
-                <option value="<%= tag %>" selected>
-                  <%= tag %>
-                </option>
-                <% } else { %>
-                  <option value="<%= tag %>">
-                    <%= tag %>
-                  </option>
-                  <% } %>
-                    <% }); %>
-          </select>
-        </div>
-        <div class="alert alert-dismissible alert-danger" id="form-error-popup" style="display: none;"></div>
-        <p style="color: #555;">By clicking submit, you agree to our <a style="color: #094cdb" target="_blank"
-            href="https://universe-list.com/terms">TOS</a> and the <a style="color: #094cdb" target="_blank"
-            href="https://discord.com/developers/docs/policies-and-agreements/terms-of-service">Discord Developer
-            TOS</a></p>
-        <button type="submit" class="bluebtn"><i class="fa-solid fa-paper-plane"></i>&nbsp&nbspSubmit</button>
-        <!--<a href="/servers/<%= server.id %>/delete" type="button" style="border-radius: 5px;" class="btn btn-danger pr-3 pl-3 mr-1"><i class="fa-solid fa-trash"></i>  Delete</a>-->
-      </form>
-    </div>
+      <div class="form-group" id="tags-box">
+        <label class="mb-0">Server Tags</label>
+        <small class="form-text text-muted mt-0 mb-2">Max. 4 tags</small>
+        <select name="tags" id="tags" class="form-control multiselect" id="tags" placeholder="Max. 4 tags" multiple required>
+          <% tags.servers.map(tag => {%>
+          <% if(tags.servers.includes(tag)) {%>
+          <option value="<%= tag %>" selected><%= tag %></option>
+          <% } else { %>
+          <option value="<%= tag %>"><%= tag %></option>
+          <% } %>
+          <% }); %>
+        </select>
+      </div>
+      <div class="alert alert-dismissible alert-danger" id="form-error-popup" style="display: none;"></div>
+      <p style="color: #555;">By clicking submit, you agree to our <a style="color: #094cdb" target="_blank" href="https://universe-list.xyz/terms">TOS</a> and the <a style="color: #094cdb" target="_blank" href="https://discord.com/developers/docs/policies-and-agreements/terms-of-service">Discord Developer TOS</a></p>
+      <button type="submit" class="bluebtn"><i class="fa-solid fa-paper-plane"></i>&nbsp&nbspSubmit</button>
+      <!--<a href="/servers/<%= server.id %>/delete" type="button" style="border-radius: 5px;" class="btn btn-danger pr-3 pl-3 mr-1"><i class="fa-solid fa-trash"></i>  Delete</a>-->
+    </form>
   </div>
-  </div>
-  </div>
-  </div>
+</div>
+</div>
+</div>
+<br><br>
+</div>
+</div>
 
-  <style>
-    .form-control {
-      background-color: rgba(255, 255, 255, 0.743);
-    }
-  </style>
+<style>
+  .form-control {
+    background-color: rgba(255, 255, 255, 0.743);
+  }
+</style>
 
- <script>
-  $(document).ready(function () {
-    const tags = [];
-    $(".custom-control-input").each(function () {
-      const value = $(this).val();
-      if (value && tags.length < 4) {
-        tags.push(value);
-        $(this).prop('checked', true);
-      }
-    });
-    $(".custom-control-input").on('change', function () {
-      const checkedTags = $(".custom-control-input:checked").length;
-      if (checkedTags > 4) {
-        this.checked = false;
-      }
-    });
-
-    const longDesc = $('#botLongDesc');
-    const longDescPreview = $('#botLongDescPreview');
-    longDesc.on('change keyup paste', function () {
-      const markdownRender = marked(longDesc.val());
-      const allowedTags = sanitizeHtml.defaults.allowedTags.concat(["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
-        "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
-        "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
-        "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
-        "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
-        "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
-        "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr"
-      ]);
-      const sanitizedRender = sanitizeHtml(markdownRender, {
-        allowedTags
-      });
-      longDescPreview.html(sanitizedRender);
-    });
+<script>
+  const tags = [];
+  $.each($("input[name='tag']:checked"), function() {
+    tags.push($(this).val());
   });
+
+
+  $(".custom-control-input").on('change', function() {
+    const tags = [];
+    $.each($("input[name='tag']:checked"), function() {
+      tags.push($(this).val());
+    });
+    if (tags.length > 4) {
+      this.checked = false;
+    }
+  });
+
+  const longDesc = $('#botLongDesc');
+  const longDescPreview = $('#botLongDescPreview');
+
+  longDesc.on('change keyup paste', function() {
+    const markdownRender = marked(longDesc.val());
+    const allowedTags = sanitizeHtml.defaults.allowedTags.concat(["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
+      "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
+      "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
+      "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
+      "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
+      "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
+      "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr"
+    ]);
+    const sanitizedRender = sanitizeHtml(markdownRender, {
+      allowedTags
+    });
+    longDescPreview.html(sanitizedRender);
+  });
+  window.initiateMulti()
 </script>
