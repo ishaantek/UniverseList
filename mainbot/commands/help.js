@@ -14,7 +14,7 @@ module.exports = {
           c.name !== "contribute" &&
           c.name !== "notified"
       )
-      .map((c) => `**!${c.name}** - ${c.description}`);
+      .map((c) => `**ul!${c.name}** - ${c.description}`);
     const embed = new EmbedBuilder()
       .setTitle("Universe List Help")
       .setColor("7289da")
