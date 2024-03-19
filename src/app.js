@@ -2200,9 +2200,7 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
       (c) => c.name == channelName.toLowerCase()
     );
     if (channel) channel.delete("This bot was approved on Universe List.");
-    return res.redirect(
-      `https://discord.com/oauth2/authorize?client_id=${bot.id}&scope=bot&permissions=0&guild_id=${global.config.guilds.main}`
-    );
+    return res.redirect(`https://universe-list.com/queue`);
   }
 });
 
