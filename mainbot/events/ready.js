@@ -7,7 +7,7 @@ module.exports = {
     setInterval(async () => {
       const botCount = await global.botModel.count();
       client.user.setActivity(`${botCount} bots.`, { type: 3 });
-    }, 60000); 
+    }, 30000); 
 
     const lb_channel = client.channels.cache.get(
       global.config.channels.leaderboardC
