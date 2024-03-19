@@ -4,41 +4,51 @@ module.exports = {
   name: "ready",
   async run(client) {
     global.logger.system(`${client.user.tag} is online and ready.`);
-    client.user.setActivity(
-      `${await global.botModel.count()} bots.`,
-      {
-        type: 3,
-      }
+    global.logger.system(`${await global.botModel.count()}`);
+    setInterval(async () => {
+      const botCount = await global.botModel.count();
+      client.user.setActivity(`${botCount} bots.`, { type: 3 });
+      global.logger.system(`Updated bot count to ${botCount}.`);
+    }, 60000); 
+
+    const lb_channel = client.channels.cache.get(
+      global.config.channels.leaderboardC
     );
-    
-   const lb_channel = client.channels.cache.get(global.config.channels.leaderboardC);
-const lb_message = await lb_channel.messages.fetch(global.config.channels.leaderboardM);
+    const lb_message = await lb_channel.messages.fetch(
+      global.config.channels.leaderboardM
+    );
 
+    setInterval(async () => {
+      try {
+        const users = await userModel
+          .find({ xp: { $gt: 0 } })
+          .sort({ level: -1, xp: -1 })
+          .limit(10);
 
-setInterval(async () => {
-  try {
-   
-    const users = await userModel.find({ xp: { $gt: 0 } }).sort({ level: -1, xp: -1 }).limit(10);
+        const list = users
+          .map(
+            (user, i) =>
+              `${i + 1}. **${user.username}** | **Level:** ${
+                user.level + 1
+              } | **XP:** ${user.xp}`
+          )
+          .join("\n");
+        const embed = new EmbedBuilder()
+          .setTitle(`Top 10 Leaderboard`)
+          .setDescription(`${list}`)
+          .setColor("#5565f3")
+          .setThumbnail("https://universe-list.com/img/icon.png")
+          .setTimestamp()
+          .setFooter({
+            text: lb_message.guild.name + " - Live Leaderboard | Updated",
+            iconURL: "https://universe-list.com/img/icon.png",
+          });
 
-    
-    const list = users.map((user, i) => `${i + 1}. **${user.username}** | **Level:** ${user.level + 1} | **XP:** ${user.xp}`).join("\n");
-    const embed = new EmbedBuilder()
-      .setTitle(`Top 10 Leaderboard`)
-      .setDescription(`${list}`)
-      .setColor("#5565f3")
-      .setThumbnail("https://universe-list.com/img/icon.png")
-      .setTimestamp()
-      .setFooter({
-        text: lb_message.guild.name + " - Live Leaderboard | Updated",
-        iconURL: "https://universe-list.com/img/icon.png",
-      });
-
- 
-    await lb_message.edit({ embeds: [embed] });
-  } catch (err) {
-    console.error(err);
-  }
-}, 30000);
+        await lb_message.edit({ embeds: [embed] });
+      } catch (err) {
+        console.error(err);
+      }
+    }, 30000);
 
     // //     setInterval(async () => { // This shouldn't be needed now, since the check is in the POST: /xxx/vote endpoint.
     // //       let voteModels = await global.voteModel.find();
