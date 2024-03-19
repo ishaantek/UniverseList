@@ -4,11 +4,9 @@ module.exports = {
   name: "ready",
   async run(client) {
     global.logger.system(`${client.user.tag} is online and ready.`);
-    global.logger.system(`${await global.botModel.count()}`);
     setInterval(async () => {
       const botCount = await global.botModel.count();
       client.user.setActivity(`${botCount} bots.`, { type: 3 });
-      global.logger.system(`Updated bot count to ${botCount}.`);
     }, 60000); 
 
     const lb_channel = client.channels.cache.get(
