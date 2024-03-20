@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <%- include("../parts/navbar.ejs", { bot, user, member }) %>
+  <%- include("../parts/navbar.ejs", { bot, user }) %>
 
     <div class="container">
       <div style="background-color: transparent" class="jumbotron mt-5">
@@ -47,7 +47,7 @@
                       class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
                     <% } %>
                       <% if (user) { %>
-                        <% if (member && server.owner.includes(user.id) || allowed) { %>
+                        <% if (server.owner.includes(user.id) || allowed) { %>
                           <a href="/servers/<%= server.id %>/edit" type="button" style="border-radius: 5px;"
                             class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
                           <% } %>
