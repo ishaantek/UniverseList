@@ -1444,7 +1444,7 @@ app.get("/api/servers/:id", async (req, res) => {
     owner: server.owner,
     ownerTag: (
       await global.sclient.users.fetch(server.owner).catch(() => ({
-        tag: "Unknown User#0000",
+        tag: "Unknown User",
       }))
     ).tag,
     tags: server.tags,
