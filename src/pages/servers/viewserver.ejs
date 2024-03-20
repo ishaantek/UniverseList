@@ -4,50 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
-  <meta name="keywords" content="Universe List,botlist,discord,%- server.name %>,discordbots,discordservers">
+  <meta name="keywords" content="Universe List, bot list, discord, <%= server.name %>, discord bots, discord servers">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
-  <title><%= server.name %> - Universe List</title>
+  <title>
+    <%= server.name %> - Universe List
+  </title>
   <%- include("../parts/head.ejs") %>
 </head>
 
 <body>
   <%- include("../parts/navbar.ejs", { bot, user }) %>
 
-  <div class="container">
-    <div style="background-color: transparent" class="jumbotron mt-5">
-      <div class="row" style="width: 100%;">
-        <div class="col-sm-2">
-
-          <img style="border-radius: 50%;" class="card-img-top" src="<%= server.icon %>">
-
-        </div>
-        <div class="col-sm">
-          <h3><%= server.name %></h3>
-          <%= server.shortDesc %><br>
-          <!--
-                        <span style="border-radius: 5px;" class="badge badge-primary" style="font-size: 20px;"><i class="fa-solid fa-bomb"></i> Bumps: <%= server.bumps %></span>
-                        <span style="border-radius: 5px;" class="badge badge-danger" style="font-size: 20px;"><i class="fa-solid fa-check-to-slot"></i> Votes: <%= server.votes %></span>
-                        <span style="border-radius: 5px;" class="badge badge-danger" style="font-size: 20px;"><i class="fa-solid fa-eye"></i> Views: <%= server.views %></span>
-                         -->
-          <hr>
-          </hr>
-          <% if (server.invite) { %>
-          <a target="blank" href="/servers/<%= server.id %>/join" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Join</a>
-          <% } %>
-          <a href="/servers/<%= server.id %>/vote" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-check-to-slot"></i> Vote</a>
-          <% if (server.website) { %>
-          <a target="blank" href="<%= server.website %>" type="button" style="border-radius: 5px;" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
-          <% } %>
-          <% if (user) { %>
-          <% if (user && server.owner.includes(user.id)) { %>
-            <a href="/servers/<%= server.id %>/edit" type="button" style="border-radius: 5px;"
-              class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-            <% } %>
-          <% } %>
+    <div class="container">
+      <div style="background-color: transparent" class="jumbotron mt-5">
+        <div class="row" style="width: 100%;">
+          <div class="col-sm-2">
+            <img style="border-radius: 50%;" class="card-img-top" src="<%= server.icon %>">
+          </div>
+          <div class="col-sm">
+            <h3>
+              <%= server.name %>
+            </h3>
+            <%= server.shortDesc %><br>
+              <hr>
+              <% if (server.invite) { %>
+                <a target="blank" href="/servers/<%= server.id %>/join" type="button" style="border-radius: 5px;"
+                  class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Join</a>
+                <% } %>
+                  <a href="/servers/<%= server.id %>/vote" type="button" style="border-radius: 5px;"
+                    class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-check-to-slot"></i> Vote</a>
+                  <% if (server.website) { %>
+                    <a target="blank" href="<%= server.website %>" type="button" style="border-radius: 5px;"
+                      class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
+                    <% } %>
+                      <% if (allowed) { %>
+                        <a href="/servers/<%= server.id %>/edit" type="button" style="border-radius: 5px;"
+                          class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                        <% } %>
+          </div>
         </div>
       </div>
-    </div>
     <div class="infoContainer">
       <h2><i class="fa-solid fa-circle-info"></i> Information</h2>
       <hr>

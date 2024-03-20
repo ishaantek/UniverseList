@@ -1413,49 +1413,52 @@ app.get("/servers/:id", async (req, res) => {
   });
 });
 
-app.get("/api/servers/:id", async (req, res) => {
-  const server = await global.serverModel.findOne({
-    id: req.params.id,
-  });
-  if (!server)
-    return res.status(404).json({
-      message: `That server is not in the list`,
-    });
-  if (!server.published)
-    return res.status(404).json({
-      message: `That server isn't published yet, so you're not able to GET data for it!`,
-    });
-  const guild = await global.sclient.guilds.fetch(server.id).catch(() => null);
-  if (!guild?.available)
-    return res.status(500).json({
-      message: `I was unable to fetch the information for the server, try again later.`,
-    });
-  return res.json({
-    name: guild.name,
-    id: server.id,
-    members: guild.memberCount,
-    icon: guild.iconURL({
-      dynamic: true,
-    }),
+app.get("/servers/:id", async (req, res) => {
+  const id = req.params.id;
+  const server = await global.serverModel.findOne({ id: id });
+  if (!server) return res.redirect("/404");
 
-    invite: server.invite,
-    submittedOn: server.date,
-    website: server.website,
-    owner: server.owner,
-    ownerTag: (
-      await global.sclient.users.fetch(server.owner).catch(() => ({
-        tag: "Unknown User",
-      }))
-    ).tag,
-    tags: server.tags,
+  server.views = parseInt(server.views) + 1;
+  await server.save();
 
-    bump: server.bump,
-    bumps: server.bumps,
-    views: server.views,
-    votes: server.votes,
+  const marked = require("marked");
+  const desc = marked.parse(server.desc);
 
-    shortDesc: server.shortDesc,
-    description: server.desc,
+  const ServerRaw = await global.sclient.guilds.fetch(id).catch(() => null);
+  const OwnerRaw = await global.sclient.users
+    .fetch(server.owner)
+    .catch(() => null);
+
+  let allowed = false; 
+  if (req.user) {
+    try {
+      const guildMember = await ServerRaw.members.fetch(req.user.id);
+      allowed =
+        guildMember &&
+        (guildMember.permissions.has("ADMINISTRATOR") ||
+          guildMember.user.id === server.owner);
+    } catch (error) {
+      allowed = false;
+    }
+  }
+
+  server.name = ServerRaw ? ServerRaw.name : "Unknown Server";
+  server.icon = ServerRaw ? ServerRaw.iconURL({ dynamic: true }) : null;
+  server.memberCount = ServerRaw
+    ? ServerRaw.memberCount.toLocaleString()
+    : "N/A";
+  server.boosts = ServerRaw ? ServerRaw.premiumSubscriptionCount : "N/A";
+  server.tags = server.tags.join(", ");
+  server.ownerTag = OwnerRaw ? OwnerRaw.tag : "Unknown Owner";
+  server.ownerAvatar = OwnerRaw ? OwnerRaw.avatar : null;
+  server.desc = desc;
+  server.emojis = ServerRaw ? ServerRaw.emojis.cache.size : "N/A";
+
+  res.render("servers/viewserver.ejs", {
+    bot: global.client,
+    server: server,
+    user: req.user,
+    allowed: allowed,
   });
 });
 
