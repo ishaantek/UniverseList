@@ -1818,25 +1818,29 @@ app.get("/users/:id", async (req, res) => {
 
 app.get("/users/:id/edit", checkAuth, async (req, res) => {
   const guild = await global.client.guilds.fetch(global.config.guilds.main);
-  let user = (await guild.members.fetch(req.params.id)) || null;
-  user = user?.user;
-  if (user.bot) return res.redirect("/");
+  let user = await guild.members.fetch(req.params.id).catch(() => null);
+
   if (!user) {
-    res.status(404).json({
+    return res.status(404).json({
       message: "This user was not found on Discord.",
     });
   }
+
+  user = user.user;
+  if (user.bot) return res.redirect("/");
+
   if (req.user.id !== user.id) return res.redirect("/403");
 
   let userm = await global.userModel.findOne({
     id: req.params.id,
   });
+
   user.bio = userm?.bio || "This user has no bio set.";
   user.website = userm?.website;
   user.github = userm?.github;
   user.twitter = userm?.twitter;
 
-  res.render("edituser.ejs", {
+  res.render("pages/edituser", {
     bot: req.bot,
     fetched_user: user,
     user: req.user || null,
@@ -1873,6 +1877,7 @@ app.post("/users/:id/edit", checkAuth, async (req, res) => {
     `/users/${req.params.id}?success=true&body=You have successfully edited your profile.`
   );
 });
+
 
 //-Admin Pages-//
 
