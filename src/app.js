@@ -121,13 +121,28 @@ passport.use(
       scope: scopes,
       prompt: prompt,
     },
-    function (accessToken, _refreshToken, profile, done) {
-      process.nextTick(function () {
+    async function (accessToken, _refreshToken, profile, done) {
+      try {
+        let user = await global.userModel.findOne({ id: profile.id });
+        if (user && user.banned) {
+          return done(null, false, {
+            message: "You are banned from this site.",
+          });
+        }
+        if (!user) {
+          user = new global.userModel({
+            id: profile.id,
+            username: profile.username,
+          });
+          await user.save();
+        }
         profile.tokens = {
           accessToken,
         };
         return done(null, profile);
-      });
+      } catch (err) {
+        return done(err);
+      }
     }
   )
 );
@@ -170,8 +185,14 @@ app.get(
   passport.authenticate("discord", {
     failureRedirect: "/",
   }),
-  function (req, res) {
-    res.redirect(req.query.state || "/");
+  async function (req, res) {
+    if (req.user && req.user.banned) {
+      req.logout(() => {
+        res.render("index", { user: req.user || null, banned: true });
+      });
+    } else {
+      res.redirect(req.query.state || "/");
+    }
   }
 );
 
@@ -1872,6 +1893,25 @@ app.post("/users/:id/edit", checkAuth, async (req, res) => {
   return res.redirect(
     `/users/${req.params.id}?success=true&body=You have successfully edited your profile.`
   );
+});
+
+app.post("/users/:id/ban", checkAuth, checkStaff, async (req, res) => {
+  try {
+    let user = await global.userModel.findOne({ id: req.params.id });
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    user.banned = true;
+    await user.save();
+
+    res.redirect(
+      `/users/${req.params.id}?success=true&message=User banned successfully`
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 //-Admin Pages-//

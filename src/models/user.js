@@ -37,7 +37,12 @@ let app = mongoose.Schema({
   },
   twitter: {
     type: String,
-    required: false
-  }
+    required: false,
+  },
+  banned: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 module.exports = mongoose.model("users", app);
