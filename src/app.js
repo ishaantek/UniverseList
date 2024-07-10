@@ -1817,48 +1817,37 @@ app.get("/users/:id", async (req, res) => {
 });
 
 app.get("/users/:id/edit", checkAuth, async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const guild = client.guilds.cache.get(config.guilds.main);
-    let user = await guild.members.fetch(userId).catch(() => null);
-
-    let userm = await global.userModel.findOne({ id: userId });
-
-    if (!userm) {
-      return res
-        .status(404)
-        .json({ message: "This user was not found in the database." });
-    }
-
-    if (!user) {
-      user = { user: { id: userId, username: userm.username, bot: false } };
-    } else {
-      user = user.user;
-    }
-
-    if (user.bot) return res.redirect("/");
-
-    if (req.user.id !== user.id) return res.redirect("/403");
-
-    user.bio = userm.bio || "This user has no bio set.";
-    user.website = userm.website;
-    user.github = userm.github;
-    user.twitter = userm.twitter;
-
-    res.render("pages/edituser", {
-      bot: req.bot,
-      fetched_user: user,
-      user: req.user || null,
+  const guild = await global.client.guilds.fetch(global.config.guilds.main);
+  let user = (await guild.members.fetch(req.params.id)) || null;
+  user = user?.user;
+  if (user.bot) return res.redirect("/");
+  if (!user) {
+    res.status(404).json({
+      message: "This user was not found on Discord.",
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
   }
+  if (req.user.id !== user.id) return res.redirect("/403");
+
+  let userm = await global.userModel.findOne({
+    id: req.params.id,
+  });
+  user.bio = userm?.bio || "This user has no bio set.";
+  user.website = userm?.website;
+  user.github = userm?.github;
+  user.twitter = userm?.twitter;
+
+  res.render("edituser.ejs", {
+    bot: req.bot,
+    fetched_user: user,
+    user: req.user || null,
+  });
 });
 
 app.post("/users/:id/edit", checkAuth, async (req, res) => {
   const client = global.client;
-  const userm = await global.userModel.findOne({ id: req.params.id });
+  const userm = await global.userModel.findOne({
+    id: req.params.id,
+  });
   let data = req.body;
 
   if (!data) {
@@ -1869,9 +1858,9 @@ app.post("/users/:id/edit", checkAuth, async (req, res) => {
 
   const user = await client.users.fetch(req.params.id).catch(() => null);
   if (!user) {
-    return res
-      .status(400)
-      .json({ message: "This is not a real person on Discord." });
+    return res.status(400).json({
+      message: "This is not a real person on Discord.",
+    });
   }
 
   userm.bio = data.bio || null;
@@ -1884,7 +1873,6 @@ app.post("/users/:id/edit", checkAuth, async (req, res) => {
     `/users/${req.params.id}?success=true&body=You have successfully edited your profile.`
   );
 });
-
 
 //-Admin Pages-//
 
