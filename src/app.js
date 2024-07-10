@@ -2105,6 +2105,7 @@ app.post("/bots/:id/testing", checkAuth, checkStaff, async (req, res) => {
     components: [row],
   });
 });
+
 app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
   const client = global.client;
   const logs = client.channels.cache.get(config.channels.weblogs);
@@ -2113,10 +2114,11 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
     id: req.params.id,
   });
 
-  if (!bot)
+  if (!bot) {
     return res.status(404).json({
-      message: "This application could not be found in our site.",
+      message: "This application could not be found on our site.",
     });
+  }
 
   if (bot.approved === true) {
     return res.status(400).json({
@@ -2131,6 +2133,10 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
   }
 
   const OwnerRaw = await client.users.fetch(bot.owner);
+  const mainGuild = client.guilds.cache.get(global.config.guilds.main);
+  const ownerMember = await mainGuild.members
+    .fetch(bot.owner)
+    .catch(() => null);
 
   if (req.method === "POST") {
     bot.tag = BotRaw.tag;
@@ -2179,30 +2185,35 @@ app.use("/bots/:id/status", checkAuth, checkStaff, async (req, res) => {
       content: `<@${bot.owner}>`,
       embeds: [approveEmbed],
     });
-    const owner = global.client.guilds.cache
-      .get(global.config.guilds.main)
-      .members.cache.get(bot.owner);
-    try {
-      owner.send({
-        embeds: [approveEmbed],
-      });
-    } catch (e) {
-      console.log("Could not DM the user.");
+
+    if (ownerMember) {
+      try {
+        await ownerMember.send({
+          embeds: [approveEmbed],
+        });
+        await ownerMember.roles.add(global.config.roles.developer);
+      } catch (e) {
+        console.log("Could not DM the user or add role.");
+      }
     }
-    const mainGuild = client.guilds.cache.get(global.config.guilds.main);
-    const ownerRaw = mainGuild.members.cache.get(bot.owner);
-    ownerRaw.roles.add(global.config.roles.developer);
-    const channelName = `${BotRaw.username}-${BotRaw.discriminator}`;
-    let guild = client.guilds.cache.get(global.config.guilds.testing);
+
+    const guild = client.guilds.cache.get(global.config.guilds.testing);
     const kickBot = guild.members.cache.get(bot.id);
-    kickBot.kick("Approved on Universe List.");
-    let channel = guild.channels.cache.find(
+    if (kickBot) {
+      await kickBot.kick("Approved on Universe List.");
+    }
+    const channelName = `${BotRaw.username}-${BotRaw.discriminator}`;
+    const channel = guild.channels.cache.find(
       (c) => c.name == channelName.toLowerCase()
     );
-    if (channel) channel.delete("This bot was approved on Universe List.");
+    if (channel) {
+      await channel.delete("This bot was approved on Universe List.");
+    }
+
     return res.redirect(`https://universe-list.com/queue`);
   }
 });
+
 
 //-Other Pages-//
 
