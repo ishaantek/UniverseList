@@ -1878,7 +1878,6 @@ app.post("/users/:id/edit", checkAuth, async (req, res) => {
   );
 });
 
-
 //-Admin Pages-//
 
 app.get("/queue", checkAuth, checkStaff, async (req, res) => {
