@@ -3,10 +3,7 @@ dotenv.config();
 
 module.exports = {
   port: 55585,
-  staff: [
-    "998763334264442912",
-    "642085851429339157",
-  ],
+  staff: ["998763334264442912", "642085851429339157"],
   owners: ["998763334264442912"],
   developers: ["998763334264442912"],
   betatesters: ["998763334264442912"],
@@ -68,6 +65,7 @@ module.exports = {
       "E-Sport",
       "Meme",
       "Music",
+      "Spanish",
     ],
     bots: [
       "Moderation",
@@ -92,6 +90,7 @@ module.exports = {
       "Youtube",
       "Twitch",
       "Emoji",
+      "Spanish",
     ],
   },
   webhooks: {
