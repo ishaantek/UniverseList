@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 module.exports = {
-  name: "htmldesc",
-  aliases: ["hd"],
+  name: "servercount",
+  aliases: ["sc"],
   async run(client, message, args) {
     const embed = new EmbedBuilder()
       .setColor("7289da")
