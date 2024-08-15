@@ -9,11 +9,11 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
   <title>Editing <%= fetched_user.username %> - Universe List</title>
-  <%- include("../parts/head.ejs") %>
+  <%- include("./parts/head.ejs") %> <!-- Corrected path -->
 </head>
 
 <body>
-  <%- include("../parts/navbar.ejs") %>
+  <%- include("./parts/navbar.ejs") %> <!-- Corrected path -->
     <div class="container">
       <h2 style="color:white;margin-top: 175px;"><b>Edit Profile</b></h2>
       <p style="color:white;font-size: 20">Fill out the form below in order to edit your profile.</p><br><br>
@@ -34,4 +34,30 @@
             <div class="input-group-prepend">
               <span style="border-radius: 4px;" class="input-group-text">https://github.com/</span>
               <input style="border-radius: 4px;" type="text" class="form-control" value="<%= fetched_user.github %>"
-                name="github" id="github" placeholder="
+                name="github" id="github" placeholder="ishaantek" autocomplete="off">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="twitter">Twitter</label>
+            <div class="input-group-prepend">
+              <span style="border-radius: 4px;" class="input-group-text">https://twitter.com/</span>
+              <input style="border-radius: 4px;" type="text" class="form-control" value="<%= fetched_user.twitter %>"
+                name="twitter" id="twitter" placeholder="ishaantek" autocomplete="off">
+            </div>
+          </div><br>
+          <button type="submit" class="bluebtn"><i class="fa-solid fa-paper-plane"></i>&nbsp;&nbsp;Edit</button>
+        </form>
+      </div>
+      <br><br>
+    </div>
+    <br><br><br><br><br>
+
+    <style>
+      .form-group.required label:after {
+        content: " *";
+        color: red;
+      }
+    </style>
+</body>
+
+</html>
